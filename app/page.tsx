@@ -26,13 +26,13 @@ const FLOW: FlowStep[] = [
   {
     type: "message",
     sender: "system",
-    text: "Choose your language\n\n🇬🇧 English\n🇮🇹 Italiano",
+    text: "Choose your language\n\n1. 🇬🇧 English\n2. 🇮🇹 Italiano",
     delayAfter: 1100,
   },
   {
     type: "message",
     sender: "user",
-    text: "English",
+    text: "1",
     delayAfter: 900,
   },
   {
@@ -51,14 +51,29 @@ const FLOW: FlowStep[] = [
   {
     type: "message",
     sender: "user",
-    text: "Airport Transfers",
+    text: "2",
     delayAfter: 900,
   },
   {
     type: "message",
     sender: "system",
-    text: "Where is your pickup point?",
-    delayAfter: 1100,
+    text:
+      "Airport Transfers\n\n" +
+      "Send your pickup point.\n" +
+      "You can share your live location or type the address.",
+    delayAfter: 1400,
+  },
+  {
+    type: "message",
+    sender: "user",
+    text: "📍 Live location\nPiazza Garibaldi, Cefalù",
+    delayAfter: 1200,
+  },
+  {
+    type: "message",
+    sender: "system",
+    text: "Perfect. Where would you like to go?",
+    delayAfter: 1000,
   },
   {
     type: "message",
@@ -70,7 +85,7 @@ const FLOW: FlowStep[] = [
     type: "message",
     sender: "system",
     text: "How many guests?",
-    delayAfter: 1000,
+    delayAfter: 950,
   },
   {
     type: "message",
@@ -82,7 +97,7 @@ const FLOW: FlowStep[] = [
     type: "message",
     sender: "system",
     text: "How many bags?",
-    delayAfter: 1000,
+    delayAfter: 950,
   },
   {
     type: "message",
@@ -93,36 +108,24 @@ const FLOW: FlowStep[] = [
   {
     type: "message",
     sender: "system",
-    text: "What time is your pickup?",
-    delayAfter: 1000,
-  },
-  {
-    type: "message",
-    sender: "user",
-    text: "6:30 PM",
-    delayAfter: 1000,
-  },
-  {
-    type: "message",
-    sender: "system",
     text: "Name for the driver?",
-    delayAfter: 1000,
+    delayAfter: 950,
   },
   {
     type: "message",
     sender: "user",
     text: "Marco",
-    delayAfter: 900,
+    delayAfter: 1000,
   },
   {
     type: "message",
     sender: "system",
     text:
       "Perfect — confirming your driver now.\n\n" +
-      "Pickup: Palermo Airport\n" +
+      "Pickup: Piazza Garibaldi, Cefalù\n" +
+      "Drop-off: Palermo Airport\n" +
       "Guests: 2\n" +
       "Bags: 3\n" +
-      "Time: 6:30 PM\n" +
       "Name: Marco",
     delayAfter: 1800,
   },
@@ -131,7 +134,7 @@ const FLOW: FlowStep[] = [
     sender: "system",
     text:
       "✅ Driver confirmed\n\n" +
-      "Your airport transfer is being arranged.\n" +
+      "Your transfer request has been accepted.\n" +
       "Your driver will have your pickup details.",
     delayAfter: 3400,
   },
@@ -144,7 +147,6 @@ const FLOW: FlowStep[] = [
     duration: 500,
   },
 ];
-
 function VyaloPhoneDemo() {
   const [messages, setMessages] = useState<Message[]>([
   {
