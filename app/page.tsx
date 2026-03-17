@@ -34,12 +34,13 @@ const FLOW: FlowStep[] = [
     type: "message",
     sender: "system",
     text:
-      "Welcome to Vyalo!\n\n" +
+      "Welcome to Vyalo.\n\n" +
+      "Your live local concierge in Cefalù.\n\n" +
       "Please choose your language:\n\n" +
-      "1 English\n" +
-      "2 Italian\n" +
-      "3 French",
-    delayAfter: 1300,
+      "1 🇬🇧 English\n" +
+      "2 🇮🇹 Italian\n" +
+      "3 🇫🇷 French",
+    delayAfter: 1400,
   },
   {
     type: "typing",
@@ -53,13 +54,13 @@ const FLOW: FlowStep[] = [
     sender: "system",
     text:
       "Main Menu\n\n" +
-      "1 Restaurants & Reservations\n" +
-      "2 Events & Activities\n" +
-      "3 Airport Transfers\n" +
-      "4 Kids Activities\n" +
-      "5 Beach Clubs\n" +
-      "6 Excursions\n" +
-      "7 Trains & Transport",
+      "1 🍝 Restaurants & Reservations\n" +
+      "2 🎟 Events & Activities\n" +
+      "3 ✈️ Airport Transfers\n" +
+      "4 👨‍👩‍👧 Kids Activities\n" +
+      "5 🏖 Beach Clubs\n" +
+      "6 🧭 Excursions\n" +
+      "7 🚆 Trains & Transport",
     delayAfter: 1500,
   },
   {
@@ -73,10 +74,11 @@ const FLOW: FlowStep[] = [
     type: "message",
     sender: "system",
     text:
-      "Airport Transfers\n\n" +
-      "1 Send live location\n" +
-      "2 Type pickup address",
-    delayAfter: 1200,
+      "✈️ Airport Transfers\n\n" +
+      "How would you like to share your pickup point?\n\n" +
+      "1 📍 Send live location\n" +
+      "2 📝 Type pickup address",
+    delayAfter: 1300,
   },
   {
     type: "typing",
@@ -102,9 +104,9 @@ const FLOW: FlowStep[] = [
     sender: "system",
     text:
       "Destination\n\n" +
-      "1 Palermo Airport\n" +
-      "2 Palermo City Centre\n" +
-      "3 Cefalù Station",
+      "1 ✈️ Palermo Airport\n" +
+      "2 🏙 Palermo City Centre\n" +
+      "3 🚉 Cefalù Station",
     delayAfter: 1200,
   },
   {
@@ -117,8 +119,8 @@ const FLOW: FlowStep[] = [
   {
     type: "message",
     sender: "system",
-    text: "How many guests?",
-    delayAfter: 950,
+    text: "How many guests will be travelling?",
+    delayAfter: 1000,
   },
   {
     type: "typing",
@@ -130,8 +132,8 @@ const FLOW: FlowStep[] = [
   {
     type: "message",
     sender: "system",
-    text: "How many bags?",
-    delayAfter: 950,
+    text: "How many bags should the driver expect?",
+    delayAfter: 1000,
   },
   {
     type: "typing",
@@ -158,11 +160,11 @@ const FLOW: FlowStep[] = [
     sender: "system",
     text:
       "Perfect — confirming your driver now.\n\n" +
-      "Pickup: Piazza Garibaldi, Cefalù\n" +
-      "Destination: Palermo Airport\n" +
-      "Guests: 2\n" +
-      "Bags: 3\n" +
-      "Name: Marco",
+      "📍 Pickup: Piazza Garibaldi, Cefalù\n" +
+      "✈️ Destination: Palermo Airport\n" +
+      "👥 Guests: 2\n" +
+      "🧳 Bags: 3\n" +
+      "🙋 Name: Marco",
     delayAfter: 1900,
   },
   {
@@ -171,7 +173,7 @@ const FLOW: FlowStep[] = [
     text:
       "✅ Driver confirmed\n\n" +
       "Your transfer request has been accepted.\n" +
-      "Your driver will have your pickup details.",
+      "Your driver will receive your pickup details shortly.",
     delayAfter: 3600,
   },
   {
@@ -183,7 +185,6 @@ const FLOW: FlowStep[] = [
     duration: 500,
   },
 ];
-
 function TypingBubble() {
   return (
     <div
