@@ -18,6 +18,13 @@ type FlowStep =
       delayAfter?: number;
     }
   | {
+      type: "typing";
+      sender: "user";
+      duration: number;
+      nextText: string;
+      delayAfter?: number;
+    }
+  | {
       type: "pause";
       duration: number;
     };
@@ -26,42 +33,63 @@ const FLOW: FlowStep[] = [
   {
     type: "message",
     sender: "system",
-    text: "Choose your language\n\n1. 🇬🇧 English\n2. 🇮🇹 Italiano",
-    delayAfter: 1100,
+    text:
+      "Welcome to Vyalo!\n\n" +
+      "Please choose your language:\n\n" +
+      "1 English\n" +
+      "2 Italian\n" +
+      "3 French",
+    delayAfter: 1300,
   },
   {
-    type: "message",
+    type: "typing",
     sender: "user",
-    text: "1",
-    delayAfter: 900,
+    duration: 1200,
+    nextText: "1",
+    delayAfter: 700,
   },
   {
     type: "message",
     sender: "system",
     text:
       "Main Menu\n\n" +
-      "1. Restaurants\n" +
-      "2. Airport Transfers\n" +
-      "3. Events & Activities\n" +
-      "4. Beach Clubs\n" +
-      "5. Kids Activities\n" +
-      "6. Local Help",
-    delayAfter: 1300,
+      "1 Restaurants & Reservations\n" +
+      "2 Events & Activities\n" +
+      "3 Airport Transfers\n" +
+      "4 Kids Activities\n" +
+      "5 Beach Clubs\n" +
+      "6 Excursions\n" +
+      "7 Trains & Transport",
+    delayAfter: 1500,
   },
   {
-    type: "message",
+    type: "typing",
     sender: "user",
-    text: "2",
-    delayAfter: 900,
+    duration: 1200,
+    nextText: "3",
+    delayAfter: 700,
   },
   {
     type: "message",
     sender: "system",
     text:
       "Airport Transfers\n\n" +
-      "Send your pickup point.\n" +
-      "You can share your live location or type the address.",
-    delayAfter: 1400,
+      "1 Send live location\n" +
+      "2 Type pickup address",
+    delayAfter: 1200,
+  },
+  {
+    type: "typing",
+    sender: "user",
+    duration: 1100,
+    nextText: "1",
+    delayAfter: 650,
+  },
+  {
+    type: "message",
+    sender: "system",
+    text: "Please send your live pickup location.",
+    delayAfter: 1000,
   },
   {
     type: "message",
@@ -72,14 +100,19 @@ const FLOW: FlowStep[] = [
   {
     type: "message",
     sender: "system",
-    text: "Perfect. Where would you like to go?",
-    delayAfter: 1000,
+    text:
+      "Destination\n\n" +
+      "1 Palermo Airport\n" +
+      "2 Palermo City Centre\n" +
+      "3 Cefalù Station",
+    delayAfter: 1200,
   },
   {
-    type: "message",
+    type: "typing",
     sender: "user",
-    text: "Palermo Airport",
-    delayAfter: 1000,
+    duration: 1100,
+    nextText: "1",
+    delayAfter: 650,
   },
   {
     type: "message",
@@ -88,10 +121,11 @@ const FLOW: FlowStep[] = [
     delayAfter: 950,
   },
   {
-    type: "message",
+    type: "typing",
     sender: "user",
-    text: "2",
-    delayAfter: 900,
+    duration: 950,
+    nextText: "2",
+    delayAfter: 600,
   },
   {
     type: "message",
@@ -100,10 +134,11 @@ const FLOW: FlowStep[] = [
     delayAfter: 950,
   },
   {
-    type: "message",
+    type: "typing",
     sender: "user",
-    text: "3",
-    delayAfter: 900,
+    duration: 950,
+    nextText: "3",
+    delayAfter: 600,
   },
   {
     type: "message",
@@ -112,10 +147,11 @@ const FLOW: FlowStep[] = [
     delayAfter: 950,
   },
   {
-    type: "message",
+    type: "typing",
     sender: "user",
-    text: "Marco",
-    delayAfter: 1000,
+    duration: 1000,
+    nextText: "Marco",
+    delayAfter: 700,
   },
   {
     type: "message",
@@ -123,11 +159,11 @@ const FLOW: FlowStep[] = [
     text:
       "Perfect — confirming your driver now.\n\n" +
       "Pickup: Piazza Garibaldi, Cefalù\n" +
-      "Drop-off: Palermo Airport\n" +
+      "Destination: Palermo Airport\n" +
       "Guests: 2\n" +
       "Bags: 3\n" +
       "Name: Marco",
-    delayAfter: 1800,
+    delayAfter: 1900,
   },
   {
     type: "message",
@@ -136,7 +172,7 @@ const FLOW: FlowStep[] = [
       "✅ Driver confirmed\n\n" +
       "Your transfer request has been accepted.\n" +
       "Your driver will have your pickup details.",
-    delayAfter: 3400,
+    delayAfter: 3600,
   },
   {
     type: "pause",
@@ -147,17 +183,73 @@ const FLOW: FlowStep[] = [
     duration: 500,
   },
 ];
-function VyaloPhoneDemo() {
-  const [messages, setMessages] = useState<Message[]>([
-  {
-    id: 1,
-    sender: "system",
-    text: "Choose your language\n\n🇬🇧 English\n🇮🇹 Italiano",
-  },
-]);
 
-const [stepIndex, setStepIndex] = useState(1);
-const [isRestarting, setIsRestarting] = useState(false);
+function TypingBubble() {
+  return (
+    <div
+      style={{
+        display: "flex",
+        width: "100%",
+        justifyContent: "flex-end",
+      }}
+    >
+      <div
+        style={{
+          maxWidth: "82%",
+          borderRadius: 18,
+          padding: "12px 16px",
+          background: "#DCF8C6",
+          color: "#000000",
+          boxShadow: "0 1px 3px rgba(0,0,0,0.08)",
+          borderBottomRightRadius: 6,
+        }}
+      >
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            gap: 6,
+          }}
+        >
+          <span
+            style={{
+              width: 6,
+              height: 6,
+              borderRadius: "50%",
+              background: "#6B7280",
+              display: "inline-block",
+            }}
+          />
+          <span
+            style={{
+              width: 6,
+              height: 6,
+              borderRadius: "50%",
+              background: "#6B7280",
+              display: "inline-block",
+            }}
+          />
+          <span
+            style={{
+              width: 6,
+              height: 6,
+              borderRadius: "50%",
+              background: "#6B7280",
+              display: "inline-block",
+            }}
+          />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function VyaloPhoneDemo() {
+  const [messages, setMessages] = useState<Message[]>([]);
+  const [stepIndex, setStepIndex] = useState(0);
+  const [isRestarting, setIsRestarting] = useState(false);
+  const [showUserTyping, setShowUserTyping] = useState(false);
+
   const scrollRef = useRef<HTMLDivElement | null>(null);
   const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const idRef = useRef(1);
@@ -182,6 +274,7 @@ const [isRestarting, setIsRestarting] = useState(false);
 
   const resetDemo = () => {
     setIsRestarting(true);
+    setShowUserTyping(false);
     clearCurrentTimer();
 
     timeoutRef.current = setTimeout(() => {
@@ -210,7 +303,7 @@ const [isRestarting, setIsRestarting] = useState(false);
     });
 
     return () => cancelAnimationFrame(frame);
-  }, [messages]);
+  }, [messages, showUserTyping]);
 
   useEffect(() => {
     if (isRestarting) return;
@@ -230,6 +323,21 @@ const [isRestarting, setIsRestarting] = useState(false);
         } else {
           setStepIndex((prev) => prev + 1);
         }
+      }, step.duration);
+
+      return;
+    }
+
+    if (step.type === "typing") {
+      setShowUserTyping(true);
+
+      timeoutRef.current = setTimeout(() => {
+        setShowUserTyping(false);
+        pushMessage("user", step.nextText);
+
+        timeoutRef.current = setTimeout(() => {
+          setStepIndex((prev) => prev + 1);
+        }, step.delayAfter ?? 700);
       }, step.duration);
 
       return;
@@ -429,7 +537,9 @@ const [isRestarting, setIsRestarting] = useState(false);
                             whiteSpace: "pre-line",
                             background: isUser ? "#DCF8C6" : "#FFFFFF",
                             color: "#000000",
-                            border: isUser ? "none" : "1px solid rgba(0,0,0,0.05)",
+                            border: isUser
+                              ? "none"
+                              : "1px solid rgba(0,0,0,0.05)",
                             borderBottomRightRadius: isUser ? 6 : 18,
                             borderBottomLeftRadius: isUser ? 18 : 6,
                           }}
@@ -439,6 +549,8 @@ const [isRestarting, setIsRestarting] = useState(false);
                       </div>
                     );
                   })}
+
+                  {showUserTyping && <TypingBubble />}
                 </div>
               </div>
             </div>
@@ -585,7 +697,7 @@ export default function Page() {
               color: "#4B5563",
             }}
           >
-            Restaurants, airport transfers, activities, and real local help —
+            Restaurants, activities, airport transfers, and real local help —
             all through a simple WhatsApp-style experience.
           </p>
 
@@ -598,8 +710,8 @@ export default function Page() {
             }}
           >
             <Tag>Restaurants</Tag>
+            <Tag>Activities</Tag>
             <Tag>Airport Transfers</Tag>
-            <Tag>Events & Activities</Tag>
             <Tag>Local Help</Tag>
           </div>
         </div>
