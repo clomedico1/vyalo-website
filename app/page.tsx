@@ -146,10 +146,16 @@ const FLOW: FlowStep[] = [
 ];
 
 function VyaloPhoneDemo() {
-  const [messages, setMessages] = useState<Message[]>([]);
-  const [stepIndex, setStepIndex] = useState(0);
-  const [isRestarting, setIsRestarting] = useState(false);
+  const [messages, setMessages] = useState<Message[]>([
+  {
+    id: 1,
+    sender: "system",
+    text: "Choose your language\n\n🇬🇧 English\n🇮🇹 Italiano",
+  },
+]);
 
+const [stepIndex, setStepIndex] = useState(1);
+const [isRestarting, setIsRestarting] = useState(false);
   const scrollRef = useRef<HTMLDivElement | null>(null);
   const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const idRef = useRef(1);
