@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 type Sender = "system" | "user";
 
@@ -240,77 +240,223 @@ function VyaloPhoneDemo() {
     };
   }, [stepIndex, isRestarting]);
 
-  const renderedMessages = useMemo(() => {
-    return messages.map((message) => {
-      const isUser = message.sender === "user";
-
-      return (
+  return (
+    <div
+      style={{
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+      }}
+    >
+      <div
+        style={{
+          position: "relative",
+          width: 360,
+          maxWidth: "100%",
+        }}
+      >
         <div
-          key={message.id}
-          className={`flex w-full ${isUser ? "justify-end" : "justify-start"}`}
+          style={{
+            position: "absolute",
+            inset: 0,
+            zIndex: -1,
+            borderRadius: 42,
+            background: "rgba(37, 211, 102, 0.12)",
+            filter: "blur(30px)",
+          }}
+        />
+
+        <div
+          style={{
+            borderRadius: 38,
+            border: "1px solid rgba(0,0,0,0.1)",
+            background: "#111111",
+            padding: 10,
+            boxShadow: "0 30px 80px rgba(0,0,0,0.18)",
+          }}
         >
           <div
-            className={[
-              "max-w-[82%] rounded-[18px] px-4 py-3 text-[14px] leading-[1.45] shadow-sm whitespace-pre-line",
-              isUser
-                ? "bg-[#DCF8C6] text-black rounded-br-[6px]"
-                : "bg-white text-black rounded-bl-[6px] border border-black/5",
-            ].join(" ")}
+            style={{
+              position: "relative",
+              overflow: "hidden",
+              borderRadius: 30,
+              background: "#EDE5DD",
+            }}
           >
-            {message.text}
-          </div>
-        </div>
-      );
-    });
-  }, [messages]);
+            <div
+              style={{
+                position: "absolute",
+                left: "50%",
+                top: 8,
+                transform: "translateX(-50%)",
+                width: 128,
+                height: 24,
+                borderRadius: 9999,
+                background: "#000",
+                zIndex: 30,
+              }}
+            />
 
-  return (
-    <div className="flex justify-center lg:justify-end">
-      <div className="relative w-[360px] max-w-full">
-        <div className="absolute inset-0 -z-10 rounded-[42px] bg-[#25D366]/10 blur-2xl" />
-
-        <div className="rounded-[38px] border border-black/10 bg-[#111111] p-[10px] shadow-[0_30px_80px_rgba(0,0,0,0.18)]">
-          <div className="relative overflow-hidden rounded-[30px] bg-[#EDE5DD]">
-            <div className="absolute left-1/2 top-2 z-30 h-6 w-32 -translate-x-1/2 rounded-full bg-black" />
-
-            <div className="relative z-20 flex h-[78px] items-end justify-between bg-[#075E54] px-4 pb-3 pt-8 text-white">
-              <div className="flex min-w-0 items-center gap-3">
-                <div className="flex h-10 w-10 items-center justify-center rounded-full bg-[#25D366] text-sm font-semibold text-white">
+            <div
+              style={{
+                position: "relative",
+                zIndex: 20,
+                display: "flex",
+                height: 78,
+                alignItems: "flex-end",
+                justifyContent: "space-between",
+                background: "#075E54",
+                padding: "32px 16px 12px 16px",
+                color: "#fff",
+              }}
+            >
+              <div
+                style={{
+                  display: "flex",
+                  minWidth: 0,
+                  alignItems: "center",
+                  gap: 12,
+                }}
+              >
+                <div
+                  style={{
+                    display: "flex",
+                    width: 40,
+                    height: 40,
+                    borderRadius: 9999,
+                    alignItems: "center",
+                    justifyContent: "center",
+                    background: "#25D366",
+                    color: "#fff",
+                    fontWeight: 700,
+                    fontSize: 14,
+                    flexShrink: 0,
+                  }}
+                >
                   V
                 </div>
 
-                <div className="min-w-0">
-                  <div className="truncate text-[15px] font-semibold">
+                <div style={{ minWidth: 0 }}>
+                  <div
+                    style={{
+                      fontSize: 15,
+                      fontWeight: 600,
+                      whiteSpace: "nowrap",
+                      overflow: "hidden",
+                      textOverflow: "ellipsis",
+                    }}
+                  >
                     Vyalo Concierge
                   </div>
-                  <div className="truncate text-[12px] text-white/80">
+                  <div
+                    style={{
+                      fontSize: 12,
+                      color: "rgba(255,255,255,0.8)",
+                      whiteSpace: "nowrap",
+                      overflow: "hidden",
+                      textOverflow: "ellipsis",
+                    }}
+                  >
                     Typically replies instantly
                   </div>
                 </div>
               </div>
 
-              <div className="text-[13px] text-white/85">WhatsApp</div>
+              <div
+                style={{
+                  fontSize: 13,
+                  color: "rgba(255,255,255,0.85)",
+                  flexShrink: 0,
+                }}
+              >
+                WhatsApp
+              </div>
             </div>
 
-            <div className="h-[560px] bg-[#EDE5DD]">
+            <div
+              style={{
+                height: 560,
+                background: "#EDE5DD",
+              }}
+            >
               <div
                 ref={scrollRef}
-                className="h-full overflow-y-auto px-3 pb-4 pt-4"
                 style={{
+                  height: "100%",
+                  overflowY: "auto",
+                  padding: "16px 12px",
+                  boxSizing: "border-box",
                   overscrollBehavior: "contain",
                   WebkitOverflowScrolling: "touch",
                 }}
               >
-                <div className="flex min-h-full flex-col gap-3">
-                  {renderedMessages}
+                <div
+                  style={{
+                    display: "flex",
+                    minHeight: "100%",
+                    flexDirection: "column",
+                    gap: 12,
+                  }}
+                >
+                  {messages.map((message) => {
+                    const isUser = message.sender === "user";
+
+                    return (
+                      <div
+                        key={message.id}
+                        style={{
+                          display: "flex",
+                          width: "100%",
+                          justifyContent: isUser ? "flex-end" : "flex-start",
+                        }}
+                      >
+                        <div
+                          style={{
+                            maxWidth: "82%",
+                            borderRadius: 18,
+                            padding: "12px 16px",
+                            fontSize: 14,
+                            lineHeight: 1.45,
+                            boxShadow: "0 1px 3px rgba(0,0,0,0.08)",
+                            whiteSpace: "pre-line",
+                            background: isUser ? "#DCF8C6" : "#FFFFFF",
+                            color: "#000000",
+                            border: isUser ? "none" : "1px solid rgba(0,0,0,0.05)",
+                            borderBottomRightRadius: isUser ? 6 : 18,
+                            borderBottomLeftRadius: isUser ? 18 : 6,
+                          }}
+                        >
+                          {message.text}
+                        </div>
+                      </div>
+                    );
+                  })}
                 </div>
               </div>
             </div>
 
-            <div className="border-t border-black/5 bg-[#F0F2F5] px-3 py-3">
-              <div className="flex items-center gap-2 rounded-full bg-white px-4 py-3 text-sm text-[#9CA3AF] shadow-sm">
-                <span className="text-[16px]">+</span>
-                <span className="flex-1">Message</span>
+            <div
+              style={{
+                borderTop: "1px solid rgba(0,0,0,0.05)",
+                background: "#F0F2F5",
+                padding: 12,
+              }}
+            >
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 8,
+                  borderRadius: 9999,
+                  background: "#FFFFFF",
+                  padding: "12px 16px",
+                  fontSize: 14,
+                  color: "#9CA3AF",
+                  boxShadow: "0 1px 3px rgba(0,0,0,0.08)",
+                }}
+              >
+                <span style={{ fontSize: 16 }}>+</span>
+                <span style={{ flex: 1 }}>Message</span>
                 <span>🎤</span>
               </div>
             </div>
@@ -318,8 +464,28 @@ function VyaloPhoneDemo() {
         </div>
 
         {isRestarting && (
-          <div className="pointer-events-none absolute inset-0 flex items-center justify-center rounded-[38px] bg-white/30 backdrop-blur-[1px]">
-            <div className="rounded-full bg-black/70 px-4 py-2 text-sm text-white">
+          <div
+            style={{
+              pointerEvents: "none",
+              position: "absolute",
+              inset: 0,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              borderRadius: 38,
+              background: "rgba(255,255,255,0.3)",
+              backdropFilter: "blur(1px)",
+            }}
+          >
+            <div
+              style={{
+                borderRadius: 9999,
+                background: "rgba(0,0,0,0.7)",
+                padding: "8px 16px",
+                fontSize: 14,
+                color: "#fff",
+              }}
+            >
               Restarting demo…
             </div>
           </div>
@@ -329,37 +495,104 @@ function VyaloPhoneDemo() {
   );
 }
 
+function Tag({ children }: { children: React.ReactNode }) {
+  return (
+    <span
+      style={{
+        borderRadius: 9999,
+        background: "rgba(0,0,0,0.05)",
+        padding: "10px 16px",
+        fontSize: 14,
+        color: "#374151",
+        display: "inline-block",
+      }}
+    >
+      {children}
+    </span>
+  );
+}
+
 export default function Page() {
   return (
-    <main className="min-h-screen overflow-x-hidden bg-[#FCFCF8] text-[#111111]">
-      <section className="mx-auto grid min-h-screen w-full max-w-6xl items-center gap-12 px-6 py-16 md:px-10 lg:grid-cols-2">
-        <div className="max-w-xl">
-          <div className="inline-flex items-center rounded-full border border-[#25D366]/20 bg-[#25D366]/10 px-4 py-2 text-sm font-medium text-[#128C7E]">
+    <main
+      style={{
+        minHeight: "100vh",
+        overflowX: "hidden",
+        background: "#FCFCF8",
+        color: "#111111",
+        fontFamily:
+          'Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif',
+      }}
+    >
+      <section
+        style={{
+          margin: "0 auto",
+          width: "100%",
+          maxWidth: 1200,
+          minHeight: "100vh",
+          display: "grid",
+          gridTemplateColumns: "1.1fr 0.9fr",
+          alignItems: "center",
+          gap: 48,
+          padding: "64px 24px",
+          boxSizing: "border-box",
+        }}
+      >
+        <div style={{ maxWidth: 560 }}>
+          <div
+            style={{
+              display: "inline-flex",
+              alignItems: "center",
+              borderRadius: 9999,
+              border: "1px solid rgba(37, 211, 102, 0.2)",
+              background: "rgba(37, 211, 102, 0.1)",
+              padding: "10px 16px",
+              fontSize: 14,
+              fontWeight: 600,
+              color: "#128C7E",
+            }}
+          >
             Live WhatsApp Concierge Demo
           </div>
 
-          <h1 className="mt-6 text-4xl font-semibold tracking-tight md:text-5xl">
+          <h1
+            style={{
+              marginTop: 24,
+              marginBottom: 0,
+              fontSize: 56,
+              lineHeight: 1.05,
+              fontWeight: 700,
+              letterSpacing: "-0.03em",
+            }}
+          >
             Meet Vyalo — Cefalù’s live local concierge.
           </h1>
 
-          <p className="mt-5 text-lg leading-8 text-[#4B5563]">
+          <p
+            style={{
+              marginTop: 24,
+              marginBottom: 0,
+              fontSize: 24,
+              lineHeight: 1.6,
+              color: "#4B5563",
+            }}
+          >
             Restaurants, airport transfers, activities, and real local help —
             all through a simple WhatsApp-style experience.
           </p>
 
-          <div className="mt-8 flex flex-wrap gap-3 text-sm text-[#374151]">
-            <span className="rounded-full bg-black/5 px-4 py-2">
-              Restaurants
-            </span>
-            <span className="rounded-full bg-black/5 px-4 py-2">
-              Airport Transfers
-            </span>
-            <span className="rounded-full bg-black/5 px-4 py-2">
-              Events & Activities
-            </span>
-            <span className="rounded-full bg-black/5 px-4 py-2">
-              Local Help
-            </span>
+          <div
+            style={{
+              marginTop: 32,
+              display: "flex",
+              flexWrap: "wrap",
+              gap: 12,
+            }}
+          >
+            <Tag>Restaurants</Tag>
+            <Tag>Airport Transfers</Tag>
+            <Tag>Events & Activities</Tag>
+            <Tag>Local Help</Tag>
           </div>
         </div>
 
