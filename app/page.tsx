@@ -1,7 +1,7 @@
 "use client";
 
 import { AnimatePresence, motion } from "framer-motion";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 
 type ChatStep = {
   id: string;
@@ -211,6 +211,7 @@ export default function HomePage() {
   const [messages, setMessages] = useState<RenderItem[]>([]);
   const [typingSide, setTypingSide] = useState<"bot" | "user" | null>(null);
   const [fadeOut, setFadeOut] = useState(false);
+  const viewportRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     let cancelled = false;
@@ -251,6 +252,14 @@ export default function HomePage() {
       if (timeout) clearTimeout(timeout);
     };
   }, [steps]);
+
+  useEffect(() => {
+    if (!viewportRef.current) return;
+    viewportRef.current.scrollTo({
+      top: viewportRef.current.scrollHeight,
+      behavior: "smooth",
+    });
+  }, [messages, typingSide]);
 
   return (
     <div className="page-shell">
@@ -329,6 +338,7 @@ export default function HomePage() {
                 </div>
 
                 <motion.div
+                  ref={viewportRef}
                   className="chat-viewport"
                   animate={{ opacity: fadeOut ? 0 : 1 }}
                   transition={{ duration: 0.45, ease: "easeInOut" }}
@@ -365,6 +375,7 @@ export default function HomePage() {
                         </motion.div>
                       ) : null}
                     </AnimatePresence>
+                    <div style={{ height: 1 }} />
                   </div>
                 </motion.div>
               </div>
