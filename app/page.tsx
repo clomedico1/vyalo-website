@@ -691,7 +691,7 @@ export default function Page() {
   return (
     <main
       style={{
-        minHeight: "100vh",
+        minHeight: "auto",
         overflowX: "hidden",
         background: "#FCFCF8",
         color: "#111111",
