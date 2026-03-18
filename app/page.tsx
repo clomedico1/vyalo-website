@@ -200,46 +200,35 @@ function TypingBubble() {
           color: "#000000",
           boxShadow: "0 1px 3px rgba(0,0,0,0.08)",
           borderBottomRightRadius: 6,
+          display: "flex",
+          gap: 4,
         }}
       >
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            gap: 6,
-          }}
-        >
+        {[0,1,2].map((i) => (
           <span
+            key={i}
             style={{
               width: 6,
               height: 6,
               borderRadius: "50%",
               background: "#6B7280",
               display: "inline-block",
-              opacity: 0.7,
+              animation: "vyaloTyping 1.4s infinite",
+              animationDelay: `${i * 0.2}s`,
             }}
           />
-          <span
-            style={{
-              width: 6,
-              height: 6,
-              borderRadius: "50%",
-              background: "#6B7280",
-              display: "inline-block",
-              opacity: 0.85,
-            }}
-          />
-          <span
-            style={{
-              width: 6,
-              height: 6,
-              borderRadius: "50%",
-              background: "#6B7280",
-              display: "inline-block",
-              opacity: 1,
-            }}
-          />
-        </div>
+        ))}
+
+        <style>
+          {`
+            @keyframes vyaloTyping {
+              0% { opacity: 0.3; transform: translateY(0px); }
+              25% { opacity: 1; transform: translateY(-3px); }
+              50% { opacity: 0.3; transform: translateY(0px); }
+              100% { opacity: 0.3; transform: translateY(0px); }
+            }
+          `}
+        </style>
       </div>
     </div>
   );
