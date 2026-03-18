@@ -753,8 +753,23 @@ export default function Page() {
               maxWidth: 520,
             }}
           >
-            <span style={{ fontSize: isMobile ? 56 : 80, display: "block" }}>
-  Meet Vyalo
+<span
+  style={{
+    fontSize: isMobile ? 56 : 80,
+    display: "flex",
+    alignItems: "center",
+    gap: 18,
+  }}
+>
+  Meet
+  <img
+    src="/vyalo-logo.png"
+    alt="Vyalo"
+    style={{
+      height: isMobile ? 46 : 64,
+      width: "auto",
+    }}
+  />
 </span>
 
 <span style={{ fontSize: isMobile ? 22 : 28, display: "block", marginTop: 10 }}>
