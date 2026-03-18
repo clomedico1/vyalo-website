@@ -763,6 +763,7 @@ gap: 12,              maxWidth: 520,
     gap: 18,
   }}
 >
+<span style={{ display: "flex", alignItems: "center", gap: 12 }}>
   Meet
   <img
     src="/vyalo-logo.png"
