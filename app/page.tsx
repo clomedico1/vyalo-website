@@ -746,13 +746,13 @@ export default function Page() {
             style={{
               marginTop: 0,
               marginBottom: 0,
-              fontSize: isMobile ? 40 : 56,
+              fontSize: isMobile ? 52 : 72,
               lineHeight: 1.05,
               fontWeight: 700,
               letterSpacing: "-0.03em",
               display: "flex",
 alignItems: "center",
-gap: 12,              maxWidth: 520,
+gap: 16,              maxWidth: 520,
             }}
           >
 
@@ -762,7 +762,7 @@ gap: 12,              maxWidth: 520,
     src="/vyalo-logo.png"
     alt="Vyalo"
     style={{
-      height: isMobile ? 46 : 64,
+      height: isMobile ? 64 : 96,
       width: "auto",
     }}
   />
