@@ -535,7 +535,7 @@ function VyaloPhoneDemo() {
 
             <div
               style={{
-                height: 560,
+                height: 520,
                 background: "#EDE5DD",
               }}
             >
@@ -633,7 +633,7 @@ function VyaloPhoneDemo() {
       <a
         href="#"
         style={{
-          marginTop: 18,
+          marginTop: 14,
           display: "inline-flex",
           alignItems: "center",
           justifyContent: "center",
@@ -652,7 +652,7 @@ function VyaloPhoneDemo() {
 
       <p
         style={{
-          marginTop: 10,
+          marginTop: 8,
           marginBottom: 0,
           fontSize: 13,
           lineHeight: 1.6,
@@ -709,7 +709,7 @@ export default function Page() {
           gridTemplateColumns: isMobile ? "1fr" : "1.1fr 0.9fr",
           alignItems: "center",
           gap: isMobile ? 36 : 48,
-          padding: isMobile ? "44px 20px 56px" : "64px 24px",
+          padding: isMobile ? "36px 20px 44px" : "44px 24px",
           boxSizing: "border-box",
         }}
       >
