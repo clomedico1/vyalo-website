@@ -756,16 +756,55 @@ gap: 16,              maxWidth: 520,
             }}
           >
 
-<span style={{ display: "flex", alignItems: "center", gap: 12 }}>
-  Meet
-  <img
-    src="/vyalo-logo.png"
-    alt="Vyalo"
-    style={{
-      height: isMobile ? 64 : 96,
-      width: "auto",
-    }}
-  />
+<span style={{ display: "flex", alignItems: "center", gap: 10 }}>
+  <span style={{ fontWeight: 600 }}>
+    Meet
+  </span>
+
+  <span style={{
+    display: "inline-flex",
+    alignItems: "center",
+    fontWeight: 700,
+    color: "#21c45d",
+    fontSize: isMobile ? 48 : 72,
+    letterSpacing: "-0.03em"
+  }}>
+    vyal
+
+    <span style={{
+      position: "relative",
+      display: "inline-flex",
+      alignItems: "center",
+      justifyContent: "center",
+      marginLeft: 2,
+      width: isMobile ? 34 : 44,
+      height: isMobile ? 34 : 44,
+      background: "#21c45d",
+      borderRadius: "50%"
+    }}>
+
+      <span style={{
+        position: "absolute",
+        bottom: -6,
+        left: 4,
+        width: 10,
+        height: 10,
+        background: "#21c45d",
+        transform: "rotate(40deg)",
+        borderBottomRightRadius: 6
+      }}/>
+
+      <span style={{
+        display: "flex",
+        gap: 3
+      }}>
+        <span style={{ width: 4, height: 4, background: "white", borderRadius: "50%" }}/>
+        <span style={{ width: 4, height: 4, background: "white", borderRadius: "50%" }}/>
+        <span style={{ width: 4, height: 4, background: "white", borderRadius: "50%" }}/>
+      </span>
+
+    </span>
+  </span>
 </span>
 
 <span style={{ fontSize: isMobile ? 22 : 28, display: "block", marginTop: 10 }}>
