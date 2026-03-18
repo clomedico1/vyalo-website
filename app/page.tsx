@@ -631,7 +631,9 @@ function VyaloPhoneDemo() {
       </div>
 
       <a
-        href="#"
+        href="https://wa.me/14155238886"
+        target="_blank"
+rel="noopener noreferrer"
         style={{
           marginTop: 14,
           display: "inline-flex",
