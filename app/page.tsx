@@ -741,7 +741,7 @@ export default function Page() {
               maxWidth: 520,
             }}
           >
-            <span style={{ fontSize: isMobile ? 52 : 72, display: "block" }}>
+            <span style={{ fontSize: isMobile ? 56 : 80, display: "block" }}>
   Meet Vyalo
 </span>
 
