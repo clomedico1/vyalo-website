@@ -392,6 +392,21 @@ function VyaloPhoneDemo() {
   }, [stepIndex, pagePaused]);
 
   return (
+    <>
+  <style>
+    {`
+      @keyframes vyaloFadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(6px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0px);
+        }
+      }
+    `}
+  </style>
     <div
       style={{
         display: "flex",
@@ -558,11 +573,12 @@ function VyaloPhoneDemo() {
                     return (
                       <div
                         key={message.id}
-                        style={{
-                          display: "flex",
-                          width: "100%",
-                          justifyContent: isUser ? "flex-end" : "flex-start",
-                        }}
+                       style={{
+  display: "flex",
+  width: "100%",
+  justifyContent: isUser ? "flex-end" : "flex-start",
+  animation: "vyaloFadeIn 0.25s ease",
+}}
                       >
                         <div
                           style={{
@@ -654,10 +670,11 @@ onMouseLeave={(e) => {
         Try Vyalo on WhatsApp
       </a>
 
-      
     </div>
+  </>
   );
 }
+
 
 function Tag({ children }: { children: React.ReactNode }) {
   return (
