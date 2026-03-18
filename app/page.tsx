@@ -634,6 +634,14 @@ function VyaloPhoneDemo() {
         href="https://wa.me/14155238886"
         target="_blank"
 rel="noopener noreferrer"
+        onMouseEnter={(e) => {
+  e.currentTarget.style.transform = "translateY(-2px)";
+  e.currentTarget.style.boxShadow = "0 16px 36px rgba(37,211,102,0.35)";
+}}
+onMouseLeave={(e) => {
+  e.currentTarget.style.transform = "translateY(0px)";
+  e.currentTarget.style.boxShadow = "0 10px 24px rgba(37,211,102,0.25)";
+}}
         style={{
           marginTop: 14,
           display: "inline-flex",
@@ -647,6 +655,8 @@ rel="noopener noreferrer"
           textDecoration: "none",
           padding: "12px 20px",
           boxShadow: "0 10px 24px rgba(37,211,102,0.2)",
+          transition: "all 0.2s ease",
+          cursor: "pointer",          
         }}
       >
         Try Vyalo on WhatsApp
