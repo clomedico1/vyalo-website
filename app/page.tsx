@@ -174,17 +174,14 @@ const FLOW: FlowStep[] = [
       "✅ Driver confirmed\n\n" +
       "Your transfer request has been accepted.\n" +
       "Your driver will receive your pickup details shortly.",
-    delayAfter: 3600,
+    delayAfter: 3200,
   },
   {
     type: "pause",
-    duration: 2800,
-  },
-  {
-    type: "pause",
-    duration: 500,
+    duration: 2200,
   },
 ];
+
 function TypingBubble() {
   return (
     <div
@@ -219,6 +216,7 @@ function TypingBubble() {
               borderRadius: "50%",
               background: "#6B7280",
               display: "inline-block",
+              opacity: 0.7,
             }}
           />
           <span
@@ -228,6 +226,7 @@ function TypingBubble() {
               borderRadius: "50%",
               background: "#6B7280",
               display: "inline-block",
+              opacity: 0.85,
             }}
           />
           <span
@@ -237,6 +236,7 @@ function TypingBubble() {
               borderRadius: "50%",
               background: "#6B7280",
               display: "inline-block",
+              opacity: 1,
             }}
           />
         </div>
@@ -245,15 +245,59 @@ function TypingBubble() {
   );
 }
 
+function usePageScrollPause(timeoutMs = 3500) {
+  const [paused, setPaused] = useState(false);
+  const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setPaused(true);
+
+      if (timerRef.current) {
+        clearTimeout(timerRef.current);
+      }
+
+      timerRef.current = setTimeout(() => {
+        setPaused(false);
+      }, timeoutMs);
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      if (timerRef.current) {
+        clearTimeout(timerRef.current);
+      }
+    };
+  }, [timeoutMs]);
+
+  return paused;
+}
+
+function useWindowWidth() {
+  const [width, setWidth] = useState<number>(1200);
+
+  useEffect(() => {
+    const update = () => setWidth(window.innerWidth);
+    update();
+    window.addEventListener("resize", update);
+    return () => window.removeEventListener("resize", update);
+  }, []);
+
+  return width;
+}
+
 function VyaloPhoneDemo() {
   const [messages, setMessages] = useState<Message[]>([]);
   const [stepIndex, setStepIndex] = useState(0);
-  const [isRestarting, setIsRestarting] = useState(false);
   const [showUserTyping, setShowUserTyping] = useState(false);
 
   const scrollRef = useRef<HTMLDivElement | null>(null);
   const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const idRef = useRef(1);
+
+  const pagePaused = usePageScrollPause(4000);
 
   const clearCurrentTimer = () => {
     if (timeoutRef.current) {
@@ -274,7 +318,6 @@ function VyaloPhoneDemo() {
   };
 
   const resetDemo = () => {
-    setIsRestarting(true);
     setShowUserTyping(false);
     clearCurrentTimer();
 
@@ -282,8 +325,7 @@ function VyaloPhoneDemo() {
       idRef.current = 1;
       setMessages([]);
       setStepIndex(0);
-      setIsRestarting(false);
-    }, 400);
+    }, 500);
   };
 
   useEffect(() => {
@@ -307,7 +349,7 @@ function VyaloPhoneDemo() {
   }, [messages, showUserTyping]);
 
   useEffect(() => {
-    if (isRestarting) return;
+    if (pagePaused) return;
 
     if (stepIndex >= FLOW.length) {
       resetDemo();
@@ -355,7 +397,7 @@ function VyaloPhoneDemo() {
     return () => {
       clearCurrentTimer();
     };
-  }, [stepIndex, isRestarting]);
+  }, [stepIndex, pagePaused]);
 
   return (
     <div
@@ -363,6 +405,7 @@ function VyaloPhoneDemo() {
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
+        flexDirection: "column",
       }}
     >
       <div
@@ -505,6 +548,8 @@ function VyaloPhoneDemo() {
                   boxSizing: "border-box",
                   overscrollBehavior: "contain",
                   WebkitOverflowScrolling: "touch",
+                  scrollbarWidth: "none",
+                  msOverflowStyle: "none",
                 }}
               >
                 <div
@@ -583,35 +628,41 @@ function VyaloPhoneDemo() {
             </div>
           </div>
         </div>
-
-        {isRestarting && (
-          <div
-            style={{
-              pointerEvents: "none",
-              position: "absolute",
-              inset: 0,
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              borderRadius: 38,
-              background: "rgba(255,255,255,0.3)",
-              backdropFilter: "blur(1px)",
-            }}
-          >
-            <div
-              style={{
-                borderRadius: 9999,
-                background: "rgba(0,0,0,0.7)",
-                padding: "8px 16px",
-                fontSize: 14,
-                color: "#fff",
-              }}
-            >
-              Restarting demo…
-            </div>
-          </div>
-        )}
       </div>
+
+      <a
+        href="#"
+        style={{
+          marginTop: 18,
+          display: "inline-flex",
+          alignItems: "center",
+          justifyContent: "center",
+          borderRadius: 9999,
+          background: "#25D366",
+          color: "#083B2C",
+          fontWeight: 700,
+          fontSize: 14,
+          textDecoration: "none",
+          padding: "12px 20px",
+          boxShadow: "0 10px 24px rgba(37,211,102,0.2)",
+        }}
+      >
+        Try Vyalo on WhatsApp
+      </a>
+
+      <p
+        style={{
+          marginTop: 10,
+          marginBottom: 0,
+          fontSize: 13,
+          lineHeight: 1.6,
+          color: "#6B7280",
+          textAlign: "center",
+          maxWidth: 320,
+        }}
+      >
+        Real local guidance, bookings, and support through a clean WhatsApp-first experience.
+      </p>
     </div>
   );
 }
@@ -634,6 +685,9 @@ function Tag({ children }: { children: React.ReactNode }) {
 }
 
 export default function Page() {
+  const width = useWindowWidth();
+  const isMobile = width < 980;
+
   return (
     <main
       style={{
@@ -652,14 +706,19 @@ export default function Page() {
           maxWidth: 1200,
           minHeight: "100vh",
           display: "grid",
-          gridTemplateColumns: "1.1fr 0.9fr",
+          gridTemplateColumns: isMobile ? "1fr" : "1.1fr 0.9fr",
           alignItems: "center",
-          gap: 48,
-          padding: "64px 24px",
+          gap: isMobile ? 36 : 48,
+          padding: isMobile ? "44px 20px 56px" : "64px 24px",
           boxSizing: "border-box",
         }}
       >
-        <div style={{ maxWidth: 560 }}>
+        <div
+          style={{
+            maxWidth: 560,
+            order: isMobile ? 1 : 0,
+          }}
+        >
           <div
             style={{
               display: "inline-flex",
@@ -680,7 +739,7 @@ export default function Page() {
             style={{
               marginTop: 24,
               marginBottom: 0,
-              fontSize: 56,
+              fontSize: isMobile ? 40 : 56,
               lineHeight: 1.05,
               fontWeight: 700,
               letterSpacing: "-0.03em",
@@ -693,13 +752,13 @@ export default function Page() {
             style={{
               marginTop: 24,
               marginBottom: 0,
-              fontSize: 24,
+              fontSize: isMobile ? 20 : 24,
               lineHeight: 1.6,
               color: "#4B5563",
             }}
           >
-            Restaurants, activities, airport transfers, and real local help —
-            all through a simple WhatsApp-style experience.
+            Restaurants, activities, airport transfers, and real local help — all through a simple
+            WhatsApp-style experience.
           </p>
 
           <div
@@ -717,7 +776,13 @@ export default function Page() {
           </div>
         </div>
 
-        <VyaloPhoneDemo />
+        <div
+          style={{
+            order: isMobile ? 2 : 0,
+          }}
+        >
+          <VyaloPhoneDemo />
+        </div>
       </section>
     </main>
   );
