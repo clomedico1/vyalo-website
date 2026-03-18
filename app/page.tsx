@@ -276,7 +276,10 @@ function useWindowWidth() {
 
   return width;
 }
-
+function humanizeDelay(base: number) {
+  const variance = Math.floor(Math.random() * 220) - 110;
+  return Math.max(250, base + variance);
+}
 function VyaloPhoneDemo() {
   const [messages, setMessages] = useState<Message[]>([]);
   const [stepIndex, setStepIndex] = useState(0);
@@ -363,25 +366,25 @@ function VyaloPhoneDemo() {
     if (step.type === "typing") {
       setShowUserTyping(true);
 
-      timeoutRef.current = setTimeout(() => {
-        setShowUserTyping(false);
-        pushMessage("user", step.nextText);
+    timeoutRef.current = setTimeout(() => {
+  setShowUserTyping(false);
+  pushMessage("user", step.nextText);
 
-        timeoutRef.current = setTimeout(() => {
-          setStepIndex((prev) => prev + 1);
-        }, step.delayAfter ?? 700);
-      }, step.duration);
+  timeoutRef.current = setTimeout(() => {
+    setStepIndex((prev) => prev + 1);
+  }, humanizeDelay(step.delayAfter ?? 700));
+}, humanizeDelay(step.duration)); 
 
       return;
     }
 
-    timeoutRef.current = setTimeout(() => {
-      pushMessage(step.sender, step.text);
+ timeoutRef.current = setTimeout(() => {
+  pushMessage(step.sender, step.text);
 
-      timeoutRef.current = setTimeout(() => {
-        setStepIndex((prev) => prev + 1);
-      }, step.delayAfter ?? 1000);
-    }, 260);
+  timeoutRef.current = setTimeout(() => {
+    setStepIndex((prev) => prev + 1);
+  }, humanizeDelay(step.delayAfter ?? 1000));
+}, humanizeDelay(260));
 
     return () => {
       clearCurrentTimer();
