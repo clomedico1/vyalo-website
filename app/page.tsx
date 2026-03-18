@@ -755,14 +755,7 @@ alignItems: "center",
 gap: 12,              maxWidth: 520,
             }}
           >
-<span
-  style={{
-    fontSize: isMobile ? 56 : 80,
-    display: "flex",
-    alignItems: "center",
-    gap: 18,
-  }}
->
+
 <span style={{ display: "flex", alignItems: "center", gap: 12 }}>
   Meet
   <img
