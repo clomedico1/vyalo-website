@@ -757,7 +757,7 @@ gap: 16,              maxWidth: 520,
           >
 
 <span style={{ display: "flex", alignItems: "center", gap: 10 }}>
-  <span style={{ fontWeight: 600 }}>
+  <span style={{ fontWeight: 600, fontSize: isMobile ? 72 : 110, letterSpacing: "-0.05em" }}>
     Meet
   </span>
 
