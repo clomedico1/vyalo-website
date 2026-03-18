@@ -741,8 +741,13 @@ export default function Page() {
               maxWidth: 520,
             }}
           >
-            Meet Vyalo<br />
-            Your live local Concierge.
+            <span style={{ fontSize: isMobile ? 52 : 72, display: "block" }}>
+  Meet Vyalo
+</span>
+
+<span style={{ fontSize: isMobile ? 20 : 24, display: "block", marginTop: 10 }}>
+  Your live local Concierge.
+</span>
           </h1>
 
           <p
