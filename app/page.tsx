@@ -745,7 +745,7 @@ export default function Page() {
   Meet Vyalo
 </span>
 
-<span style={{ fontSize: isMobile ? 20 : 24, display: "block", marginTop: 10 }}>
+<span style={{ fontSize: isMobile ? 22 : 28, display: "block", marginTop: 10 }}>
   Your live local Concierge.
 </span>
           </h1>
