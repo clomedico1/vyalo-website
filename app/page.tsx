@@ -732,7 +732,7 @@ export default function Page() {
 
           <h1
             style={{
-              marginTop: 24,
+              marginTop: 0,
               marginBottom: 0,
               fontSize: isMobile ? 40 : 56,
               lineHeight: 1.05,
@@ -752,7 +752,7 @@ export default function Page() {
 
           <p
             style={{
-              marginTop: 24,
+              marginTop: 16,
               marginBottom: 0,
               fontSize: isMobile ? 20 : 24,
               lineHeight: 1.6,
@@ -771,10 +771,10 @@ export default function Page() {
               gap: 12,
             }}
           >
-            <Tag>Restaurants</Tag>
-            <Tag>Activities</Tag>
-            <Tag>Airport Transfers</Tag>
-            <Tag>Local Help</Tag>
+            <Tag>About Vyalo</Tag>
+<Tag>Hosts</Tag>
+<Tag>Partners</Tag>
+<Tag>Contact</Tag>
           </div>
         </div>
 
