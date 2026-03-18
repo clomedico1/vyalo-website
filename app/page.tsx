@@ -738,6 +738,7 @@ export default function Page() {
               lineHeight: 1.05,
               fontWeight: 700,
               letterSpacing: "-0.03em",
+              maxWidth: 520,
             }}
           >
             Meet Vyalo<br />
