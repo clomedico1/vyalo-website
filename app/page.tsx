@@ -658,7 +658,7 @@ function VyaloPhoneDemo() {
           lineHeight: 1.6,
           color: "#6B7280",
           textAlign: "center",
-          maxWidth: 320,
+          maxWidth: 280,
         }}
       >
         Real local guidance, bookings, and support through a clean WhatsApp-first experience.
