@@ -729,7 +729,19 @@ export default function Page() {
           }}
         >
          
-
+<div
+  style={{
+    marginBottom: 20,
+    display: "flex",
+    flexWrap: "wrap",
+    gap: 12,
+  }}
+>
+  <Tag>About Vyalo</Tag>
+  <Tag>Hosts</Tag>
+  <Tag>Partners</Tag>
+  <Tag>Contact</Tag>
+</div>
           <h1
             style={{
               marginTop: 0,
@@ -763,20 +775,6 @@ export default function Page() {
             WhatsApp-style experience.
           </p>
 
-          <div
-            style={{
-              marginTop: 32,
-              display: "flex",
-              flexWrap: "wrap",
-              gap: 12,
-            }}
-          >
-            <Tag>About Vyalo</Tag>
-<Tag>Hosts</Tag>
-<Tag>Partners</Tag>
-<Tag>Contact</Tag>
-          </div>
-        </div>
 
         <div
           style={{
