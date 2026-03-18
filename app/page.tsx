@@ -742,75 +742,87 @@ export default function Page() {
   <Tag>Partners</Tag>
   <Tag>Contact</Tag>
 </div>
-          <h1
-            style={{
-              marginTop: 0,
-              marginBottom: 0,
-              fontSize: isMobile ? 52 : 72,
-              lineHeight: 1.05,
-              fontWeight: 700,
-              letterSpacing: "-0.03em",
-              display: "flex",
-alignItems: "center",
-gap: 16,              maxWidth: 520,
-            }}
-          >
-
-<span style={{ display: "flex", alignItems: "center", gap: 10 }}>
-  <span style={{ fontWeight: 600, fontSize: isMobile ? 72 : 110, letterSpacing: "-0.05em" }}>
-    Meet
-  </span>
-
-  <span style={{
-    display: "inline-flex",
-    alignItems: "center",
+<h1
+  style={{
+    marginTop: 0,
+    marginBottom: 0,
+    lineHeight: 1.05,
     fontWeight: 700,
-    color: "#21c45d",
-    fontSize: isMobile ? 48 : 72,
-    letterSpacing: "-0.03em"
-  }}>
-    vyal
+    letterSpacing: "-0.03em",
+    maxWidth: 700,
+  }}
+>
+  <span style={{ display: "flex", alignItems: "center", gap: 10 }}>
+    <span style={{ fontWeight: 600, fontSize: isMobile ? 72 : 110, letterSpacing: "-0.05em" }}>
+      Meet
+    </span>
 
-    <span style={{
-      position: "relative",
-      display: "inline-flex",
-      alignItems: "center",
-      justifyContent: "center",
-      marginLeft: 2,
-      width: isMobile ? 34 : 44,
-      height: isMobile ? 34 : 44,
-      background: "#21c45d",
-      borderRadius: "50%"
-    }}>
+    <span
+      style={{
+        display: "inline-flex",
+        alignItems: "center",
+        fontWeight: 700,
+        color: "#21c45d",
+        fontSize: isMobile ? 72 : 110,
+        letterSpacing: "-0.05em",
+        lineHeight: 1,
+      }}
+    >
+      vyal
 
-      <span style={{
-        position: "absolute",
-        bottom: -6,
-        left: 4,
-        width: 10,
-        height: 10,
-        background: "#21c45d",
-        transform: "rotate(40deg)",
-        borderBottomRightRadius: 6
-      }}/>
+      <span
+        style={{
+          position: "relative",
+          display: "inline-flex",
+          alignItems: "center",
+          justifyContent: "center",
+          marginLeft: 2,
+          width: isMobile ? 44 : 58,
+          height: isMobile ? 44 : 58,
+          background: "#21c45d",
+          borderRadius: "50%",
+          flexShrink: 0,
+        }}
+      >
+        <span
+          style={{
+            position: "absolute",
+            bottom: -6,
+            left: 5,
+            width: 12,
+            height: 12,
+            background: "#21c45d",
+            transform: "rotate(40deg)",
+            borderBottomRightRadius: 6,
+          }}
+        />
 
-      <span style={{
-        display: "flex",
-        gap: 3
-      }}>
-        <span style={{ width: 4, height: 4, background: "white", borderRadius: "50%" }}/>
-        <span style={{ width: 4, height: 4, background: "white", borderRadius: "50%" }}/>
-        <span style={{ width: 4, height: 4, background: "white", borderRadius: "50%" }}/>
+        <span
+          style={{
+            display: "flex",
+            gap: 4,
+          }}
+        >
+          <span style={{ width: 5, height: 5, background: "white", borderRadius: "50%" }} />
+          <span style={{ width: 5, height: 5, background: "white", borderRadius: "50%" }} />
+          <span style={{ width: 5, height: 5, background: "white", borderRadius: "50%" }} />
+        </span>
       </span>
-
     </span>
   </span>
-</span>
+</h1>
 
-<span style={{ fontSize: isMobile ? 22 : 28, display: "block", marginTop: 10 }}>
-  Your live local Concierge.
-</span>
-          </h1>
+<div
+  style={{
+    fontSize: isMobile ? 22 : 28,
+    marginTop: 10,
+    fontWeight: 600,
+    lineHeight: 1.2,
+    color: "#111111",
+  }}
+>
+  Your live local concierge.
+</div>
 
           <p
             style={{
