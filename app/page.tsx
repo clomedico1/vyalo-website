@@ -774,8 +774,7 @@ export default function Page() {
             Restaurants, activities, airport transfers, and real local help — all through a simple
             WhatsApp-style experience.
           </p>
-
-
+</div>
         <div
           style={{
             order: isMobile ? 2 : 0,
