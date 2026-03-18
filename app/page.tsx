@@ -750,7 +750,9 @@ export default function Page() {
               lineHeight: 1.05,
               fontWeight: 700,
               letterSpacing: "-0.03em",
-              maxWidth: 520,
+              display: "flex",
+alignItems: "center",
+gap: 12,              maxWidth: 520,
             }}
           >
 <span
