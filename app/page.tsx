@@ -728,21 +728,7 @@ export default function Page() {
             order: isMobile ? 1 : 0,
           }}
         >
-          <div
-            style={{
-              display: "inline-flex",
-              alignItems: "center",
-              borderRadius: 9999,
-              border: "1px solid rgba(37, 211, 102, 0.2)",
-              background: "rgba(37, 211, 102, 0.1)",
-              padding: "10px 16px",
-              fontSize: 14,
-              fontWeight: 600,
-              color: "#128C7E",
-            }}
-          >
-            Live WhatsApp Concierge Demo
-          </div>
+         
 
           <h1
             style={{
@@ -754,7 +740,8 @@ export default function Page() {
               letterSpacing: "-0.03em",
             }}
           >
-            Meet Vyalo — Cefalù’s live local concierge.
+            Meet Vyalo<br />
+            Your live local Concierge.
           </h1>
 
           <p
