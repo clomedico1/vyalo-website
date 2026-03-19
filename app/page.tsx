@@ -807,12 +807,10 @@ export default function VyaloPage() {
   />
 </div>  </div>
 
-  <div className="-mt-20 ml-24 max-w-[760px]">    <p className="max-w-[760px] text-[clamp(1.8rem,2.7vw,3rem)] font-medium leading-[1.15] tracking-[-0.05em] text-[#667085]">
-      {activeContent.title}
+  <div className="-mt-20 ml-24 max-w-[760px]">    <p className="max-w-[760px] text-[clamp(2.2rem,3vw,3.4rem)] font-medium leading-[1.06] tracking-[-0.055em] text-[#667085]">      {activeContent.title}
     </p>
 
-    <p className="mt-7 max-w-[700px] text-[18px] leading-[1.75] text-[#697586]">
-      {activeContent.body}
+    <p className="mt-8 max-w-[700px] text-[19px] leading-[1.8] tracking-[-0.01em] text-[#697586]">      {activeContent.body}
     </p>
   </div>
 </div>            </div>
