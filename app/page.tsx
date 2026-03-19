@@ -7,35 +7,38 @@ type TabKey = "about" | "hosts" | "partners" | "contact";
 const TAB_CONTENT: Record<
   TabKey,
   {
-    label: string;
     eyebrow?: string;
     title: string;
     body: string;
   }
 > = {
   about: {
-    label: "About Vyalo",
     eyebrow: "Live local help in Cefalù",
-    title: "Restaurants, activities, airport transfers, and real local help — all through a simple WhatsApp-style experience.",
-    body: "Vyalo gives guests one trusted local point of contact for the things that matter most: where to eat, what to do, how to get around, and who to message when something unexpected happens.",
+    title:
+      "Restaurants, activities, airport transfers, and real local help — all through a simple WhatsApp-style experience.",
+    body:
+      "Vyalo gives guests one trusted local point of contact for the things that matter most: where to eat, what to do, how to get around, and who to message when something unexpected happens.",
   },
   hosts: {
-    label: "Hosts",
     eyebrow: "A better guest experience",
-    title: "Give your guests fast local support without adding more messages, stress, or late-night interruptions to your day.",
-    body: "Vyalo helps hosts offer a more premium stay by handling common guest needs like recommendations, transport coordination, and local guidance — while you stay focused on your property.",
+    title:
+      "Give your guests fast local support without adding more messages, stress, or late-night interruptions to your day.",
+    body:
+      "Vyalo helps hosts offer a more premium stay by handling common guest needs like recommendations, transport coordination, and local guidance — while you stay focused on your property.",
   },
   partners: {
-    label: "Partners",
     eyebrow: "Built for local businesses",
-    title: "Vyalo connects trusted local operators with travelers who are actively looking for places to eat, book, visit, and enjoy.",
-    body: "From restaurants and beach clubs to drivers and activity providers, partners get better visibility inside a concierge flow designed to feel curated, local, and easy to use.",
+    title:
+      "Vyalo connects trusted local operators with travelers who are actively looking for places to eat, book, visit, and enjoy.",
+    body:
+      "From restaurants and beach clubs to drivers and activity providers, partners get better visibility inside a concierge flow designed to feel curated, local, and easy to use.",
   },
   contact: {
-    label: "Contact",
     eyebrow: "Start the conversation",
-    title: "Interested in bringing Vyalo to your apartment, business, or guest experience? Let’s talk.",
-    body: "Whether you’re a host, partner, or simply curious about the project, reach out and we’ll show you how Vyalo can fit naturally into the Cefalù guest journey.",
+    title:
+      "Interested in bringing Vyalo to your apartment, business, or guest experience? Let’s talk.",
+    body:
+      "Whether you’re a host, partner, or simply curious about the project, reach out and we’ll show you how Vyalo can fit naturally into the Cefalù guest journey.",
   },
 };
 
@@ -69,8 +72,8 @@ function VyaloWordmark() {
 }
 
 /**
- * Chat simulation block intentionally left visually aligned with the current approved layout.
- * Do not change internal spacing/structure unless you want to edit the simulation itself later.
+ * DO NOT TOUCH THIS BLOCK.
+ * This is preserved from the prior version the user pasted.
  */
 function ChatSimulation() {
   return (
@@ -161,7 +164,6 @@ function ChatSimulation() {
 
 export default function VyaloPage() {
   const [activeTab, setActiveTab] = useState<TabKey>("about");
-
   const activeContent = useMemo(() => TAB_CONTENT[activeTab], [activeTab]);
 
   const tabs: { key: TabKey; label: string }[] = [
@@ -173,11 +175,11 @@ export default function VyaloPage() {
 
   return (
     <main className="min-h-screen bg-[#f6f6f3] text-[#111111]">
-      <div className="mx-auto max-w-[1500px] px-6 pb-14 pt-8 sm:px-8 lg:px-10 xl:px-14 xl:pb-20 xl:pt-10">
-        <div className="grid min-h-[88vh] items-start gap-14 xl:grid-cols-[minmax(0,1.08fr)_minmax(420px,520px)] xl:gap-10">
-          <section className="flex min-h-full flex-col justify-start pt-2 sm:pt-4 xl:pt-10">
-            <div className="max-w-[820px]">
-              <div className="mb-10 flex flex-wrap gap-3">
+      <div className="mx-auto max-w-[1600px] px-8 pt-10 lg:px-12 xl:px-14">
+        <div className="grid min-h-screen grid-cols-1 gap-10 xl:grid-cols-[1.05fr_470px] xl:items-start xl:gap-12">
+          <section className="pt-2 xl:pt-6">
+            <div className="max-w-[860px]">
+              <div className="mb-12 flex flex-wrap gap-3">
                 {tabs.map((tab) => {
                   const isActive = activeTab === tab.key;
 
@@ -187,10 +189,10 @@ export default function VyaloPage() {
                       type="button"
                       onClick={() => setActiveTab(tab.key)}
                       className={[
-                        "rounded-full px-6 py-3 text-[15px] font-medium transition-all duration-200 sm:text-[16px]",
+                        "rounded-full px-7 py-3 text-[15px] font-semibold transition-all duration-200 sm:text-[16px]",
                         isActive
-                          ? "bg-white text-[#111111] shadow-[0_10px_30px_rgba(0,0,0,0.08)] ring-1 ring-black/6"
-                          : "bg-[#ecebe7] text-[#4b5563] hover:bg-[#e6e5e1] hover:text-[#111827]",
+                          ? "bg-white text-[#111111] shadow-[0_10px_24px_rgba(0,0,0,0.08)] ring-1 ring-black/5"
+                          : "bg-[#ecebe7] text-[#5a6472] hover:bg-[#e6e5e1] hover:text-[#111111]",
                       ].join(" ")}
                     >
                       {tab.label}
@@ -199,30 +201,30 @@ export default function VyaloPage() {
                 })}
               </div>
 
-              <div className="max-w-[900px]">
-                <h1 className="flex flex-wrap items-end gap-x-1 gap-y-2 text-[clamp(4.6rem,10vw,8rem)] font-semibold leading-[0.9] tracking-[-0.06em] text-[#0b0b0b]">
+              <div className="max-w-[920px]">
+                <h1 className="flex flex-wrap items-end gap-x-1 gap-y-2 text-[clamp(4.6rem,9vw,8rem)] font-semibold leading-[0.9] tracking-[-0.065em] text-[#0b0b0b]">
                   <span>Meet</span>
                   <span className="inline-flex items-end">
                     <VyaloWordmark />
                   </span>
                 </h1>
 
-                <p className="mt-4 text-[clamp(2rem,3.1vw,3rem)] font-semibold leading-[1.02] tracking-[-0.04em] text-[#111111]">
+                <p className="mt-4 text-[clamp(2rem,3vw,3rem)] font-semibold leading-[1.02] tracking-[-0.045em] text-[#111111]">
                   Your live local concierge.
                 </p>
 
-                <div className="mt-8 max-w-[860px]">
+                <div className="mt-12">
                   {activeContent.eyebrow ? (
-                    <div className="mb-3 text-[12px] font-semibold uppercase tracking-[0.18em] text-[#22c55e]">
+                    <div className="mb-5 text-[12px] font-semibold uppercase tracking-[0.22em] text-[#22c55e]">
                       {activeContent.eyebrow}
                     </div>
                   ) : null}
 
-                  <p className="max-w-[900px] text-[clamp(1.65rem,2.6vw,3rem)] font-medium leading-[1.2] tracking-[-0.04em] text-[#5e6776]">
+                  <p className="max-w-[920px] text-[clamp(1.8rem,2.9vw,3.1rem)] font-medium leading-[1.15] tracking-[-0.05em] text-[#667085]">
                     {activeContent.title}
                   </p>
 
-                  <p className="mt-5 max-w-[760px] text-[16px] leading-8 text-[#6b7280] sm:text-[18px]">
+                  <p className="mt-8 max-w-[820px] text-[18px] leading-[1.75] text-[#697586]">
                     {activeContent.body}
                   </p>
                 </div>
@@ -230,7 +232,7 @@ export default function VyaloPage() {
             </div>
           </section>
 
-          <aside className="xl:sticky xl:top-10">
+          <aside className="justify-self-center xl:justify-self-end">
             <ChatSimulation />
           </aside>
         </div>
