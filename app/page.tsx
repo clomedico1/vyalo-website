@@ -802,15 +802,20 @@ export default function VyaloPage() {
               </div>
 
 <div className="max-w-[920px] mt-2">
-  <div className="mb-2 w-full max-w-[860px] overflow-hidden">
+  <div className="relative mb-3 h-[205px] w-[760px] max-w-full overflow-hidden">
     <img
       src="/vyalo-lockup.png"
       alt="Meet Vyalo — Your live local concierge."
-      className="block w-full h-auto -mt-[220px]"
+      className="absolute max-w-none"
+      style={{
+        width: "1180px",
+        left: "-165px",
+        top: "-150px",
+      }}
     />
   </div>
 
-  <div className="mt-1 max-w-[760px]">                     {activeContent.eyebrow ? (
+  <div className="mt-1 max-w-[760px]">               {activeContent.eyebrow ? (
                     <div className="mb-5 text-[12px] font-semibold uppercase tracking-[0.22em] text-[#22c55e]">
                       {activeContent.eyebrow}
                     </div>
