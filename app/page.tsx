@@ -799,15 +799,15 @@ export default function VyaloPage() {
                   );
                 })}
               </div>
-<div className="max-w-[920px] mt-2">
-  <div className="flex flex-col items-start text-left"> <div className="mb-5 -ml-14">  <img
+<div className="max-w-[920px] -mt-2">
+  <div className="flex flex-col items-start text-left"> <div className="mb-5 -ml-24">  <img
     src="/vyalo-lockup.png"
     alt="Meet Vyalo — Your live local concierge."
     className="block h-auto w-full max-w-[620px]"
   />
 </div>  </div>
 
-  <div className="mt-1 max-w-[760px]">
+  <div className="mt-8 max-w-[760px]">
     <p className="max-w-[760px] text-[clamp(1.8rem,2.7vw,3rem)] font-medium leading-[1.15] tracking-[-0.05em] text-[#667085]">
       {activeContent.title}
     </p>
