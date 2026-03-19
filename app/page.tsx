@@ -807,7 +807,7 @@ export default function VyaloPage() {
   />
 </div>  </div>
 
-  <div className="-mt-19 ml-24 max-w-[760px]">    <p className="max-w-[760px] text-[clamp(1.8rem,2.7vw,3rem)] font-medium leading-[1.15] tracking-[-0.05em] text-[#667085]">
+  <div className="-mt-20 ml-24 max-w-[760px]">    <p className="max-w-[760px] text-[clamp(1.8rem,2.7vw,3rem)] font-medium leading-[1.15] tracking-[-0.05em] text-[#667085]">
       {activeContent.title}
     </p>
 
