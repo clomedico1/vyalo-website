@@ -778,8 +778,7 @@ export default function VyaloPage() {
   return (
     <main className="min-h-screen bg-[#f6f6f3] text-[#111111]">
       <div className="mx-auto max-w-[1600px] px-8 pt-10 lg:px-12 xl:px-14">
-        <div className="grid min-h-screen grid-cols-1 gap-10 xl:grid-cols-[1.05fr_470px] xl:items-start xl:gap-12">
-          <section className="pt-1 xl:pt-2">            <div className="max-w-[860px]">
+        <div className="grid min-h-screen grid-cols-1 gap-10 xl:grid-cols-[minmax(0,1fr)_420px] xl:items-start xl:gap-10">          <section className="pt-1 xl:pt-2">            <div className="max-w-[860px]">
               <div className="mb-8 flex flex-wrap gap-3">                {tabs.map((tab) => {
                   const isActive = activeTab === tab.key;
 
@@ -800,32 +799,28 @@ export default function VyaloPage() {
                   );
                 })}
               </div>
+<div className="max-w-[920px] mt-10">
+  <div className="flex flex-col items-center text-center">
+    <div className="mb-5 text-[72px] font-semibold leading-none tracking-[-0.05em]">
+      <span className="text-[#1f2430]">Meet </span>
+      <VyaloWordmark />
+    </div>
 
-<div className="max-w-[920px] mt-2">
-  <div className="mb-4 text-[64px] font-semibold leading-none tracking-[-0.04em]">
-    <span className="text-[#1f2430]">Meet </span>
-    <VyaloWordmark />
+    <div className="text-[32px] leading-none tracking-[-0.035em] text-[#2b313b]">
+      Your <span className="font-medium text-[#34A853]">live</span> local concierge.
+    </div>
   </div>
 
-  <div className="text-[28px] leading-none tracking-[-0.03em] text-[#2b313b]">
-    Your <span className="font-medium text-[#34A853]">live</span> local concierge.
+  <div className="mt-12 max-w-[760px]">
+    <p className="max-w-[760px] text-[clamp(1.8rem,2.7vw,3rem)] font-medium leading-[1.15] tracking-[-0.05em] text-[#667085]">
+      {activeContent.title}
+    </p>
+
+    <p className="mt-7 max-w-[700px] text-[18px] leading-[1.75] text-[#697586]">
+      {activeContent.body}
+    </p>
   </div>
-  <div className="mt-1 max-w-[760px]">               {activeContent.eyebrow ? (
-                    <div className="mb-5 text-[12px] font-semibold uppercase tracking-[0.22em] text-[#22c55e]">
-                      {activeContent.eyebrow}
-                    </div>
-                  ) : null}
-
-                  <p className="max-w-[920px] text-[clamp(1.8rem,2.9vw,3.1rem)] font-medium leading-[1.15] tracking-[-0.05em] text-[#667085]">
-                    {activeContent.title}
-                  </p>
-
-                  <p className="mt-8 max-w-[820px] text-[18px] leading-[1.75] text-[#697586]">
-                    {activeContent.body}
-                  </p>
-                </div>
-              </div>
-            </div>
+</div>            </div>
           </section>
 
           <aside className="justify-self-center xl:justify-self-end">
