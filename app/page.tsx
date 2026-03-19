@@ -48,95 +48,49 @@ function VyaloBubbleO({
   className?: string;
 }) {
   return (
-    <span
-      className={`relative inline-block align-middle ${className}`}
-      aria-hidden="true"
-      style={{
-        width: "0.78em",
-        height: "0.78em",
-      }}
-    >
-      <span
+    <span className={`inline-block ${className}`} aria-hidden="true">
+      <svg
+        viewBox="0 0 84 84"
+        xmlns="http://www.w3.org/2000/svg"
         style={{
-          position: "absolute",
-          inset: 0,
-          borderRadius: "9999px",
-          background: "#22c55e",
           display: "block",
+          width: "0.74em",
+          height: "0.74em",
         }}
-      />
+      >
+        {/* outer bubble */}
+        <path
+          d="M42 6
+             C61.882 6 78 22.118 78 42
+             C78 61.882 61.882 78 42 78
+             C35.955 78 30.258 76.51 25.252 73.879
+             L12.8 78.2
+             C11.95 78.495 11.018 78.283 10.38 77.645
+             C9.742 77.007 9.53 76.075 9.825 75.225
+             L14.121 62.845
+             C11.49 57.778 10 52.056 10 46
+             C10 23.909 27.909 6 50 6
+             Z"
+          fill="#34A853"
+          transform="translate(-8 0)"
+        />
 
-      <span
-        style={{
-          position: "absolute",
-          inset: "20%",
-          borderRadius: "9999px",
-          background: "#f6f6f3",
-          display: "block",
-        }}
-      />
+        {/* inner cutout */}
+        <circle cx="42" cy="42" r="19.6" fill="#F4F4F2" />
 
-      <span
-        style={{
-          position: "absolute",
-          left: "0.07em",
-          bottom: "0.02em",
-          width: "0.17em",
-          height: "0.17em",
-          background: "#22c55e",
-          transform: "rotate(42deg)",
-          borderBottomLeftRadius: "0.03em",
-          borderBottomRightRadius: "0.03em",
-          borderTopLeftRadius: "0.02em",
-          borderTopRightRadius: "0.02em",
-          display: "block",
-        }}
-      />
-
-      <span
-        style={{
-          position: "absolute",
-          left: "0.245em",
-          top: "0.35em",
-          width: "0.085em",
-          height: "0.085em",
-          borderRadius: "9999px",
-          background: "#22c55e",
-          display: "block",
-        }}
-      />
-      <span
-        style={{
-          position: "absolute",
-          left: "0.365em",
-          top: "0.35em",
-          width: "0.085em",
-          height: "0.085em",
-          borderRadius: "9999px",
-          background: "#22c55e",
-          display: "block",
-        }}
-      />
-      <span
-        style={{
-          position: "absolute",
-          left: "0.485em",
-          top: "0.35em",
-          width: "0.085em",
-          height: "0.085em",
-          borderRadius: "9999px",
-          background: "#22c55e",
-          display: "block",
-        }}
-      />
+        {/* dots */}
+        <circle cx="33.5" cy="42" r="2.75" fill="#34A853" />
+        <circle cx="42" cy="42" r="2.75" fill="#34A853" />
+        <circle cx="50.5" cy="42" r="2.75" fill="#34A853" />
+      </svg>
     </span>
   );
 }
 function VyaloWordmark() {
   return (
     <span className="inline-flex items-end leading-none">
-      <span className="text-[#22c55e]">vyal</span>
-      <VyaloBubbleO className="ml-[0.01em] translate-y-[-0.01em]" />
+      <span className="text-[#34A853]">vyal</span>
+      <VyaloBubbleO className="ml-[0.015em] translate-y-[-0.005em]" />
     </span>
   );
 }/**
