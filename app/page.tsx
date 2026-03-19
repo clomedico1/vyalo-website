@@ -787,13 +787,12 @@ export default function VyaloPage() {
                       key={tab.key}
                       type="button"
                       onClick={() => setActiveTab(tab.key)}
-                      className={[
-                        "rounded-full px-7 py-3 text-[15px] font-semibold transition-all duration-200 sm:text-[16px]",
-                        isActive
-                          ? "bg-white text-[#111111] shadow-[0_10px_24px_rgba(0,0,0,0.08)] ring-1 ring-black/5"
-                          : "bg-[#ecebe7] text-[#5a6472] hover:bg-[#e6e5e1] hover:text-[#111111]",
-                      ].join(" ")}
-                    >
+                    className={[
+  "rounded-full px-8 py-3.5 text-[15px] font-semibold transition-all duration-200 sm:text-[16px]",
+  isActive
+    ? "bg-white text-[#111111] shadow-[0_14px_30px_rgba(0,0,0,0.09)] ring-1 ring-black/5"
+    : "bg-[#ecebe7] text-[#5f6876] hover:bg-[#e3e2de] hover:text-[#111111]",
+].join(" ")}                    >
                       {tab.label}
                     </button>
                   );
