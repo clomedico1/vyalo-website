@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState } from "react";
+
 type TabKey = "about" | "hosts" | "partners" | "contact";
 
 const TAB_CONTENT: Record<
@@ -19,25 +20,25 @@ const TAB_CONTENT: Record<
       "Vyalo gives guests one trusted local point of contact for the things that matter most: where to eat, what to do, how to get around, and who to message when something unexpected happens.",
   },
   hosts: {
-    eyebrow: "A better guest experience",
+    eyebrow: "For hosts",
     title:
-      "Give your guests fast local support without adding more messages, stress, or late-night interruptions to your day.",
+      "Give guests premium local support without turning your phone into a full-time concierge desk.",
     body:
-      "Vyalo helps hosts offer a more premium stay by handling common guest needs like recommendations, transport coordination, and local guidance — while you stay focused on your property.",
+      "Vyalo helps hosts reduce repetitive guest messaging by handling recommendations, transport requests, local guidance, and on-the-ground support in a more polished, reliable way.",
   },
   partners: {
-    eyebrow: "Built for local businesses",
+    eyebrow: "For local partners",
     title:
-      "Vyalo connects trusted local operators with travelers who are actively looking for places to eat, book, visit, and enjoy.",
+      "Put trusted local businesses in front of travelers at the exact moment they’re ready to book or ask for help.",
     body:
-      "From restaurants and beach clubs to drivers and activity providers, partners get better visibility inside a concierge flow designed to feel curated, local, and easy to use.",
+      "Restaurants, drivers, beach clubs, and activity providers can become part of a curated concierge flow designed to feel helpful, premium, and easy to use for visitors in Cefalù.",
   },
   contact: {
-    eyebrow: "Start the conversation",
+    eyebrow: "Get in touch",
     title:
-      "Interested in bringing Vyalo to your apartment, business, or guest experience? Let’s talk.",
+      "Interested in bringing Vyalo to your property, business, or guest experience? Let’s start the conversation.",
     body:
-      "Whether you’re a host, partner, or simply curious about the project, reach out and we’ll show you how Vyalo can fit naturally into the Cefalù guest journey.",
+      "Whether you’re a host, a local operator, or simply curious about the project, reach out and we’ll show you how Vyalo fits naturally into a better Cefalù travel experience.",
   },
 };
 
@@ -51,12 +52,12 @@ function VyaloBubbleO({
       className={`relative inline-block align-middle ${className}`}
       aria-hidden="true"
     >
-      <span className="relative block h-[0.9em] w-[0.9em] rounded-full bg-[#22c55e]">
-        <span className="absolute left-[27%] top-[41%] h-[0.11em] w-[0.11em] -translate-y-1/2 rounded-full bg-white" />
-        <span className="absolute left-[45%] top-[41%] h-[0.11em] w-[0.11em] -translate-y-1/2 rounded-full bg-white" />
-        <span className="absolute left-[63%] top-[41%] h-[0.11em] w-[0.11em] -translate-y-1/2 rounded-full bg-white" />
+      <span className="relative block h-[0.88em] w-[0.88em] rounded-full bg-[#22c55e]">
+        <span className="absolute left-[26%] top-[43%] h-[0.11em] w-[0.11em] -translate-y-1/2 rounded-full bg-white" />
+        <span className="absolute left-[44%] top-[43%] h-[0.11em] w-[0.11em] -translate-y-1/2 rounded-full bg-white" />
+        <span className="absolute left-[62%] top-[43%] h-[0.11em] w-[0.11em] -translate-y-1/2 rounded-full bg-white" />
       </span>
-      <span className="absolute bottom-[0.03em] left-[0.08em] h-[0.22em] w-[0.22em] rotate-45 rounded-[0.06em] bg-[#22c55e]" />
+      <span className="absolute bottom-[0.02em] left-[0.08em] h-[0.2em] w-[0.2em] rotate-45 rounded-[0.05em] bg-[#22c55e]" />
     </span>
   );
 }
@@ -65,7 +66,7 @@ function VyaloWordmark() {
   return (
     <span className="inline-flex items-end leading-none">
       <span className="text-[#22c55e]">vyal</span>
-      <VyaloBubbleO className="ml-[0.02em] translate-y-[-0.02em]" />
+      <VyaloBubbleO className="ml-[0.01em] translate-y-[-0.015em]" />
     </span>
   );
 }
@@ -340,6 +341,7 @@ function humanizeDelay(base: number) {
   const variance = Math.floor(Math.random() * 220) - 110;
   return Math.max(250, base + variance);
 }
+
 function ChatSimulation() {
   const [messages, setMessages] = useState<Message[]>([]);
   const [stepIndex, setStepIndex] = useState(0);
@@ -739,6 +741,7 @@ function ChatSimulation() {
     </>
   );
 }
+
 export default function VyaloPage() {
   const [activeTab, setActiveTab] = useState<TabKey>("about");
   const activeContent = useMemo(() => TAB_CONTENT[activeTab], [activeTab]);
