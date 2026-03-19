@@ -800,7 +800,7 @@ export default function VyaloPage() {
                 })}
               </div>
 <div className="max-w-[920px] -mt-24">
-  <div className="flex flex-col items-start text-left"> <div className="mb-5 -ml-36">  <img
+  <div className="flex flex-col items-start text-left"> <div className="mb-10 -ml-36">  <img
     src="/vyalo-lockup.png"
     alt="Meet Vyalo — Your live local concierge."
     className="block h-auto w-full max-w-[620px]"
