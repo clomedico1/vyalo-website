@@ -51,26 +51,80 @@ function VyaloBubbleO({
     <span
       className={`relative inline-block align-middle ${className}`}
       aria-hidden="true"
+      style={{
+        width: "0.9em",
+        height: "0.9em",
+      }}
     >
-      <span className="relative block h-[0.88em] w-[0.88em] rounded-full bg-[#22c55e]">
-        <span className="absolute left-[26%] top-[43%] h-[0.11em] w-[0.11em] -translate-y-1/2 rounded-full bg-white" />
-        <span className="absolute left-[44%] top-[43%] h-[0.11em] w-[0.11em] -translate-y-1/2 rounded-full bg-white" />
-        <span className="absolute left-[62%] top-[43%] h-[0.11em] w-[0.11em] -translate-y-1/2 rounded-full bg-white" />
-      </span>
-      <span className="absolute bottom-[0.02em] left-[0.08em] h-[0.2em] w-[0.2em] rotate-45 rounded-[0.05em] bg-[#22c55e]" />
+      <span
+        className="absolute inset-0 rounded-full bg-[#22c55e]"
+        style={{
+          display: "block",
+        }}
+      />
+
+      <span
+        className="absolute rounded-full bg-white"
+        style={{
+          inset: "23%",
+          display: "block",
+        }}
+      />
+
+      <span
+        className="absolute bg-[#22c55e]"
+        style={{
+          width: "0.22em",
+          height: "0.22em",
+          left: "0.02em",
+          bottom: "0.03em",
+          transform: "rotate(38deg)",
+          borderBottomLeftRadius: "0.05em",
+          borderBottomRightRadius: "0.05em",
+          borderTopLeftRadius: "0.02em",
+          borderTopRightRadius: "0.02em",
+          display: "block",
+        }}
+      />
+
+      <span
+        className="absolute rounded-full bg-[#22c55e]"
+        style={{
+          width: "0.11em",
+          height: "0.11em",
+          left: "0.28em",
+          top: "0.395em",
+        }}
+      />
+      <span
+        className="absolute rounded-full bg-[#22c55e]"
+        style={{
+          width: "0.11em",
+          height: "0.11em",
+          left: "0.405em",
+          top: "0.395em",
+        }}
+      />
+      <span
+        className="absolute rounded-full bg-[#22c55e]"
+        style={{
+          width: "0.11em",
+          height: "0.11em",
+          left: "0.53em",
+          top: "0.395em",
+        }}
+      />
     </span>
   );
 }
-
 function VyaloWordmark() {
   return (
     <span className="inline-flex items-end leading-none">
       <span className="text-[#22c55e]">vyal</span>
-      <VyaloBubbleO className="ml-[0.01em] translate-y-[-0.015em]" />
+      <VyaloBubbleO className="ml-[0.015em] translate-y-[-0.01em]" />
     </span>
   );
 }
-
 /**
  * DO NOT TOUCH THIS BLOCK.
  * This is preserved from the prior version the user pasted.
