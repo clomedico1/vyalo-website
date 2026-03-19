@@ -52,35 +52,41 @@ function VyaloBubbleO({
       className={`relative inline-block align-middle ${className}`}
       aria-hidden="true"
       style={{
-        width: "0.9em",
-        height: "0.9em",
+        width: "0.78em",
+        height: "0.78em",
       }}
     >
       <span
-        className="absolute inset-0 rounded-full bg-[#22c55e]"
         style={{
+          position: "absolute",
+          inset: 0,
+          borderRadius: "9999px",
+          background: "#22c55e",
           display: "block",
         }}
       />
 
       <span
-        className="absolute rounded-full bg-white"
         style={{
-          inset: "23%",
+          position: "absolute",
+          inset: "20%",
+          borderRadius: "9999px",
+          background: "#f6f6f3",
           display: "block",
         }}
       />
 
       <span
-        className="absolute bg-[#22c55e]"
         style={{
-          width: "0.22em",
-          height: "0.22em",
-          left: "0.02em",
-          bottom: "0.03em",
-          transform: "rotate(38deg)",
-          borderBottomLeftRadius: "0.05em",
-          borderBottomRightRadius: "0.05em",
+          position: "absolute",
+          left: "0.07em",
+          bottom: "0.02em",
+          width: "0.17em",
+          height: "0.17em",
+          background: "#22c55e",
+          transform: "rotate(42deg)",
+          borderBottomLeftRadius: "0.03em",
+          borderBottomRightRadius: "0.03em",
           borderTopLeftRadius: "0.02em",
           borderTopRightRadius: "0.02em",
           display: "block",
@@ -88,30 +94,39 @@ function VyaloBubbleO({
       />
 
       <span
-        className="absolute rounded-full bg-[#22c55e]"
         style={{
-          width: "0.11em",
-          height: "0.11em",
-          left: "0.28em",
-          top: "0.395em",
+          position: "absolute",
+          left: "0.245em",
+          top: "0.35em",
+          width: "0.085em",
+          height: "0.085em",
+          borderRadius: "9999px",
+          background: "#22c55e",
+          display: "block",
         }}
       />
       <span
-        className="absolute rounded-full bg-[#22c55e]"
         style={{
-          width: "0.11em",
-          height: "0.11em",
-          left: "0.405em",
-          top: "0.395em",
+          position: "absolute",
+          left: "0.365em",
+          top: "0.35em",
+          width: "0.085em",
+          height: "0.085em",
+          borderRadius: "9999px",
+          background: "#22c55e",
+          display: "block",
         }}
       />
       <span
-        className="absolute rounded-full bg-[#22c55e]"
         style={{
-          width: "0.11em",
-          height: "0.11em",
-          left: "0.53em",
-          top: "0.395em",
+          position: "absolute",
+          left: "0.485em",
+          top: "0.35em",
+          width: "0.085em",
+          height: "0.085em",
+          borderRadius: "9999px",
+          background: "#22c55e",
+          display: "block",
         }}
       />
     </span>
@@ -121,11 +136,10 @@ function VyaloWordmark() {
   return (
     <span className="inline-flex items-end leading-none">
       <span className="text-[#22c55e]">vyal</span>
-      <VyaloBubbleO className="ml-[0.015em] translate-y-[-0.01em]" />
+      <VyaloBubbleO className="ml-[0.01em] translate-y-[-0.01em]" />
     </span>
   );
-}
-/**
+}/**
  * DO NOT TOUCH THIS BLOCK.
  * This is preserved from the prior version the user pasted.
  */
