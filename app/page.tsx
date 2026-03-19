@@ -1,850 +1,240 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useMemo, useState } from "react";
 
-type Sender = "system" | "user";
+type TabKey = "about" | "hosts" | "partners" | "contact";
 
-type Message = {
-  id: number;
-  sender: Sender;
-  text: string;
+const TAB_CONTENT: Record<
+  TabKey,
+  {
+    label: string;
+    eyebrow?: string;
+    title: string;
+    body: string;
+  }
+> = {
+  about: {
+    label: "About Vyalo",
+    eyebrow: "Live local help in Cefalù",
+    title: "Restaurants, activities, airport transfers, and real local help — all through a simple WhatsApp-style experience.",
+    body: "Vyalo gives guests one trusted local point of contact for the things that matter most: where to eat, what to do, how to get around, and who to message when something unexpected happens.",
+  },
+  hosts: {
+    label: "Hosts",
+    eyebrow: "A better guest experience",
+    title: "Give your guests fast local support without adding more messages, stress, or late-night interruptions to your day.",
+    body: "Vyalo helps hosts offer a more premium stay by handling common guest needs like recommendations, transport coordination, and local guidance — while you stay focused on your property.",
+  },
+  partners: {
+    label: "Partners",
+    eyebrow: "Built for local businesses",
+    title: "Vyalo connects trusted local operators with travelers who are actively looking for places to eat, book, visit, and enjoy.",
+    body: "From restaurants and beach clubs to drivers and activity providers, partners get better visibility inside a concierge flow designed to feel curated, local, and easy to use.",
+  },
+  contact: {
+    label: "Contact",
+    eyebrow: "Start the conversation",
+    title: "Interested in bringing Vyalo to your apartment, business, or guest experience? Let’s talk.",
+    body: "Whether you’re a host, partner, or simply curious about the project, reach out and we’ll show you how Vyalo can fit naturally into the Cefalù guest journey.",
+  },
 };
 
-type FlowStep =
-  | {
-      type: "message";
-      sender: Sender;
-      text: string;
-      delayAfter?: number;
-    }
-  | {
-      type: "typing";
-      sender: "user";
-      duration: number;
-      nextText: string;
-      delayAfter?: number;
-    }
-  | {
-      type: "pause";
-      duration: number;
-    };
-
-const FLOW: FlowStep[] = [
-  {
-    type: "message",
-    sender: "system",
-    text:
-      "Welcome to Vyalo.\n\n" +
-      "Your live local concierge in Cefalù.\n\n" +
-      "Please choose your language:\n\n" +
-      "1 🇬🇧 English\n" +
-      "2 🇮🇹 Italian\n" +
-      "3 🇫🇷 French",
-    delayAfter: 1400,
-  },
-  {
-    type: "typing",
-    sender: "user",
-    duration: 1200,
-    nextText: "1",
-    delayAfter: 700,
-  },
-  {
-    type: "message",
-    sender: "system",
-    text:
-      "Main Menu\n\n" +
-      "1 🍝 Restaurants & Reservations\n" +
-      "2 🎟 Events & Activities\n" +
-      "3 ✈️ Airport Transfers\n" +
-      "4 👨‍👩‍👧 Kids Activities\n" +
-      "5 🏖 Beach Clubs\n" +
-      "6 🧭 Excursions\n" +
-      "7 🚆 Trains & Transport",
-    delayAfter: 1500,
-  },
-  {
-    type: "typing",
-    sender: "user",
-    duration: 1200,
-    nextText: "3",
-    delayAfter: 700,
-  },
-  {
-    type: "message",
-    sender: "system",
-    text:
-      "✈️ Airport Transfers\n\n" +
-      "How would you like to share your pickup point?\n\n" +
-      "1 📍 Send live location\n" +
-      "2 📝 Type pickup address",
-    delayAfter: 1300,
-  },
-  {
-    type: "typing",
-    sender: "user",
-    duration: 1100,
-    nextText: "1",
-    delayAfter: 650,
-  },
-  {
-    type: "message",
-    sender: "system",
-    text: "Please send your live pickup location.",
-    delayAfter: 1000,
-  },
-  {
-    type: "message",
-    sender: "user",
-    text: "📍 Live location\nPiazza Garibaldi, Cefalù",
-    delayAfter: 1200,
-  },
-  {
-    type: "message",
-    sender: "system",
-    text:
-      "Destination\n\n" +
-      "1 ✈️ Palermo Airport\n" +
-      "2 🏙 Palermo City Centre\n" +
-      "3 🚉 Cefalù Station",
-    delayAfter: 1200,
-  },
-  {
-    type: "typing",
-    sender: "user",
-    duration: 1100,
-    nextText: "1",
-    delayAfter: 650,
-  },
-  {
-    type: "message",
-    sender: "system",
-    text: "How many guests will be travelling?",
-    delayAfter: 1000,
-  },
-  {
-    type: "typing",
-    sender: "user",
-    duration: 950,
-    nextText: "2",
-    delayAfter: 600,
-  },
-  {
-    type: "message",
-    sender: "system",
-    text: "How many bags should the driver expect?",
-    delayAfter: 1000,
-  },
-  {
-    type: "typing",
-    sender: "user",
-    duration: 950,
-    nextText: "3",
-    delayAfter: 600,
-  },
-  {
-    type: "message",
-    sender: "system",
-    text: "Name for the driver?",
-    delayAfter: 950,
-  },
-  {
-    type: "typing",
-    sender: "user",
-    duration: 1000,
-    nextText: "Marco",
-    delayAfter: 700,
-  },
-  {
-    type: "message",
-    sender: "system",
-    text:
-      "Perfect — confirming your driver now.\n\n" +
-      "📍 Pickup: Piazza Garibaldi, Cefalù\n" +
-      "✈️ Destination: Palermo Airport\n" +
-      "👥 Guests: 2\n" +
-      "🧳 Bags: 3\n" +
-      "🙋 Name: Marco",
-    delayAfter: 1900,
-  },
-  {
-    type: "message",
-    sender: "system",
-    text:
-      "✅ Driver confirmed\n\n" +
-      "Your transfer request has been accepted.\n" +
-      "Your driver will receive your pickup details shortly.",
-    delayAfter: 3200,
-  },
-  {
-    type: "pause",
-    duration: 2200,
-  },
-];
-
-function TypingBubble() {
+function VyaloBubbleO({
+  className = "",
+}: {
+  className?: string;
+}) {
   return (
-    <div
-      style={{
-        display: "flex",
-        width: "100%",
-        justifyContent: "flex-end",
-      }}
+    <span
+      className={`relative inline-block align-middle ${className}`}
+      aria-hidden="true"
     >
-      <div
-        style={{
-          maxWidth: "82%",
-          borderRadius: 18,
-          padding: "12px 16px",
-          background: "#DCF8C6",
-          color: "#000000",
-          boxShadow: "0 1px 3px rgba(0,0,0,0.08)",
-          borderBottomRightRadius: 6,
-          display: "flex",
-          gap: 4,
-        }}
-      >
-        {[0,1,2].map((i) => (
-          <span
-            key={i}
-            style={{
-              width: 6,
-              height: 6,
-              borderRadius: "50%",
-              background: "#6B7280",
-              display: "inline-block",
-              animation: "vyaloTyping 1.4s infinite",
-              animationDelay: `${i * 0.2}s`,
-            }}
-          />
-        ))}
-
-        <style>
-          {`
-            @keyframes vyaloTyping {
-              0% { opacity: 0.3; transform: translateY(0px); }
-              25% { opacity: 1; transform: translateY(-3px); }
-              50% { opacity: 0.3; transform: translateY(0px); }
-              100% { opacity: 0.3; transform: translateY(0px); }
-            }
-          `}
-        </style>
-      </div>
-    </div>
+      <span className="relative block h-[0.9em] w-[0.9em] rounded-full bg-[#22c55e]">
+        <span className="absolute left-[27%] top-[41%] h-[0.11em] w-[0.11em] -translate-y-1/2 rounded-full bg-white" />
+        <span className="absolute left-[45%] top-[41%] h-[0.11em] w-[0.11em] -translate-y-1/2 rounded-full bg-white" />
+        <span className="absolute left-[63%] top-[41%] h-[0.11em] w-[0.11em] -translate-y-1/2 rounded-full bg-white" />
+      </span>
+      <span className="absolute bottom-[0.03em] left-[0.08em] h-[0.22em] w-[0.22em] rotate-45 rounded-[0.06em] bg-[#22c55e]" />
+    </span>
   );
 }
 
-function usePageScrollPause(timeoutMs = 3500) {
-  const [paused, setPaused] = useState(false);
-  const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      setPaused(true);
-
-      if (timerRef.current) {
-        clearTimeout(timerRef.current);
-      }
-
-      timerRef.current = setTimeout(() => {
-        setPaused(false);
-      }, timeoutMs);
-    };
-
-    window.addEventListener("scroll", handleScroll, { passive: true });
-
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-      if (timerRef.current) {
-        clearTimeout(timerRef.current);
-      }
-    };
-  }, [timeoutMs]);
-
-  return paused;
-}
-
-function useWindowWidth() {
-  const [width, setWidth] = useState<number>(1200);
-
-  useEffect(() => {
-    const update = () => setWidth(window.innerWidth);
-    update();
-    window.addEventListener("resize", update);
-    return () => window.removeEventListener("resize", update);
-  }, []);
-
-  return width;
-}
-function humanizeDelay(base: number) {
-  const variance = Math.floor(Math.random() * 220) - 110;
-  return Math.max(250, base + variance);
-}
-function VyaloPhoneDemo() {
-  const [messages, setMessages] = useState<Message[]>([]);
-  const [stepIndex, setStepIndex] = useState(0);
-  const [showUserTyping, setShowUserTyping] = useState(false);
-
-  const scrollRef = useRef<HTMLDivElement | null>(null);
-  const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const idRef = useRef(1);
-
-  const pagePaused = usePageScrollPause(4000);
-
-  const clearCurrentTimer = () => {
-    if (timeoutRef.current) {
-      clearTimeout(timeoutRef.current);
-      timeoutRef.current = null;
-    }
-  };
-
-  const pushMessage = (sender: Sender, text: string) => {
-    setMessages((prev) => [
-      ...prev,
-      {
-        id: idRef.current++,
-        sender,
-        text,
-      },
-    ]);
-  };
-
-  const resetDemo = () => {
-    setShowUserTyping(false);
-    clearCurrentTimer();
-
-    timeoutRef.current = setTimeout(() => {
-      idRef.current = 1;
-      setMessages([]);
-      setStepIndex(0);
-    }, 500);
-  };
-
-  useEffect(() => {
-    return () => {
-      clearCurrentTimer();
-    };
-  }, []);
-
-  useEffect(() => {
-    const el = scrollRef.current;
-    if (!el) return;
-
-    const frame = requestAnimationFrame(() => {
-      el.scrollTo({
-        top: el.scrollHeight,
-        behavior: "smooth",
-      });
-    });
-
-    return () => cancelAnimationFrame(frame);
-  }, [messages, showUserTyping]);
-
-  useEffect(() => {
-    if (pagePaused) return;
-
-    if (stepIndex >= FLOW.length) {
-      resetDemo();
-      return;
-    }
-
-    const step = FLOW[stepIndex];
-    clearCurrentTimer();
-
-    if (step.type === "pause") {
-      timeoutRef.current = setTimeout(() => {
-        if (stepIndex === FLOW.length - 1) {
-          resetDemo();
-        } else {
-          setStepIndex((prev) => prev + 1);
-        }
-      }, step.duration);
-
-      return;
-    }
-
-    if (step.type === "typing") {
-      setShowUserTyping(true);
-
-    timeoutRef.current = setTimeout(() => {
-  setShowUserTyping(false);
-  pushMessage("user", step.nextText);
-
-  timeoutRef.current = setTimeout(() => {
-    setStepIndex((prev) => prev + 1);
-  }, humanizeDelay(step.delayAfter ?? 700));
-}, humanizeDelay(step.duration)); 
-
-      return;
-    }
-
- timeoutRef.current = setTimeout(() => {
-  pushMessage(step.sender, step.text);
-
-  timeoutRef.current = setTimeout(() => {
-    setStepIndex((prev) => prev + 1);
-  }, humanizeDelay(step.delayAfter ?? 1000));
-}, humanizeDelay(260));
-
-    return () => {
-      clearCurrentTimer();
-    };
-  }, [stepIndex, pagePaused]);
-
+function VyaloWordmark() {
   return (
-    <>
-  <style>
-    {`
-      @keyframes vyaloFadeIn {
-        from {
-          opacity: 0;
-          transform: translateY(6px);
-        }
-        to {
-          opacity: 1;
-          transform: translateY(0px);
-        }
-      }
-    `}
-  </style>
-    <div
-      style={{
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        flexDirection: "column",
-      }}
-    >
-      <div
-        style={{
-          position: "relative",
-          width: 360,
-          maxWidth: "100%",
-        }}
-      >
-        <div
-          style={{
-            position: "absolute",
-            inset: 0,
-            zIndex: -1,
-            borderRadius: 42,
-            background: "rgba(37, 211, 102, 0.12)",
-            filter: "blur(30px)",
-          }}
-        />
+    <span className="inline-flex items-end leading-none">
+      <span className="text-[#22c55e]">vyal</span>
+      <VyaloBubbleO className="ml-[0.02em] translate-y-[-0.02em]" />
+    </span>
+  );
+}
 
-        <div
-          style={{
-            borderRadius: 38,
-            border: "1px solid rgba(0,0,0,0.1)",
-            background: "#111111",
-            padding: 10,
-            boxShadow: "0 30px 80px rgba(0,0,0,0.18)",
-          }}
-        >
-          <div
-            style={{
-              position: "relative",
-              overflow: "hidden",
-              borderRadius: 30,
-              background: "#EDE5DD",
-            }}
-          >
-            <div
-              style={{
-                position: "absolute",
-                left: "50%",
-                top: 8,
-                transform: "translateX(-50%)",
-                width: 128,
-                height: 24,
-                borderRadius: 9999,
-                background: "#000",
-                zIndex: 30,
-              }}
-            />
+/**
+ * Chat simulation block intentionally left visually aligned with the current approved layout.
+ * Do not change internal spacing/structure unless you want to edit the simulation itself later.
+ */
+function ChatSimulation() {
+  return (
+    <div className="flex w-full justify-center xl:justify-end">
+      <div className="w-full max-w-[430px]">
+        <div className="rounded-[3.2rem] border-[14px] border-black bg-[#e9dfd3] shadow-[0_30px_80px_rgba(0,0,0,0.16)]">
+          <div className="relative overflow-hidden rounded-[2.4rem] bg-[#e9dfd3]">
+            <div className="absolute left-1/2 top-3 z-20 h-8 w-44 -translate-x-1/2 rounded-full bg-black" />
 
-            <div
-              style={{
-                position: "relative",
-                zIndex: 20,
-                display: "flex",
-                height: 78,
-                alignItems: "flex-end",
-                justifyContent: "space-between",
-                background: "#075E54",
-                padding: "32px 16px 12px 16px",
-                color: "#fff",
-              }}
-            >
-              <div
-                style={{
-                  display: "flex",
-                  minWidth: 0,
-                  alignItems: "center",
-                  gap: 12,
-                }}
-              >
-                <div
-                  style={{
-                    display: "flex",
-                    width: 40,
-                    height: 40,
-                    borderRadius: 9999,
-                    alignItems: "center",
-                    justifyContent: "center",
-                    background: "#25D366",
-                    color: "#fff",
-                    fontWeight: 700,
-                    fontSize: 14,
-                    flexShrink: 0,
-                  }}
-                >
-                  V
+            <div className="bg-[#056b5c] px-5 pb-4 pt-10 text-white">
+              <div className="flex items-center gap-3">
+                <div className="grid h-11 w-11 place-items-center rounded-full bg-[#25D366] font-semibold text-white">
+                  v
                 </div>
-
-                <div style={{ minWidth: 0 }}>
-                  <div
-                    style={{
-                      fontSize: 15,
-                      fontWeight: 600,
-                      whiteSpace: "nowrap",
-                      overflow: "hidden",
-                      textOverflow: "ellipsis",
-                    }}
-                  >
+                <div className="min-w-0 flex-1">
+                  <div className="truncate text-[15px] font-semibold leading-none sm:text-[16px]">
                     Vyalo Concierge
                   </div>
-                  <div
-                    style={{
-                      fontSize: 12,
-                      color: "rgba(255,255,255,0.8)",
-                      whiteSpace: "nowrap",
-                      overflow: "hidden",
-                      textOverflow: "ellipsis",
-                    }}
-                  >
+                  <div className="mt-1 text-[11px] text-white/80 sm:text-[12px]">
                     Typically replies instantly
                   </div>
                 </div>
-              </div>
-
-              <div
-                style={{
-                  fontSize: 13,
-                  color: "rgba(255,255,255,0.85)",
-                  flexShrink: 0,
-                }}
-              >
-                WhatsApp
-              </div>
-            </div>
-
-            <div
-              style={{
-                height: 520,
-                background: "#EDE5DD",
-              }}
-            >
-              <div
-                ref={scrollRef}
-                style={{
-                  height: "100%",
-                  overflowY: "auto",
-                  padding: "16px 12px",
-                  boxSizing: "border-box",
-                  overscrollBehavior: "contain",
-                  WebkitOverflowScrolling: "touch",
-                  scrollbarWidth: "none",
-                  msOverflowStyle: "none",
-                }}
-              >
-                <div
-                  style={{
-                    display: "flex",
-                    minHeight: "100%",
-                    flexDirection: "column",
-                    gap: 12,
-                  }}
-                >
-                  {messages.map((message) => {
-                    const isUser = message.sender === "user";
-
-                    return (
-                      <div
-                        key={message.id}
-                       style={{
-  display: "flex",
-  width: "100%",
-  justifyContent: isUser ? "flex-end" : "flex-start",
-  animation: "vyaloFadeIn 0.25s ease",
-}}
-                      >
-                        <div
-                          style={{
-                            maxWidth: "82%",
-                            borderRadius: 18,
-                            padding: "12px 16px",
-                            fontSize: 14,
-                            lineHeight: 1.45,
-                            boxShadow: "0 1px 3px rgba(0,0,0,0.08)",
-                            whiteSpace: "pre-line",
-                            background: isUser ? "#DCF8C6" : "#FFFFFF",
-                            color: "#000000",
-                            border: isUser
-                              ? "none"
-                              : "1px solid rgba(0,0,0,0.05)",
-                            borderBottomRightRadius: isUser ? 6 : 18,
-                            borderBottomLeftRadius: isUser ? 18 : 6,
-                          }}
-                        >
-                          {message.text}
-                        </div>
-                      </div>
-                    );
-                  })}
-
-                  {showUserTyping && <TypingBubble />}
+                <div className="text-[13px] font-medium text-white/90 sm:text-[14px]">
+                  WhatsApp
                 </div>
               </div>
             </div>
 
-            <div
-              style={{
-                borderTop: "1px solid rgba(0,0,0,0.05)",
-                background: "#F0F2F5",
-                padding: 12,
-              }}
-            >
-              <div
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  gap: 8,
-                  borderRadius: 9999,
-                  background: "#FFFFFF",
-                  padding: "12px 16px",
-                  fontSize: 14,
-                  color: "#9CA3AF",
-                  boxShadow: "0 1px 3px rgba(0,0,0,0.08)",
-                }}
-              >
-                <span style={{ fontSize: 16 }}>+</span>
-                <span style={{ flex: 1 }}>Message</span>
-                <span>🎤</span>
+            <div className="space-y-5 px-4 pb-4 pt-3 sm:px-5 sm:pb-5">
+              <div className="flex justify-end">
+                <div className="rounded-2xl bg-[#d9efc2] px-4 py-3 text-[16px] text-black shadow-sm">
+                  1
+                </div>
+              </div>
+
+              <div className="max-w-[82%] rounded-[1.55rem] bg-white px-5 py-4 text-black shadow-sm">
+                <div className="mb-3 text-[16px] font-medium">Main Menu</div>
+                <div className="space-y-[2px] text-[15px] leading-7 sm:text-[16px]">
+                  <div>1 🍝 Restaurants & Reservations</div>
+                  <div>2 💌 Events & Activities</div>
+                  <div>3 ✈️ Airport Transfers</div>
+                  <div>4 🧸 Kids Activities</div>
+                  <div>5 🏖️ Beach Clubs</div>
+                  <div>6 🧭 Excursions</div>
+                  <div>7 🚆 Trains & Transport</div>
+                </div>
+              </div>
+
+              <div className="flex justify-end">
+                <div className="rounded-2xl bg-[#d9efc2] px-4 py-3 text-[16px] text-black shadow-sm">
+                  3
+                </div>
+              </div>
+
+              <div className="max-w-[86%] rounded-[1.55rem] bg-white px-5 py-4 text-black shadow-sm">
+                <div className="mb-4 text-[16px] font-medium">✈️ Airport Transfers</div>
+                <div className="mb-5 text-[15px] leading-8 sm:text-[16px]">
+                  How would you like to share your pickup point?
+                </div>
+                <div className="space-y-[2px] text-[15px] leading-7 sm:text-[16px]">
+                  <div>1 📍 Send live location</div>
+                  <div>2 📝 Type pickup address</div>
+                </div>
+              </div>
+            </div>
+
+            <div className="border-t border-black/5 bg-[#f8f8f8] px-4 py-4 sm:px-5">
+              <div className="flex items-center justify-between rounded-full border border-black/10 bg-white px-4 py-3 text-[#9aa0a6] shadow-sm">
+                <div className="flex items-center gap-3">
+                  <span className="text-[22px] leading-none">＋</span>
+                  <span className="text-[15px] sm:text-[16px]">Message</span>
+                </div>
+                <span className="text-[20px]">🖊️</span>
               </div>
             </div>
           </div>
         </div>
-      </div>
 
-      <a
-        href="https://wa.me/14155238886"
-        target="_blank"
-rel="noopener noreferrer"
-        onMouseEnter={(e) => {
-  e.currentTarget.style.transform = "translateY(-2px)";
-  e.currentTarget.style.boxShadow = "0 16px 36px rgba(37,211,102,0.35)";
-}}
-onMouseLeave={(e) => {
-  e.currentTarget.style.transform = "translateY(0px)";
-  e.currentTarget.style.boxShadow = "0 10px 24px rgba(37,211,102,0.25)";
-}}
-        style={{
-          marginTop: 14,
-          display: "inline-flex",
-          alignItems: "center",
-          justifyContent: "center",
-          borderRadius: 9999,
-          background: "#25D366",
-          color: "#083B2C",
-          fontWeight: 700,
-          fontSize: 14,
-          textDecoration: "none",
-          padding: "12px 20px",
-          boxShadow: "0 10px 24px rgba(37,211,102,0.2)",
-          transition: "all 0.2s ease",
-          cursor: "pointer",          
-        }}
-      >
-        Try Vyalo on WhatsApp
-      </a>
-
-    </div>
-  </>
-  );
-}
-
-
-function Tag({ children }: { children: React.ReactNode }) {
-  return (
-    <span
-      style={{
-        borderRadius: 9999,
-        background: "rgba(0,0,0,0.05)",
-        padding: "10px 16px",
-        fontSize: 14,
-        color: "#374151",
-        display: "inline-block",
-      }}
-    >
-      {children}
-    </span>
-  );
-}
-
-export default function Page() {
-  const width = useWindowWidth();
-  const isMobile = width < 980;
-
-  return (
-    <main
-      style={{
-        minHeight: "auto",
-        overflowX: "hidden",
-        background: "#FCFCF8",
-        color: "#111111",
-        fontFamily:
-          'Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif',
-      }}
-    >
-      <section
-        style={{
-          margin: "0 auto",
-          width: "100%",
-          maxWidth: 1200,
-          minHeight: "100vh",
-          display: "grid",
-          gridTemplateColumns: isMobile ? "1fr" : "1.1fr 0.9fr",
-          alignItems: "center",
-          gap: isMobile ? 36 : 48,
-          padding: isMobile ? "36px 20px 44px" : "44px 24px",
-          boxSizing: "border-box",
-        }}
-      >
-        <div
-          style={{
-            maxWidth: 560,
-            order: isMobile ? 1 : 0,
-          }}
-        >
-         
-<div
-  style={{
-    marginBottom: 20,
-    display: "flex",
-    flexWrap: "wrap",
-    gap: 12,
-  }}
->
-  <Tag>About Vyalo</Tag>
-  <Tag>Hosts</Tag>
-  <Tag>Partners</Tag>
-  <Tag>Contact</Tag>
-</div>
-<h1
-  style={{
-    marginTop: 0,
-    marginBottom: 0,
-    lineHeight: 1.05,
-    fontWeight: 700,
-    letterSpacing: "-0.03em",
-    maxWidth: 700,
-  }}
->
-  <span style={{ display: "flex", alignItems: "center", gap: 10 }}>
-    <span style={{ fontWeight: 600, fontSize: isMobile ? 72 : 110, letterSpacing: "-0.05em" }}>
-      Meet
-    </span>
-
-    <span
-      style={{
-        display: "inline-flex",
-        alignItems: "center",
-        fontWeight: 700,
-        color: "#21c45d",
-        fontSize: isMobile ? 72 : 110,
-        letterSpacing: "-0.05em",
-        lineHeight: 1,
-      }}
-    >
-      vyal
-
-      <span
-        style={{
-          position: "relative",
-          display: "inline-flex",
-          alignItems: "center",
-          justifyContent: "center",
-          marginLeft: 2,
-          width: isMobile ? 44 : 58,
-          height: isMobile ? 44 : 58,
-          background: "#21c45d",
-          borderRadius: "50%",
-          flexShrink: 0,
-        }}
-      >
-        <span
-          style={{
-            position: "absolute",
-            bottom: -6,
-            left: 5,
-            width: 12,
-            height: 12,
-            background: "#21c45d",
-            transform: "rotate(40deg)",
-            borderBottomRightRadius: 6,
-          }}
-        />
-
-        <span
-          style={{
-            display: "flex",
-            gap: 4,
-          }}
-        >
-          <span style={{ width: 5, height: 5, background: "white", borderRadius: "50%" }} />
-          <span style={{ width: 5, height: 5, background: "white", borderRadius: "50%" }} />
-          <span style={{ width: 5, height: 5, background: "white", borderRadius: "50%" }} />
-        </span>
-      </span>
-    </span>
-  </span>
-</h1>
-
-<div
-  style={{
-    fontSize: isMobile ? 22 : 28,
-    marginTop: 10,
-    fontWeight: 600,
-    lineHeight: 1.2,
-    color: "#111111",
-  }}
->
-  Your live local concierge.
-</div>
-
-          <p
-            style={{
-              marginTop: 16,
-              marginBottom: 0,
-              fontSize: isMobile ? 20 : 24,
-              lineHeight: 1.6,
-              color: "#4B5563",
-            }}
-          >
-            Restaurants, activities, airport transfers, and real local help — all through a simple
-            WhatsApp-style experience.
-          </p>
-</div>
-        <div
-          style={{
-            order: isMobile ? 2 : 0,
-          }}
-        >
-          <VyaloPhoneDemo />
+        <div className="mt-5 flex justify-center">
+          <button className="rounded-full bg-[#22c55e] px-8 py-4 text-[15px] font-semibold text-[#062d17] shadow-[0_16px_34px_rgba(34,197,94,0.28)] transition hover:-translate-y-0.5 hover:shadow-[0_22px_40px_rgba(34,197,94,0.34)]">
+            Try Vyalo on WhatsApp
+          </button>
         </div>
-      </section>
+      </div>
+    </div>
+  );
+}
+
+export default function VyaloPage() {
+  const [activeTab, setActiveTab] = useState<TabKey>("about");
+
+  const activeContent = useMemo(() => TAB_CONTENT[activeTab], [activeTab]);
+
+  const tabs: { key: TabKey; label: string }[] = [
+    { key: "about", label: "About Vyalo" },
+    { key: "hosts", label: "Hosts" },
+    { key: "partners", label: "Partners" },
+    { key: "contact", label: "Contact" },
+  ];
+
+  return (
+    <main className="min-h-screen bg-[#f6f6f3] text-[#111111]">
+      <div className="mx-auto max-w-[1500px] px-6 pb-14 pt-8 sm:px-8 lg:px-10 xl:px-14 xl:pb-20 xl:pt-10">
+        <div className="grid min-h-[88vh] items-start gap-14 xl:grid-cols-[minmax(0,1.08fr)_minmax(420px,520px)] xl:gap-10">
+          <section className="flex min-h-full flex-col justify-start pt-2 sm:pt-4 xl:pt-10">
+            <div className="max-w-[820px]">
+              <div className="mb-10 flex flex-wrap gap-3">
+                {tabs.map((tab) => {
+                  const isActive = activeTab === tab.key;
+
+                  return (
+                    <button
+                      key={tab.key}
+                      type="button"
+                      onClick={() => setActiveTab(tab.key)}
+                      className={[
+                        "rounded-full px-6 py-3 text-[15px] font-medium transition-all duration-200 sm:text-[16px]",
+                        isActive
+                          ? "bg-white text-[#111111] shadow-[0_10px_30px_rgba(0,0,0,0.08)] ring-1 ring-black/6"
+                          : "bg-[#ecebe7] text-[#4b5563] hover:bg-[#e6e5e1] hover:text-[#111827]",
+                      ].join(" ")}
+                    >
+                      {tab.label}
+                    </button>
+                  );
+                })}
+              </div>
+
+              <div className="max-w-[900px]">
+                <h1 className="flex flex-wrap items-end gap-x-1 gap-y-2 text-[clamp(4.6rem,10vw,8rem)] font-semibold leading-[0.9] tracking-[-0.06em] text-[#0b0b0b]">
+                  <span>Meet</span>
+                  <span className="inline-flex items-end">
+                    <VyaloWordmark />
+                  </span>
+                </h1>
+
+                <p className="mt-4 text-[clamp(2rem,3.1vw,3rem)] font-semibold leading-[1.02] tracking-[-0.04em] text-[#111111]">
+                  Your live local concierge.
+                </p>
+
+                <div className="mt-8 max-w-[860px]">
+                  {activeContent.eyebrow ? (
+                    <div className="mb-3 text-[12px] font-semibold uppercase tracking-[0.18em] text-[#22c55e]">
+                      {activeContent.eyebrow}
+                    </div>
+                  ) : null}
+
+                  <p className="max-w-[900px] text-[clamp(1.65rem,2.6vw,3rem)] font-medium leading-[1.2] tracking-[-0.04em] text-[#5e6776]">
+                    {activeContent.title}
+                  </p>
+
+                  <p className="mt-5 max-w-[760px] text-[16px] leading-8 text-[#6b7280] sm:text-[18px]">
+                    {activeContent.body}
+                  </p>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <aside className="xl:sticky xl:top-10">
+            <ChatSimulation />
+          </aside>
+        </div>
+      </div>
     </main>
   );
 }
