@@ -801,17 +801,15 @@ export default function VyaloPage() {
               </div>
 <div className="max-w-[920px] mt-10">
   <div className="flex flex-col items-center text-center">
-    <div className="mb-5 text-[72px] font-semibold leading-none tracking-[-0.05em]">
-      <span className="text-[#1f2430]">Meet </span>
-      <VyaloWordmark />
-    </div>
+ <div className="mb-5">
+  <img
+    src="/vyalo-lockup.png"
+    alt="Meet Vyalo — Your live local concierge."
+    className="block h-auto w-full max-w-[620px]"
+  />
+</div>  </div>
 
-    <div className="text-[32px] leading-none tracking-[-0.035em] text-[#2b313b]">
-      Your <span className="font-medium text-[#34A853]">live</span> local concierge.
-    </div>
-  </div>
-
-  <div className="mt-12 max-w-[760px]">
+  <div className="mt-8 max-w-[760px]">
     <p className="max-w-[760px] text-[clamp(1.8rem,2.7vw,3rem)] font-medium leading-[1.15] tracking-[-0.05em] text-[#667085]">
       {activeContent.title}
     </p>
