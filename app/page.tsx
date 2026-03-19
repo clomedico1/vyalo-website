@@ -802,7 +802,7 @@ export default function VyaloPage() {
               </div>
 
           <div className="max-w-[920px]">
-  <div className="mb-10">
+  <div className="mb-2">
     <img
       src="/vyalo-lockup.png"
       alt="Meet Vyalo — Your live local concierge."
