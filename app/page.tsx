@@ -779,10 +779,8 @@ export default function VyaloPage() {
     <main className="min-h-screen bg-[#f6f6f3] text-[#111111]">
       <div className="mx-auto max-w-[1600px] px-8 pt-10 lg:px-12 xl:px-14">
         <div className="grid min-h-screen grid-cols-1 gap-10 xl:grid-cols-[1.05fr_470px] xl:items-start xl:gap-12">
-          <section className="pt-2 xl:pt-6">
-            <div className="max-w-[860px]">
-              <div className="mb-12 flex flex-wrap gap-3">
-                {tabs.map((tab) => {
+          <section className="pt-1 xl:pt-2">            <div className="max-w-[860px]">
+              <div className="mb-8 flex flex-wrap gap-3">                {tabs.map((tab) => {
                   const isActive = activeTab === tab.key;
 
                   return (
@@ -803,14 +801,16 @@ export default function VyaloPage() {
                 })}
               </div>
 
-              <div className="max-w-[920px]">
-              <img
-  src="/vyalo-lockup.png"
-  alt="Meet Vyalo — Your live local concierge."
-  className="block w-full max-w-[860px] h-auto"
-/>
-                <div className="mt-12">
-                  {activeContent.eyebrow ? (
+          <div className="max-w-[920px]">
+  <div className="mb-10">
+    <img
+      src="/vyalo-lockup.png"
+      alt="Meet Vyalo — Your live local concierge."
+      className="block w-full max-w-[860px] h-auto"
+    />
+  </div>
+
+  <div className="mt-4 max-w-[760px] xl:ml-[120px]">                  {activeContent.eyebrow ? (
                     <div className="mb-5 text-[12px] font-semibold uppercase tracking-[0.22em] text-[#22c55e]">
                       {activeContent.eyebrow}
                     </div>
