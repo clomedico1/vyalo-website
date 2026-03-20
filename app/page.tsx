@@ -13,6 +13,45 @@ const TAB_CONTENT: Record<
   }
 > = {
   about: {
+    eyebrow: "Your live local concierge",
+    title:
+      "Restaurants, activities, airport transfers, and reliable local help — all through a simple WhatsApp-style experience.",
+    body:
+      "Vyalo connects visitors with trusted local services instantly. Instead of searching endlessly or messaging hosts for help, guests can simply open Vyalo and ask — with no language barriers. From restaurant reservations and boat tours to beach clubs, airport transfers, and unexpected travel issues, Vyalo provides a fast, friendly way to access real local assistance whenever it’s needed.",
+  },
+
+  benefits: {
+    eyebrow: "Travel made simple",
+    title:
+      "Everything a visitor needs in their destination, in one place.",
+    body:
+      "Vyalo removes the friction from travel decisions. Instead of searching through endless results, menus, reviews, and locations just to choose something as simple as a restaurant, Vyalo presents trusted local options instantly. Guests can discover great places, arrange transport, plan activities, and receive clear, reliable guidance whenever they need it — all through a simple conversation.",
+  },
+
+  hosts: {
+    eyebrow: "Designed for property hosts",
+    title:
+      "Give your guests a local concierge while freeing yourself from constant requests.",
+    body:
+      "Vyalo helps hosts deliver a better guest experience while reducing the constant stream of messages about restaurants, transfers, and activities. Instead of handling every question personally, guests can rely on Vyalo for trusted local recommendations and assistance throughout their stay. Hosts gain peace of mind knowing their guests have reliable support — especially when unexpected situations arise.",
+  },
+
+  partners: {
+    eyebrow: "Join the Vyalo network",
+    title:
+      "Partner with a platform focused on quality, reliability, and exceptional service.",
+    body:
+      "Vyalo collaborates with a carefully selected group of local service providers — including restaurants, drivers, tours, and experiences — who share a commitment to professionalism and guest satisfaction. By working with trusted partners, Vyalo helps ensure visitors receive consistent, high-quality service while strengthening the reputation of the destination as a whole.",
+  },
+
+  contact: {
+    eyebrow: "Work with Vyalo",
+    title:
+      "Interested in becoming part of the Vyalo network?",
+    body:
+      "Vyalo partners with property hosts and carefully selected local businesses to deliver a better travel experience for visitors. If you manage guest accommodations or operate a trusted local service, we invite you to connect with us and learn more about joining the Vyalo network.",
+  },
+};  about: {
     eyebrow: "Live local help in Cefalù",
     title:
       "Restaurants, activities, airport transfers, and real local help — all through a simple WhatsApp-style experience.",
@@ -786,8 +825,7 @@ export default function VyaloPage() {
                     <button
                       key={tab.key}
                       type="button"
-                      onClick={() => setActiveTab(tab.key)}
-                    className={[
+                      onMouseEnter={() => setActiveTab(tab.key)}                    className={[
   "rounded-full px-8 py-3.5 text-[15px] font-semibold transition-all duration-200 sm:text-[16px]",
   isActive
     ? "bg-white text-[#111111] shadow-[0_14px_30px_rgba(0,0,0,0.09)] ring-1 ring-black/5"
