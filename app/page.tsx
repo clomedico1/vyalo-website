@@ -801,7 +801,7 @@ const tabs: { key: TabKey; label: string }[] = [
       }
     `}</style>      <div className="mx-auto max-w-[1600px] px-8 pt-10 lg:px-12 xl:px-14">
         <div className="grid min-h-screen grid-cols-1 gap-10 xl:grid-cols-[minmax(0,1fr)_420px] xl:items-start xl:gap-10">          <section className="pt-1 xl:pt-2">            <div className="max-w-[860px]">
-              <div className="mb-8 flex flex-wrap gap-3">                {tabs.map((tab) => {
+            <div className="relative z-20 mb-8 flex flex-nowrap gap-3">                  {tabs.map((tab) => {
                   const isActive = activeTab === tab.key;
 
                   return (
