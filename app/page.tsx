@@ -787,8 +787,19 @@ const tabs: { key: TabKey; label: string }[] = [
   { key: "contact", label: "Contact" },
 ];
   return (
-    <main className="min-h-screen bg-[#f6f6f3] text-[#111111]">
-      <div className="mx-auto max-w-[1600px] px-8 pt-10 lg:px-12 xl:px-14">
+  <main className="min-h-screen bg-[#f6f6f3] text-[#111111]">
+    <style>{`
+      @keyframes vyaloTabFade {
+        from {
+          opacity: 0;
+          transform: translateY(10px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+    `}</style>      <div className="mx-auto max-w-[1600px] px-8 pt-10 lg:px-12 xl:px-14">
         <div className="grid min-h-screen grid-cols-1 gap-10 xl:grid-cols-[minmax(0,1fr)_420px] xl:items-start xl:gap-10">          <section className="pt-1 xl:pt-2">            <div className="max-w-[860px]">
               <div className="mb-8 flex flex-wrap gap-3">                {tabs.map((tab) => {
                   const isActive = activeTab === tab.key;
@@ -816,8 +827,10 @@ const tabs: { key: TabKey; label: string }[] = [
   />
 </div>  </div>
 
-  <div className="-mt-20 ml-24 max-w-[760px]">
-
+<div
+  key={activeTab}
+  className="-mt-20 ml-24 max-w-[760px] animate-[vyaloTabFade_280ms_ease-out]"
+>
   {activeContent.eyebrow && (
     <p className="mb-4 text-[18px] font-medium text-[#6b7280]">
       {activeContent.eyebrow}
@@ -827,10 +840,11 @@ const tabs: { key: TabKey; label: string }[] = [
   <p className="max-w-[760px] text-[clamp(2.2rem,3vw,3.4rem)] font-medium leading-[1.06] tracking-[-0.055em] text-[#667085]">
     {activeContent.title}
   </p>
-    <p className="mt-8 max-w-[700px] text-[19px] leading-[1.8] tracking-[-0.01em] text-[#697586]">      {activeContent.body}
-    </p>
-  </div>
-</div>            </div>
+
+  <p className="mt-8 max-w-[700px] text-[19px] leading-[1.8] tracking-[-0.01em] text-[#697586]">
+    {activeContent.body}
+  </p>
+</div></div>            </div>
           </section>
 
           <aside className="justify-self-center xl:justify-self-end">
