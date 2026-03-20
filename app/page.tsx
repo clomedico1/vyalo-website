@@ -849,25 +849,47 @@ const tabs: { key: TabKey; label: string }[] = [
   <p className="mt-8 max-w-[700px] text-[19px] leading-[1.8] tracking-[-0.01em] text-[#697586]">
     {activeContent.body}
   </p>
-<div className="mt-6 flex items-center gap-8 text-[15px] font-medium text-[#4b5563]">  <div className="flex items-center gap-2">
-    <span className="text-[#34A853]">✔</span>
-    <span>Verified Local Businesses</span>
+<div className="mt-6 flex items-center gap-8 text-[15px] font-medium text-[#4b5563]">  
+<div className="mt-6 flex items-center gap-10 text-[#4b5563]">
+
+  <div className="flex items-center gap-3">
+    <span className="flex h-10 w-10 items-center justify-center rounded-full bg-[#edf7f0] text-[18px] text-[#34A853] shadow-[0_1px_2px_rgba(0,0,0,0.04)]">
+      ✓
+    </span>
+    <span className="text-[15px] font-semibold leading-[1.15]">
+      Verified Local
+      <br/>
+      Businesses
+    </span>
   </div>
 
-  <div className="h-5 w-px bg-[#d6d6d1]" />
+  <div className="h-10 w-px bg-gradient-to-b from-transparent via-[#d7d7d2] to-transparent" />
 
-  <div className="flex items-center gap-2">
-    <span className="text-[#34A853]">🔒</span>
-    <span>WhatsApp Secure Messaging</span>
+  <div className="flex items-center gap-3">
+    <span className="flex h-10 w-10 items-center justify-center rounded-full bg-[#edf7f0] text-[18px] text-[#34A853]">
+      🔒
+    </span>
+    <span className="text-[15px] font-semibold leading-[1.15]">
+      WhatsApp Secure
+      <br/>
+      Messaging
+    </span>
   </div>
 
-  <div className="h-5 w-px bg-[#d6d6d1]" />
+  <div className="h-10 w-px bg-gradient-to-b from-transparent via-[#d7d7d2] to-transparent" />
 
-  <div className="flex items-center gap-2">
-    <span className="text-[#34A853]">👤</span>
-    <span>Real Local Concierge Support</span>
+  <div className="flex items-center gap-3">
+    <span className="flex h-10 w-10 items-center justify-center rounded-full bg-[#edf7f0] text-[18px] text-[#34A853]">
+      👤
+    </span>
+    <span className="text-[15px] font-semibold leading-[1.15]">
+      Real Local Concierge
+      <br/>
+      Support
+    </span>
   </div>
 
+</div>
 </div>
   
 </div></div>            </div>
