@@ -808,7 +808,8 @@ const tabs: { key: TabKey; label: string }[] = [
                     <button
                       key={tab.key}
                       type="button"
-                      onMouseEnter={() => setActiveTab(tab.key)}                    className={[
+                      onMouseEnter={() => setActiveTab(tab.key)}
+                      onClick={() => setActiveTab(tab.key)}                      className={[
   "rounded-full px-8 py-3.5 text-[15px] font-semibold transition-all duration-200 sm:text-[16px]",
   isActive
     ? "bg-white text-[#111111] shadow-[0_14px_30px_rgba(0,0,0,0.09)] ring-1 ring-black/5"
