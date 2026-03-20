@@ -833,7 +833,7 @@ const tabs: { key: TabKey; label: string }[] = [
   className="-mt-20 ml-24 max-w-[760px] animate-[vyaloTabFade_280ms_ease-out]"
 >
   {activeContent.eyebrow && (
-  <p className="mb-4 text-[20px] italic font-medium text-[#111111]">
+  <p className="mb-4 text-[20px] italic font-bold text-[#111111]">
     {activeContent.eyebrow}
   </p>
 )}
