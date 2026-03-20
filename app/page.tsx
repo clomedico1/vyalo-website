@@ -850,8 +850,7 @@ const tabs: { key: TabKey; label: string }[] = [
     {activeContent.body}
   </p>
 <div className="mt-6 flex items-center gap-8 text-[15px] font-medium text-[#4b5563]">  
-<div className="mt-6 flex items-center gap-10 text-[#4b5563]">
-
+<div className="-mt-2 flex items-center gap-10 text-[#4b5563]">
   <div className="flex items-center gap-3">
     <span className="flex h-10 w-10 items-center justify-center rounded-full bg-[#edf7f0] text-[18px] text-[#34A853] shadow-[0_1px_2px_rgba(0,0,0,0.04)]">
       ✓
