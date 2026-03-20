@@ -520,16 +520,17 @@ function ChatSimulation() {
               maxWidth: "100%",
             }}
           >
-            <div
+<div
   style={{
     position: "absolute",
-    inset: -40,
+    inset: -80,
     zIndex: 0,
-    borderRadius: 54,
+    borderRadius: 120,
     background:
-      "radial-gradient(circle at 50% 35%, rgba(37,211,102,0.22) 0%, rgba(37,211,102,0.10) 42%, rgba(37,211,102,0.04) 68%, rgba(37,211,102,0) 100%)",
-    filter: "blur(60px)",
-    opacity: 0.95,
+      "radial-gradient(circle at 50% 50%, rgba(37,211,102,0.34) 0%, rgba(37,211,102,0.18) 30%, rgba(37,211,102,0.09) 55%, rgba(37,211,102,0.03) 72%, rgba(37,211,102,0) 100%)",
+    filter: "blur(80px)",
+    opacity: 1,
+    pointerEvents: "none",
   }}
 />
 
@@ -541,7 +542,7 @@ function ChatSimulation() {
                 border: "1px solid rgba(0,0,0,0.1)",
                 background: "#111111",
                 padding: 10,
-                boxShadow: "0 30px 80px rgba(0,0,0,0.18)",
+                boxShadow: "0 30px 80px rgba(0,0,0,0.18), 0 0 60px rgba(37,211,102,0.10)",
               }}
             >
               <div
@@ -848,6 +849,29 @@ const tabs: { key: TabKey; label: string }[] = [
   <p className="mt-8 max-w-[700px] text-[19px] leading-[1.8] tracking-[-0.01em] text-[#697586]">
     {activeContent.body}
   </p>
+<div className="ml-24 mt-10 flex items-center gap-8 text-[15px] font-medium text-[#4b5563]">
+  
+  <div className="flex items-center gap-2">
+    <span className="text-[#34A853]">✔</span>
+    <span>Verified Local Businesses</span>
+  </div>
+
+  <div className="h-5 w-px bg-[#d6d6d1]" />
+
+  <div className="flex items-center gap-2">
+    <span className="text-[#34A853]">🔒</span>
+    <span>WhatsApp Secure Messaging</span>
+  </div>
+
+  <div className="h-5 w-px bg-[#d6d6d1]" />
+
+  <div className="flex items-center gap-2">
+    <span className="text-[#34A853]">👤</span>
+    <span>Real Local Concierge Support</span>
+  </div>
+
+</div>
+  
 </div></div>            </div>
           </section>
 
