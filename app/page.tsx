@@ -816,9 +816,17 @@ const tabs: { key: TabKey; label: string }[] = [
   />
 </div>  </div>
 
-  <div className="-mt-20 ml-24 max-w-[760px]">    <p className="max-w-[760px] text-[clamp(2.2rem,3vw,3.4rem)] font-medium leading-[1.06] tracking-[-0.055em] text-[#667085]">      {activeContent.title}
-    </p>
+  <div className="-mt-20 ml-24 max-w-[760px]">
 
+  {activeContent.eyebrow && (
+    <p className="mb-4 text-[18px] font-medium text-[#6b7280]">
+      {activeContent.eyebrow}
+    </p>
+  )}
+
+  <p className="max-w-[760px] text-[clamp(2.2rem,3vw,3.4rem)] font-medium leading-[1.06] tracking-[-0.055em] text-[#667085]">
+    {activeContent.title}
+  </p>
     <p className="mt-8 max-w-[700px] text-[19px] leading-[1.8] tracking-[-0.01em] text-[#697586]">      {activeContent.body}
     </p>
   </div>
