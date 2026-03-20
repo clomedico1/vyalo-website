@@ -849,8 +849,7 @@ const tabs: { key: TabKey; label: string }[] = [
   <p className="mt-8 max-w-[700px] text-[19px] leading-[1.8] tracking-[-0.01em] text-[#697586]">
     {activeContent.body}
   </p>
-<div className="ml-24 mt-10 flex items-center gap-8 text-[15px] font-medium text-[#4b5563]">
-  
+className="mt-6 flex items-center gap-8 text-[15px] font-medium text-[#4b5563]"
   <div className="flex items-center gap-2">
     <span className="text-[#34A853]">✔</span>
     <span>Verified Local Businesses</span>
