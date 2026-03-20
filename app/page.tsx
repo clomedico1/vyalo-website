@@ -14,7 +14,7 @@ const TAB_CONTENT: Record<
   about: {
     eyebrow: "Your live local concierge",
     title:
-      "Restaurants, activities, airport transfers, and reliable local help — all through a simple WhatsApp-style experience.",
+      "Restaurants, activities, airport transfers, and reliable local help — all in one simple WhatsApp-based concierge experience.",
     body:
       "Vyalo connects visitors with trusted local services instantly. Instead of searching endlessly or messaging hosts for help, guests can simply open Vyalo and ask — with no language barriers. From restaurant reservations and boat tours to beach clubs, airport transfers, and unexpected travel issues, Vyalo provides a fast, friendly way to access real local assistance whenever it’s needed.",
   },
@@ -24,7 +24,8 @@ const TAB_CONTENT: Record<
     title:
       "Everything a visitor needs in their destination, in one place.",
     body:
-      "Vyalo removes the friction from travel decisions. Instead of searching through endless results, menus, reviews, and locations just to choose something as simple as a restaurant, Vyalo presents trusted local options instantly. Guests can discover great places, arrange transport, plan activities, and receive clear, reliable guidance whenever they need it — all through a simple conversation.",
+      "body:
+"Vyalo removes the confusion, delay, and guesswork from being in an unfamiliar destination. Instead of searching through endless results, menus, reviews, and locations just to choose something as simple as a restaurant, Vyalo presents trusted local options instantly. Guests can discover great places, arrange transport, plan activities, and receive clear, reliable guidance whenever they need it — all through a simple conversation.",",
   },
 
   hosts: {
@@ -40,7 +41,8 @@ const TAB_CONTENT: Record<
     title:
       "Partner with a platform focused on quality, reliability, and exceptional service.",
     body:
-      "Vyalo collaborates with a carefully selected group of local service providers — including restaurants, drivers, tours, and experiences — who share a commitment to professionalism and guest satisfaction. By working with trusted partners, Vyalo helps ensure visitors receive consistent, high-quality service while strengthening the reputation of the destination as a whole.",
+      "body:
+"Vyalo works with carefully selected local businesses that value professionalism, consistency, and guest satisfaction. By joining the network, partners become part of a more reliable destination experience while positioning themselves in front of quality-conscious travelers and hosts.",",
   },
 
   contact: {
