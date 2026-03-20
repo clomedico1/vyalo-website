@@ -40,7 +40,6 @@ body:
     title:
       "Partner with a platform focused on quality, reliability, and exceptional service.",
     body:
-      "body:
 "Vyalo works with carefully selected local businesses that value professionalism, consistency, and guest satisfaction. By joining the network, partners become part of a more reliable destination experience while positioning themselves in front of quality-conscious travelers and hosts.",",
   },
 
