@@ -521,15 +521,17 @@ function ChatSimulation() {
             }}
           >
             <div
-              style={{
-                position: "absolute",
-                inset: 0,
-                zIndex: -1,
-                borderRadius: 42,
-                background: "rgba(37, 211, 102, 0.12)",
-                filter: "blur(30px)",
-              }}
-            />
+  style={{
+    position: "absolute",
+    inset: -18,
+    zIndex: -1,
+    borderRadius: 54,
+    background:
+      "radial-gradient(circle at 50% 35%, rgba(37,211,102,0.22) 0%, rgba(37,211,102,0.10) 42%, rgba(37,211,102,0.04) 68%, rgba(37,211,102,0) 100%)",
+    filter: "blur(34px)",
+    opacity: 0.95,
+  }}
+/>
 
             <div
               style={{
@@ -830,14 +832,14 @@ const tabs: { key: TabKey; label: string }[] = [
 
 <div
   key={activeTab}
-  className="-mt-32 ml-24 max-w-[760px] animate-[vyaloTabFade_280ms_ease-out]"
+  className="-mt-32 ml-24 max-w-[760px] animate-[vyaloTabFade_420ms_cubic-bezier(0.22,1,0.36,1)]"
 >
   {activeContent.eyebrow && (
   <p className="mb-4 text-[20px] italic font-bold text-[#111111]">
     {activeContent.eyebrow}
   </p>
 )}
-  <p className="max-w-[760px] text-[clamp(2.2rem,3vw,3.4rem)] font-medium leading-[1.06] tracking-[-0.055em] text-[#667085]">
+  <p className="max-w-[760px] text-[clamp(2.2rem,3vw,3.4rem)] font-medium leading-[1.08] tracking-[-0.035em] text-[#667085]">
     {activeContent.title}
   </p>
 
