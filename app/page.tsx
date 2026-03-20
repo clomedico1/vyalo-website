@@ -2,8 +2,7 @@
 
 import { useEffect, useMemo, useRef, useState } from "react";
 
-type TabKey = "about" | "hosts" | "partners" | "contact";
-
+type TabKey = "about" | "benefits" | "hosts" | "partners" | "contact";
 const TAB_CONTENT: Record<
   TabKey,
   {
@@ -51,35 +50,8 @@ const TAB_CONTENT: Record<
     body:
       "Vyalo partners with property hosts and carefully selected local businesses to deliver a better travel experience for visitors. If you manage guest accommodations or operate a trusted local service, we invite you to connect with us and learn more about joining the Vyalo network.",
   },
-};  about: {
-    eyebrow: "Live local help in Cefalù",
-    title:
-      "Restaurants, activities, airport transfers, and real local help — all through a simple WhatsApp-style experience.",
-    body:
-      "Vyalo gives guests one trusted local point of contact for the things that matter most: where to eat, what to do, how to get around, and who to message when something unexpected happens.",
-  },
-  hosts: {
-    eyebrow: "For hosts",
-    title:
-      "Give guests premium local support without turning your phone into a full-time concierge desk.",
-    body:
-      "Vyalo helps hosts reduce repetitive guest messaging by handling recommendations, transport requests, local guidance, and on-the-ground support in a more polished, reliable way.",
-  },
-  partners: {
-    eyebrow: "For local partners",
-    title:
-      "Put trusted local businesses in front of travelers at the exact moment they’re ready to book or ask for help.",
-    body:
-      "Restaurants, drivers, beach clubs, and activity providers can become part of a curated concierge flow designed to feel helpful, premium, and easy to use for visitors in Cefalù.",
-  },
-  contact: {
-    eyebrow: "Get in touch",
-    title:
-      "Interested in bringing Vyalo to your property, business, or guest experience? Let’s start the conversation.",
-    body:
-      "Whether you’re a host, a local operator, or simply curious about the project, reach out and we’ll show you how Vyalo fits naturally into a better Cefalù travel experience.",
-  },
-};
+};  
+
 
 function VyaloBubbleO({
   className = "",
@@ -807,13 +779,13 @@ export default function VyaloPage() {
   const [activeTab, setActiveTab] = useState<TabKey>("about");
   const activeContent = useMemo(() => TAB_CONTENT[activeTab], [activeTab]);
 
-  const tabs: { key: TabKey; label: string }[] = [
-    { key: "about", label: "About Vyalo" },
-    { key: "hosts", label: "Hosts" },
-    { key: "partners", label: "Partners" },
-    { key: "contact", label: "Contact" },
-  ];
-
+const tabs: { key: TabKey; label: string }[] = [
+  { key: "about", label: "About Vyalo" },
+  { key: "benefits", label: "Benefits" },
+  { key: "hosts", label: "For Hosts" },
+  { key: "partners", label: "For Partners" },
+  { key: "contact", label: "Contact" },
+];
   return (
     <main className="min-h-screen bg-[#f6f6f3] text-[#111111]">
       <div className="mx-auto max-w-[1600px] px-8 pt-10 lg:px-12 xl:px-14">
