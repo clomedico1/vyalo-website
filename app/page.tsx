@@ -523,12 +523,12 @@ function ChatSimulation() {
             <div
   style={{
     position: "absolute",
-    inset: -18,
+    inset: -40,
     zIndex: 0,
     borderRadius: 54,
     background:
       "radial-gradient(circle at 50% 35%, rgba(37,211,102,0.22) 0%, rgba(37,211,102,0.10) 42%, rgba(37,211,102,0.04) 68%, rgba(37,211,102,0) 100%)",
-    filter: "blur(34px)",
+    filter: "blur(60px)",
     opacity: 0.95,
   }}
 />
