@@ -22,10 +22,9 @@ const TAB_CONTENT: Record<
   benefits: {
     eyebrow: "Travel made simple",
     title:
-      "Everything a visitor needs in their destination, in one place.",
-    body:
-      "body:
-"Vyalo removes the confusion, delay, and guesswork from being in an unfamiliar destination. Instead of searching through endless results, menus, reviews, and locations just to choose something as simple as a restaurant, Vyalo presents trusted local options instantly. Guests can discover great places, arrange transport, plan activities, and receive clear, reliable guidance whenever they need it — all through a simple conversation.",",
+"Everything a visitor needs in their destination, in one place.",
+body:
+"Vyalo removes the confusion, delay, and guesswork from being in an unfamiliar destination. Instead of searching through endless results, menus, reviews, and locations just to choose something as simple as a restaurant, Vyalo presents trusted local options instantly. Guests can discover great places, arrange transport, plan activities, and receive clear, reliable guidance whenever they need it — all through a simple conversation.",
   },
 
   hosts: {
