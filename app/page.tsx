@@ -524,7 +524,7 @@ function ChatSimulation() {
   style={{
     position: "absolute",
     inset: -18,
-    zIndex: -1,
+    zIndex: 0,
     borderRadius: 54,
     background:
       "radial-gradient(circle at 50% 35%, rgba(37,211,102,0.22) 0%, rgba(37,211,102,0.10) 42%, rgba(37,211,102,0.04) 68%, rgba(37,211,102,0) 100%)",
@@ -535,6 +535,8 @@ function ChatSimulation() {
 
             <div
               style={{
+                position: "relative",
+                zIndex: 2,
                 borderRadius: 38,
                 border: "1px solid rgba(0,0,0,0.1)",
                 background: "#111111",
