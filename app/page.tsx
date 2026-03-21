@@ -281,11 +281,11 @@ const FLOW: Record<Language, FlowStep[]> = {
     {
       type: "message",
       sender: "system",
-      text:
-        "Destination\n\n" +
-        "1 ✈️ Airport\n" +
-        "2 🏙 City Centre\n" +
-        "3 🚉 Train Station",
+text:
+  "Where are you going?\n\n" +
+  "1 🚖 Cefalù → Palermo Airport\n" +
+  "2 🏙 City Centre\n" +
+  "3 👤 Reserve Private Driver",
       delayAfter: 1200,
     },
     {
@@ -434,11 +434,11 @@ const FLOW: Record<Language, FlowStep[]> = {
     {
       type: "message",
       sender: "system",
-      text:
-        "Destinazione\n\n" +
-        "1 ✈️ Aeroporto\n" +
-        "2 🏙 Centro città\n" +
-        "3 🚉 Stazione ferroviaria",
+text:
+  "Dove devi andare?\n\n" +
+  "1 🚖 Cefalù → Aeroporto di Palermo\n" +
+  "2 🏙 Centro città\n" +
+  "3 👤 Prenota autista privato",
       delayAfter: 1200,
     },
     {
