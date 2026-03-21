@@ -1,57 +1,129 @@
 "use client";
-
 import { useEffect, useMemo, useRef, useState } from "react";
-
+type Language = "en" | "it";
 type TabKey = "about" | "benefits" | "hosts" | "partners" | "contact";
 const TAB_CONTENT: Record<
-  TabKey,
-  {
-    eyebrow?: string;
-    title: string;
-    body: string;
-  }
+  Language,
+  Record<
+    TabKey,
+    {
+      eyebrow?: string;
+      title: string;
+      body: string;
+    }
+  >
 > = {
-  about: {
-    eyebrow: "Your live local concierge",
-    title:
-      "Restaurants, activities, airport transfers, and reliable local help — all in one simple WhatsApp-based concierge experience.",
-    body:
-      "Vyalo connects visitors with trusted local services instantly. Instead of searching endlessly or messaging hosts for help, guests can simply open Vyalo and ask — with no language barriers. From restaurant reservations and boat tours to beach clubs, airport transfers, and unexpected travel issues, Vyalo provides a fast, friendly way to access real local assistance whenever it’s needed.",
+  en: {
+    about: {
+      eyebrow: "Your live local concierge",
+      title:
+        "Restaurants, activities, airport transfers, and reliable local help — all in one simple WhatsApp-based concierge experience.",
+      body:
+        "Vyalo removes the confusion, delay, and guesswork from being in an unfamiliar destination. Guests can quickly discover trusted places, coordinate local services, and get help when plans do not go smoothly.",
+    },
+    benefits: {
+      eyebrow: "Why Vyalo",
+      title: "A better guest experience, without the usual local friction.",
+      body:
+        "Vyalo helps guests access reliable local recommendations, practical coordination, and real support through a familiar WhatsApp experience — reducing uncertainty and making every stay feel smoother.",
+    },
+    hosts: {
+      eyebrow: "For hosts",
+      title: "Give guests better support without taking on more messaging yourself.",
+      body:
+        "Vyalo helps reduce repetitive guest requests, improve responsiveness, and create a more polished stay experience — all while allowing hosts to keep their own preferred providers where they choose.",
+    },
+    partners: {
+      eyebrow: "For partners",
+      title: "Join a trusted local network designed around quality and reliability.",
+      body:
+        "Vyalo connects guests with carefully selected local businesses and service providers, helping quality partners stand out through better visibility, smoother coordination, and stronger guest trust.",
+    },
+    contact: {
+      eyebrow: "Get in touch",
+      title: "Interested in bringing Vyalo to your property or destination?",
+      body:
+        "Whether you are a host, local business, or potential partner, we would love to hear from you.",
+    },
   },
-
-  benefits: {
-    eyebrow: "Travel made simple",
-    title:
-"Everything a visitor needs at their destination, in one place.",
-body:
-"Vyalo removes the confusion, delay, and guesswork from being in an unfamiliar destination. Instead of searching through endless results, menus, reviews, and locations just to choose something as simple as a restaurant, Vyalo presents trusted local options instantly. Guests can discover great places, arrange transport, plan activities, and receive clear, reliable guidance whenever they need it — all through a simple conversation.",
-  },
-
-  hosts: {
-    eyebrow: "Designed for property hosts",
-    title:
-      "Give your guests a local concierge while freeing yourself from constant requests.",
-    body:
-      "Vyalo helps hosts deliver a better guest experience while reducing the constant stream of messages about restaurants, transfers, and activities. Instead of handling every question personally, guests can rely on Vyalo for trusted local recommendations and assistance throughout their stay. Hosts gain peace of mind knowing their guests have reliable support — especially when unexpected situations arise.",
-  },
-
-  partners: {
-    eyebrow: "Join the Vyalo network",
-    title:
-      "Partner with a platform focused on quality, reliability, and exceptional service.",
-    body:
-"Vyalo works with carefully selected local businesses that value professionalism, consistency, and guest satisfaction. By joining the network, partners become part of a more reliable destination experience while positioning themselves in front of quality-conscious travelers and hosts.",
-  },
-
-  contact: {
-    eyebrow: "Work with Vyalo",
-    title:
-      "Interested in becoming part of the Vyalo network?",
-    body:
-      "Vyalo partners with property hosts and carefully selected local businesses to deliver a better travel experience for visitors. If you manage guest accommodations or operate a trusted local service, we invite you to connect with us and learn more about joining the Vyalo network.",
+  it: {
+    about: {
+      eyebrow: "Il tuo concierge locale su WhatsApp",
+      title:
+        "Ristoranti, attività, transfer aeroportuali e assistenza locale affidabile — tutto in un’esperienza concierge semplice su WhatsApp.",
+      body:
+        "Vyalo elimina confusione, ritardi e incertezze quando ci si trova in una destinazione non familiare. Gli ospiti possono scoprire rapidamente luoghi affidabili, coordinare servizi locali e ricevere aiuto quando qualcosa non va come previsto.",
+    },
+    benefits: {
+      eyebrow: "Perché Vyalo",
+      title: "Un’esperienza migliore per gli ospiti, senza i soliti problemi locali.",
+      body:
+        "Vyalo aiuta gli ospiti ad accedere a consigli affidabili, coordinamento pratico e supporto reale tramite un’esperienza familiare su WhatsApp — riducendo l’incertezza e rendendo ogni soggiorno più fluido.",
+    },
+    hosts: {
+      eyebrow: "Per host",
+      title: "Offri agli ospiti un supporto migliore senza gestire più messaggi del necessario.",
+      body:
+        "Vyalo aiuta a ridurre le richieste ripetitive degli ospiti, migliorare la reattività e creare un soggiorno più curato — lasciando comunque agli host la libertà di mantenere i propri fornitori preferiti, quando lo desiderano.",
+    },
+    partners: {
+      eyebrow: "Per partner",
+      title: "Entra in una rete locale affidabile costruita su qualità e continuità.",
+      body:
+        "Vyalo collega gli ospiti a imprese locali e fornitori di servizi selezionati con attenzione, aiutando i partner di qualità a distinguersi grazie a maggiore visibilità, coordinamento più fluido e più fiducia da parte degli ospiti.",
+    },
+    contact: {
+      eyebrow: "Contattaci",
+      title: "Vuoi portare Vyalo nella tua struttura o destinazione?",
+      body:
+        "Che tu sia un host, un’attività locale o un potenziale partner, saremo felici di sentirti.",
+    },
   },
 };  
-
+const UI_COPY = {
+  en: {
+    tabs: {
+      about: "About Vyalo",
+      benefits: "Benefits",
+      hosts: "For Hosts",
+      partners: "For Partners",
+      contact: "Contact",
+    },
+    cta: "Try Vyalo on WhatsApp",
+    phoneTitle: "Vyalo Concierge",
+    phoneStatus: "Typically replies instantly",
+    phoneInput: "Message",
+    trust: {
+      verifiedLine1: "Verified Local",
+      verifiedLine2: "Businesses",
+      secureLine1: "WhatsApp Secure",
+      secureLine2: "Messaging",
+      supportLine1: "Real Local Concierge",
+      supportLine2: "Support",
+    },
+  },
+  it: {
+    tabs: {
+      about: "Cos’è Vyalo",
+      benefits: "Vantaggi",
+      hosts: "Per Host",
+      partners: "Per Partner",
+      contact: "Contatti",
+    },
+    cta: "Prova Vyalo su WhatsApp",
+    phoneTitle: "Concierge Vyalo",
+    phoneStatus: "Di solito risponde subito",
+    phoneInput: "Messaggio",
+    trust: {
+      verifiedLine1: "Attività Locali",
+      verifiedLine2: "Verificate",
+      secureLine1: "Messaggistica Sicura",
+      secureLine2: "WhatsApp",
+      supportLine1: "Assistenza Concierge",
+      supportLine2: "Reale",
+    },
+  },
+} as const;
 
 function VyaloBubbleO({
   className = "",
@@ -135,158 +207,264 @@ type FlowStep =
       duration: number;
     };
 
-const FLOW: FlowStep[] = [
-  {
-    type: "message",
-    sender: "system",
-    text:
-      "Welcome to Vyalo.\n\n" +
-      "Your live local concierge in Cefalù.\n\n" +
-      "Please choose your language:\n\n" +
-      "1 🇬🇧 English\n" +
-      "2 🇮🇹 Italian\n" +
-      "3 🇫🇷 French",
-    delayAfter: 1400,
-  },
-  {
-    type: "typing",
-    sender: "user",
-    duration: 1200,
-    nextText: "1",
-    delayAfter: 700,
-  },
-  {
-    type: "message",
-    sender: "system",
-    text:
-      "Main Menu\n\n" +
-      "1 🍝 Restaurants & Reservations\n" +
-      "2 🎟 Events & Activities\n" +
-      "3 ✈️ Airport Transfers\n" +
-      "4 👨‍👩‍👧 Kids Activities\n" +
-      "5 🏖 Beach Clubs\n" +
-      "6 🧭 Excursions\n" +
-      "7 🚆 Trains & Transport",
-    delayAfter: 1500,
-  },
-  {
-    type: "typing",
-    sender: "user",
-    duration: 1200,
-    nextText: "3",
-    delayAfter: 700,
-  },
-  {
-    type: "message",
-    sender: "system",
-    text:
-      "✈️ Airport Transfers\n\n" +
-      "How would you like to share your pickup point?\n\n" +
-      "1 📍 Send live location\n" +
-      "2 📝 Type pickup address",
-    delayAfter: 1300,
-  },
-  {
-    type: "typing",
-    sender: "user",
-    duration: 1100,
-    nextText: "1",
-    delayAfter: 650,
-  },
-  {
-    type: "message",
-    sender: "system",
-    text: "Please send your live pickup location.",
-    delayAfter: 1000,
-  },
-  {
-    type: "message",
-    sender: "user",
-    text: "📍 Live location\nPiazza Garibaldi, Cefalù",
-    delayAfter: 1200,
-  },
-  {
-    type: "message",
-    sender: "system",
-    text:
-      "Destination\n\n" +
-      "1 ✈️ Palermo Airport\n" +
-      "2 🏙 Palermo City Centre\n" +
-      "3 🚉 Cefalù Station",
-    delayAfter: 1200,
-  },
-  {
-    type: "typing",
-    sender: "user",
-    duration: 1100,
-    nextText: "1",
-    delayAfter: 650,
-  },
-  {
-    type: "message",
-    sender: "system",
-    text: "How many guests will be travelling?",
-    delayAfter: 1000,
-  },
-  {
-    type: "typing",
-    sender: "user",
-    duration: 950,
-    nextText: "2",
-    delayAfter: 600,
-  },
-  {
-    type: "message",
-    sender: "system",
-    text: "How many bags should the driver expect?",
-    delayAfter: 1000,
-  },
-  {
-    type: "typing",
-    sender: "user",
-    duration: 950,
-    nextText: "3",
-    delayAfter: 600,
-  },
-  {
-    type: "message",
-    sender: "system",
-    text: "Name for the driver?",
-    delayAfter: 950,
-  },
-  {
-    type: "typing",
-    sender: "user",
-    duration: 1000,
-    nextText: "Marco",
-    delayAfter: 700,
-  },
-  {
-    type: "message",
-    sender: "system",
-    text:
-      "Perfect — confirming your driver now.\n\n" +
-      "📍 Pickup: Piazza Garibaldi, Cefalù\n" +
-      "✈️ Destination: Palermo Airport\n" +
-      "👥 Guests: 2\n" +
-      "🧳 Bags: 3\n" +
-      "🙋 Name: Marco",
-    delayAfter: 1900,
-  },
-  {
-    type: "message",
-    sender: "system",
-    text:
-      "✅ Driver confirmed\n\n" +
-      "Your transfer request has been accepted.\n" +
-      "Your driver will receive your pickup details shortly.",
-    delayAfter: 3200,
-  },
-  {
-    type: "pause",
-    duration: 2200,
-  },
-];
+const FLOW: Record<Language, FlowStep[]> = {
+  en: [
+    {
+      type: "message",
+      sender: "system",
+      text:
+        "Welcome to Vyalo.\n\n" +
+        "Your live local concierge on WhatsApp.\n\n" +
+        "How can I help you today?",
+      delayAfter: 1400,
+    },
+    {
+      type: "typing",
+      sender: "user",
+      duration: 1200,
+      nextText: "I need an airport transfer.",
+      delayAfter: 700,
+    },
+    {
+      type: "message",
+      sender: "system",
+      text:
+        "Airport Transfers\n\n" +
+        "How would you like to share your pickup point?\n\n" +
+        "1 📍 Send live location\n" +
+        "2 📝 Type pickup address",
+      delayAfter: 1300,
+    },
+    {
+      type: "typing",
+      sender: "user",
+      duration: 1100,
+      nextText: "1",
+      delayAfter: 650,
+    },
+    {
+      type: "message",
+      sender: "system",
+      text: "Please send your live pickup location.",
+      delayAfter: 1000,
+    },
+    {
+      type: "message",
+      sender: "user",
+      text: "📍 Live location\nPickup shared",
+      delayAfter: 1200,
+    },
+    {
+      type: "message",
+      sender: "system",
+      text:
+        "Destination\n\n" +
+        "1 ✈️ Airport\n" +
+        "2 🏙 City Centre\n" +
+        "3 🚉 Train Station",
+      delayAfter: 1200,
+    },
+    {
+      type: "typing",
+      sender: "user",
+      duration: 1100,
+      nextText: "1",
+      delayAfter: 650,
+    },
+    {
+      type: "message",
+      sender: "system",
+      text: "How many guests will be travelling?",
+      delayAfter: 1000,
+    },
+    {
+      type: "typing",
+      sender: "user",
+      duration: 950,
+      nextText: "2",
+      delayAfter: 600,
+    },
+    {
+      type: "message",
+      sender: "system",
+      text: "How many bags should the driver expect?",
+      delayAfter: 1000,
+    },
+    {
+      type: "typing",
+      sender: "user",
+      duration: 950,
+      nextText: "3",
+      delayAfter: 600,
+    },
+    {
+      type: "message",
+      sender: "system",
+      text: "Name for the driver?",
+      delayAfter: 950,
+    },
+    {
+      type: "typing",
+      sender: "user",
+      duration: 1000,
+      nextText: "Marco",
+      delayAfter: 700,
+    },
+    {
+      type: "message",
+      sender: "system",
+      text:
+        "Perfect — confirming your driver now.\n\n" +
+        "📍 Pickup: Live location received\n" +
+        "✈️ Destination: Airport\n" +
+        "👥 Guests: 2\n" +
+        "🧳 Bags: 3\n" +
+        "🙋 Name: Marco",
+      delayAfter: 1900,
+    },
+    {
+      type: "message",
+      sender: "system",
+      text:
+        "✅ Driver confirmed\n\n" +
+        "Your transfer request has been accepted.\n" +
+        "Your driver will receive your pickup details shortly.",
+      delayAfter: 3200,
+    },
+    {
+      type: "pause",
+      duration: 2200,
+    },
+  ],
+  it: [
+    {
+      type: "message",
+      sender: "system",
+      text:
+        "Benvenuto su Vyalo.\n\n" +
+        "Il tuo concierge locale su WhatsApp.\n\n" +
+        "Come posso aiutarti oggi?",
+      delayAfter: 1400,
+    },
+    {
+      type: "typing",
+      sender: "user",
+      duration: 1200,
+      nextText: "Ho bisogno di un transfer per l’aeroporto.",
+      delayAfter: 700,
+    },
+    {
+      type: "message",
+      sender: "system",
+      text:
+        "Transfer Aeroportuali\n\n" +
+        "Come vuoi condividere il punto di partenza?\n\n" +
+        "1 📍 Invia posizione live\n" +
+        "2 📝 Scrivi indirizzo di partenza",
+      delayAfter: 1300,
+    },
+    {
+      type: "typing",
+      sender: "user",
+      duration: 1100,
+      nextText: "1",
+      delayAfter: 650,
+    },
+    {
+      type: "message",
+      sender: "system",
+      text: "Per favore invia la tua posizione di partenza in tempo reale.",
+      delayAfter: 1000,
+    },
+    {
+      type: "message",
+      sender: "user",
+      text: "📍 Posizione live\nPosizione condivisa",
+      delayAfter: 1200,
+    },
+    {
+      type: "message",
+      sender: "system",
+      text:
+        "Destinazione\n\n" +
+        "1 ✈️ Aeroporto\n" +
+        "2 🏙 Centro città\n" +
+        "3 🚉 Stazione ferroviaria",
+      delayAfter: 1200,
+    },
+    {
+      type: "typing",
+      sender: "user",
+      duration: 1100,
+      nextText: "1",
+      delayAfter: 650,
+    },
+    {
+      type: "message",
+      sender: "system",
+      text: "Quanti ospiti viaggiano?",
+      delayAfter: 1000,
+    },
+    {
+      type: "typing",
+      sender: "user",
+      duration: 950,
+      nextText: "2",
+      delayAfter: 600,
+    },
+    {
+      type: "message",
+      sender: "system",
+      text: "Quanti bagagli deve aspettarsi l’autista?",
+      delayAfter: 1000,
+    },
+    {
+      type: "typing",
+      sender: "user",
+      duration: 950,
+      nextText: "3",
+      delayAfter: 600,
+    },
+    {
+      type: "message",
+      sender: "system",
+      text: "Nome per l’autista?",
+      delayAfter: 950,
+    },
+    {
+      type: "typing",
+      sender: "user",
+      duration: 1000,
+      nextText: "Marco",
+      delayAfter: 700,
+    },
+    {
+      type: "message",
+      sender: "system",
+      text:
+        "Perfetto — sto confermando il tuo autista.\n\n" +
+        "📍 Partenza: posizione live ricevuta\n" +
+        "✈️ Destinazione: Aeroporto\n" +
+        "👥 Ospiti: 2\n" +
+        "🧳 Bagagli: 3\n" +
+        "🙋 Nome: Marco",
+      delayAfter: 1900,
+    },
+    {
+      type: "message",
+      sender: "system",
+      text:
+        "✅ Autista confermato\n\n" +
+        "La tua richiesta di transfer è stata accettata.\n" +
+        "Il tuo autista riceverà a breve i dettagli del prelievo.",
+      delayAfter: 3200,
+    },
+    {
+      type: "pause",
+      duration: 2200,
+    },
+  ],
+};
 
 function TypingBubble() {
   return (
@@ -375,7 +553,7 @@ function humanizeDelay(base: number) {
   return Math.max(250, base + variance);
 }
 
-function ChatSimulation() {
+function ChatSimulation({ language }: { language: Language }) {
   const [messages, setMessages] = useState<Message[]>([]);
   const [stepIndex, setStepIndex] = useState(0);
   const [showUserTyping, setShowUserTyping] = useState(false);
@@ -385,7 +563,7 @@ function ChatSimulation() {
   const idRef = useRef(1);
 
   const pagePaused = usePageScrollPause(4000);
-
+const activeFlow = FLOW[language];
   const clearCurrentTimer = () => {
     if (timeoutRef.current) {
       clearTimeout(timeoutRef.current);
@@ -420,7 +598,13 @@ function ChatSimulation() {
       clearCurrentTimer();
     };
   }, []);
-
+useEffect(() => {
+  clearCurrentTimer();
+  idRef.current = 1;
+  setMessages([]);
+  setStepIndex(0);
+  setShowUserTyping(false);
+}, [language]);
   useEffect(() => {
     const el = scrollRef.current;
     if (!el) return;
@@ -438,17 +622,17 @@ function ChatSimulation() {
   useEffect(() => {
     if (pagePaused) return;
 
-    if (stepIndex >= FLOW.length) {
+    if (stepIndex >= activeFlow.length) {
       resetDemo();
       return;
     }
 
-    const step = FLOW[stepIndex];
+    const step = activeFlow[stepIndex];
     clearCurrentTimer();
 
     if (step.type === "pause") {
       timeoutRef.current = setTimeout(() => {
-        if (stepIndex === FLOW.length - 1) {
+        if (stepIndex === activeFlow.length - 1) {
           resetDemo();
         } else {
           setStepIndex((prev) => prev + 1);
@@ -484,7 +668,7 @@ function ChatSimulation() {
     return () => {
       clearCurrentTimer();
     };
-  }, [stepIndex, pagePaused]);
+  }, [stepIndex, pagePaused, language]);
 
   return (
     <>
@@ -616,7 +800,7 @@ function ChatSimulation() {
                           textOverflow: "ellipsis",
                         }}
                       >
-                        Vyalo Concierge
+                        {UI_COPY[language].phoneTitle}
                       </div>
                       <div
                         style={{
@@ -627,7 +811,7 @@ function ChatSimulation() {
                           textOverflow: "ellipsis",
                         }}
                       >
-                        Typically replies instantly
+                        {UI_COPY[language].phoneStatus}
                       </div>
                     </div>
                   </div>
@@ -733,7 +917,7 @@ function ChatSimulation() {
                     }}
                   >
                     <span style={{ fontSize: 16 }}>+</span>
-                    <span style={{ flex: 1 }}>Message</span>
+                    <span style={{ flex: 1 }}>{UI_COPY[language].phoneInput}</span>
                     <span>🎤</span>
                   </div>
                 </div>
@@ -772,7 +956,7 @@ function ChatSimulation() {
               cursor: "pointer",
             }}
           >
-            Try Vyalo on WhatsApp
+            {UI_COPY[language].cta}
           </a>
         </div>
       </div>
@@ -782,14 +966,18 @@ function ChatSimulation() {
 
 export default function VyaloPage() {
   const [activeTab, setActiveTab] = useState<TabKey>("about");
-  const activeContent = useMemo(() => TAB_CONTENT[activeTab], [activeTab]);
+  const [language, setLanguage] = useState<Language>("en");
+  const activeContent = useMemo(
+  () => TAB_CONTENT[language][activeTab],
+  [language, activeTab]
+);
 
 const tabs: { key: TabKey; label: string }[] = [
-  { key: "about", label: "About Vyalo" },
-  { key: "benefits", label: "Benefits" },
-  { key: "hosts", label: "For Hosts" },
-  { key: "partners", label: "For Partners" },
-  { key: "contact", label: "Contact" },
+  { key: "about", label: UI_COPY[language].tabs.about },
+  { key: "benefits", label: UI_COPY[language].tabs.benefits },
+  { key: "hosts", label: UI_COPY[language].tabs.hosts },
+  { key: "partners", label: UI_COPY[language].tabs.partners },
+  { key: "contact", label: UI_COPY[language].tabs.contact },
 ];
   return (
   <main className="min-h-screen bg-[#f6f6f3] text-[#111111]">
@@ -824,11 +1012,34 @@ const tabs: { key: TabKey; label: string }[] = [
                     </button>
                   );
                 })}
+              <div className="ml-3 flex items-center gap-2 text-[14px] font-semibold text-[#5f6876]">
+  <button
+    type="button"
+    onClick={() => setLanguage("en")}
+    className={language === "en" ? "text-[#111111]" : ""}
+  >
+    EN
+  </button>
+
+  <span className="opacity-40">|</span>
+
+  <button
+    type="button"
+    onClick={() => setLanguage("it")}
+    className={language === "it" ? "text-[#111111]" : ""}
+  >
+    IT
+  </button>
+</div>
               </div>
 <div className="max-w-[920px] -mt-28">
   <div className="flex flex-col items-start text-left"> <div className="mb-10 -ml-36">  <img
     src="/vyalo-lockup.png"
-    alt="Meet Vyalo — Your live local concierge."
+    alt={
+  language === "en"
+    ? "Meet Vyalo — your live local concierge."
+    : "Scopri Vyalo — il tuo concierge locale."
+}
     className="block h-auto w-full max-w-[620px]"
   />
 </div>  </div>
@@ -855,11 +1066,11 @@ const tabs: { key: TabKey; label: string }[] = [
     <span className="flex h-10 w-10 items-center justify-center rounded-full bg-[#edf7f0] text-[18px] text-[#34A853] shadow-[0_1px_2px_rgba(0,0,0,0.04)]">
       ✓
     </span>
-    <span className="text-[15px] font-semibold leading-[1.15]">
-      Verified Local
-      <br/>
-      Businesses
-    </span>
+<span className="text-[15px] font-semibold leading-[1.15]">
+  {UI_COPY[language].trust.verifiedLine1}
+  <br/>
+  {UI_COPY[language].trust.verifiedLine2}
+</span>
   </div>
 
   <div className="h-10 w-px bg-gradient-to-b from-transparent via-[#d7d7d2] to-transparent" />
@@ -868,11 +1079,11 @@ const tabs: { key: TabKey; label: string }[] = [
     <span className="flex h-10 w-10 items-center justify-center rounded-full bg-[#edf7f0] text-[18px] text-[#34A853]">
       🔒
     </span>
-    <span className="text-[15px] font-semibold leading-[1.15]">
-      WhatsApp Secure
-      <br/>
-      Messaging
-    </span>
+<span className="text-[15px] font-semibold leading-[1.15]">
+  {UI_COPY[language].trust.secureLine1}
+  <br/>
+  {UI_COPY[language].trust.secureLine2}
+</span>
   </div>
 
   <div className="h-10 w-px bg-gradient-to-b from-transparent via-[#d7d7d2] to-transparent" />
@@ -881,11 +1092,11 @@ const tabs: { key: TabKey; label: string }[] = [
     <span className="flex h-10 w-10 items-center justify-center rounded-full bg-[#edf7f0] text-[18px] text-[#34A853]">
       👤
     </span>
-    <span className="text-[15px] font-semibold leading-[1.15]">
-      Real Local Concierge
-      <br/>
-      Support
-    </span>
+<span className="text-[15px] font-semibold leading-[1.15]">
+  {UI_COPY[language].trust.supportLine1}
+  <br/>
+  {UI_COPY[language].trust.supportLine2}
+</span>
   </div>
 
 </div>
@@ -895,7 +1106,7 @@ const tabs: { key: TabKey; label: string }[] = [
           </section>
 
           <aside className="justify-self-center xl:justify-self-end">
-            <ChatSimulation />
+            <ChatSimulation language={language} />
           </aside>
         </div>
       </div>
