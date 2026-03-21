@@ -213,23 +213,47 @@ const FLOW: Record<Language, FlowStep[]> = {
       type: "message",
       sender: "system",
       text:
-        "Welcome to Vyalo.\n\n" +
+        "Welcome to Vyalo. 👋\n\n" +
         "Your live local concierge on WhatsApp.\n\n" +
-        "How can I help you today?",
-      delayAfter: 1400,
+        "Please choose your language:\n\n" +
+        "1 🇬🇧 English\n" +
+        "2 🇮🇹 Italian\n" +
+        "3 🇫🇷 French\n" +
+        "4 🇩🇪 German",
+      delayAfter: 1500,
     },
     {
       type: "typing",
       sender: "user",
-      duration: 1200,
-      nextText: "I need an airport transfer.",
+      duration: 1100,
+      nextText: "1",
       delayAfter: 700,
     },
     {
       type: "message",
       sender: "system",
       text:
-        "Airport Transfers\n\n" +
+        "How can we help you today?\n\n" +
+        "1 🍝 Restaurants & Reservations\n" +
+        "2 🎟 Events & Activities\n" +
+        "3 ✈️ Airport Transfers\n" +
+        "4 👨‍👩‍👧 Kids Activities\n" +
+        "5 🏖 Beach Clubs\n" +
+        "6 🧭 Excursions",
+      delayAfter: 1500,
+    },
+    {
+      type: "typing",
+      sender: "user",
+      duration: 1100,
+      nextText: "3",
+      delayAfter: 700,
+    },
+    {
+      type: "message",
+      sender: "system",
+      text:
+        "✈️ Airport Transfers\n\n" +
         "How would you like to share your pickup point?\n\n" +
         "1 📍 Send live location\n" +
         "2 📝 Type pickup address",
@@ -238,14 +262,14 @@ const FLOW: Record<Language, FlowStep[]> = {
     {
       type: "typing",
       sender: "user",
-      duration: 1100,
+      duration: 1000,
       nextText: "1",
       delayAfter: 650,
     },
     {
       type: "message",
       sender: "system",
-      text: "Please send your live pickup location.",
+      text: "Please send your live pickup location. 📍",
       delayAfter: 1000,
     },
     {
@@ -267,33 +291,33 @@ const FLOW: Record<Language, FlowStep[]> = {
     {
       type: "typing",
       sender: "user",
-      duration: 1100,
+      duration: 1000,
       nextText: "1",
       delayAfter: 650,
     },
     {
       type: "message",
       sender: "system",
-      text: "How many guests will be travelling?",
+      text: "How many guests will be travelling? 👥",
       delayAfter: 1000,
     },
     {
       type: "typing",
       sender: "user",
-      duration: 950,
+      duration: 900,
       nextText: "2",
       delayAfter: 600,
     },
     {
       type: "message",
       sender: "system",
-      text: "How many bags should the driver expect?",
+      text: "How many bags should the driver expect? 🧳",
       delayAfter: 1000,
     },
     {
       type: "typing",
       sender: "user",
-      duration: 950,
+      duration: 900,
       nextText: "3",
       delayAfter: 600,
     },
@@ -306,7 +330,7 @@ const FLOW: Record<Language, FlowStep[]> = {
     {
       type: "typing",
       sender: "user",
-      duration: 1000,
+      duration: 950,
       nextText: "Marco",
       delayAfter: 700,
     },
@@ -314,7 +338,7 @@ const FLOW: Record<Language, FlowStep[]> = {
       type: "message",
       sender: "system",
       text:
-        "Perfect — confirming your driver now.\n\n" +
+        "Perfect — confirming your driver now. ✅\n\n" +
         "📍 Pickup: Live location received\n" +
         "✈️ Destination: Airport\n" +
         "👥 Guests: 2\n" +
@@ -336,28 +360,53 @@ const FLOW: Record<Language, FlowStep[]> = {
       duration: 2200,
     },
   ],
+
   it: [
     {
       type: "message",
       sender: "system",
       text:
-        "Benvenuto su Vyalo.\n\n" +
+        "Benvenuto su Vyalo. 👋\n\n" +
         "Il tuo concierge locale su WhatsApp.\n\n" +
-        "Come posso aiutarti oggi?",
-      delayAfter: 1400,
+        "Seleziona la tua lingua:\n\n" +
+        "1 🇬🇧 Inglese\n" +
+        "2 🇮🇹 Italiano\n" +
+        "3 🇫🇷 Francese\n" +
+        "4 🇩🇪 Tedesco",
+      delayAfter: 1500,
     },
     {
       type: "typing",
       sender: "user",
-      duration: 1200,
-      nextText: "Ho bisogno di un transfer per l’aeroporto.",
+      duration: 1100,
+      nextText: "2",
       delayAfter: 700,
     },
     {
       type: "message",
       sender: "system",
       text:
-        "Transfer Aeroportuali\n\n" +
+        "Come possiamo aiutarti oggi?\n\n" +
+        "1 🍝 Ristoranti e Prenotazioni\n" +
+        "2 🎟 Eventi e Attività\n" +
+        "3 ✈️ Transfer Aeroportuali\n" +
+        "4 👨‍👩‍👧 Attività per Bambini\n" +
+        "5 🏖 Beach Club\n" +
+        "6 🧭 Escursioni",
+      delayAfter: 1500,
+    },
+    {
+      type: "typing",
+      sender: "user",
+      duration: 1100,
+      nextText: "3",
+      delayAfter: 700,
+    },
+    {
+      type: "message",
+      sender: "system",
+      text:
+        "✈️ Transfer Aeroportuali\n\n" +
         "Come vuoi condividere il punto di partenza?\n\n" +
         "1 📍 Invia posizione live\n" +
         "2 📝 Scrivi indirizzo di partenza",
@@ -366,14 +415,14 @@ const FLOW: Record<Language, FlowStep[]> = {
     {
       type: "typing",
       sender: "user",
-      duration: 1100,
+      duration: 1000,
       nextText: "1",
       delayAfter: 650,
     },
     {
       type: "message",
       sender: "system",
-      text: "Per favore invia la tua posizione di partenza in tempo reale.",
+      text: "Per favore invia la tua posizione di partenza. 📍",
       delayAfter: 1000,
     },
     {
@@ -395,33 +444,33 @@ const FLOW: Record<Language, FlowStep[]> = {
     {
       type: "typing",
       sender: "user",
-      duration: 1100,
+      duration: 1000,
       nextText: "1",
       delayAfter: 650,
     },
     {
       type: "message",
       sender: "system",
-      text: "Quanti ospiti viaggiano?",
+      text: "Quanti ospiti viaggiano? 👥",
       delayAfter: 1000,
     },
     {
       type: "typing",
       sender: "user",
-      duration: 950,
+      duration: 900,
       nextText: "2",
       delayAfter: 600,
     },
     {
       type: "message",
       sender: "system",
-      text: "Quanti bagagli deve aspettarsi l’autista?",
+      text: "Quanti bagagli deve aspettarsi l’autista? 🧳",
       delayAfter: 1000,
     },
     {
       type: "typing",
       sender: "user",
-      duration: 950,
+      duration: 900,
       nextText: "3",
       delayAfter: 600,
     },
@@ -434,7 +483,7 @@ const FLOW: Record<Language, FlowStep[]> = {
     {
       type: "typing",
       sender: "user",
-      duration: 1000,
+      duration: 950,
       nextText: "Marco",
       delayAfter: 700,
     },
@@ -442,7 +491,7 @@ const FLOW: Record<Language, FlowStep[]> = {
       type: "message",
       sender: "system",
       text:
-        "Perfetto — sto confermando il tuo autista.\n\n" +
+        "Perfetto — sto confermando il tuo autista. ✅\n\n" +
         "📍 Partenza: posizione live ricevuta\n" +
         "✈️ Destinazione: Aeroporto\n" +
         "👥 Ospiti: 2\n" +
