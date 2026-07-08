@@ -1,5 +1,34 @@
 "use client";
 import { useEffect, useMemo, useRef, useState } from "react";
+
+// Chat wallpaper: faint everyday-Vyalo line icons (food, beach, transfer,
+// map pin, chat/help, local discovery) on the existing WhatsApp beige.
+// Bubbles are opaque, so this only ever shows in the gaps between them —
+// text legibility is unaffected regardless of opacity here.
+const CHAT_WALLPAPER_SVG = `
+<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200">
+  <g stroke="#075E54" stroke-opacity="0.12" fill="#075E54" fill-opacity="0.1" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+    <g transform="translate(18,22)" fill="none">
+      <line x1="0" y1="0" x2="0" y2="7" />
+      <line x1="4" y1="0" x2="4" y2="7" />
+      <line x1="8" y1="0" x2="8" y2="7" />
+      <line x1="4" y1="7" x2="4" y2="22" />
+    </g>
+    <path d="M55 32 q5 -7 10 0 q5 7 10 0 q5 -7 10 0" fill="none" />
+    <path d="M118 18 L136 25 L118 32 L122 25 Z" stroke="none" />
+    <path d="M168 58 c-5 0 -8 3.5 -8 8 c0 6 8 15 8 15 c0 0 8 -9 8 -15 c0 -4.5 -3 -8 -8 -8z" stroke="none" />
+    <path d="M28 112 h16 a3 3 0 0 1 3 3 v9 a3 3 0 0 1 -3 3 h-10 l-5 5 v-5 h-1 a3 3 0 0 1 -3 -3 v-9 a3 3 0 0 1 3 -3z" stroke="none" />
+    <g transform="translate(100,150)" fill="none">
+      <circle cx="0" cy="0" r="10" />
+      <path d="M0 -6 L2.4 0 L0 6 L-2.4 0 Z" stroke="none" />
+    </g>
+    <path d="M148 168 q5 -7 10 0 q5 7 10 0" fill="none" />
+  </g>
+</svg>`;
+const CHAT_WALLPAPER_URL = `url("data:image/svg+xml,${encodeURIComponent(
+  CHAT_WALLPAPER_SVG
+)}")`;
+
 type Language = "en" | "it";
 type TabKey = "about" | "benefits" | "hosts" | "partners" | "contact";
 const TAB_CONTENT: Record<
@@ -216,10 +245,10 @@ const FLOW: Record<Language, FlowStep[]> = {
         "Welcome to Vyalo. 👋\n\n" +
         "Your live local concierge on WhatsApp.\n\n" +
         "Please choose your language:\n\n" +
-        "1 🇬🇧 English\n" +
-        "2 🇮🇹 Italian\n" +
-        "3 🇫🇷 French\n" +
-        "4 🇩🇪 German",
+        "1️⃣ English 🇬🇧\n" +
+        "2️⃣ Italian 🇮🇹\n" +
+        "3️⃣ French 🇫🇷\n" +
+        "4️⃣ German 🇩🇪",
       delayAfter: 1500,
     },
     {
@@ -234,12 +263,12 @@ const FLOW: Record<Language, FlowStep[]> = {
       sender: "system",
       text:
         "How can we help you today?\n\n" +
-        "1 🍝 Restaurants & Reservations\n" +
-        "2 🎟 Events & Activities\n" +
-        "3 ✈️ Airport Transfers\n" +
-        "4 👨‍👩‍👧 Kids Activities\n" +
-        "5 🏖 Beach Clubs\n" +
-        "6 🧭 Excursions",
+        "1️⃣ Restaurants 🍝\n" +
+        "2️⃣ Events & Activities 🎟\n" +
+        "3️⃣ Airport Transfers ✈️\n" +
+        "4️⃣ Kids Activities 👨‍👩‍👧\n" +
+        "5️⃣ Beach Clubs 🏖\n" +
+        "6️⃣ Excursions 🧭",
       delayAfter: 1500,
     },
     {
@@ -255,8 +284,8 @@ const FLOW: Record<Language, FlowStep[]> = {
       text:
         "✈️ Airport Transfers\n\n" +
         "How would you like to share your pickup point?\n\n" +
-        "1 📍 Send live location\n" +
-        "2 📝 Type pickup address",
+        "1️⃣ Send live location 📍\n" +
+        "2️⃣ Type pickup address 📝",
       delayAfter: 1300,
     },
     {
@@ -283,9 +312,9 @@ const FLOW: Record<Language, FlowStep[]> = {
       sender: "system",
 text:
   "Where are you going?\n\n" +
-  "1 🚖 Cefalù → Palermo Airport\n" +
-  "2 🏙 City Centre\n" +
-  "3 👤 Reserve Private Driver",
+  "1️⃣ Cefalù → Palermo Airport 🚖\n" +
+  "2️⃣ City Centre 🏙\n" +
+  "3️⃣ Reserve Private Driver 👤",
       delayAfter: 1200,
     },
     {
@@ -369,10 +398,10 @@ text:
         "Benvenuto su Vyalo. 👋\n\n" +
         "Il tuo concierge locale su WhatsApp.\n\n" +
         "Seleziona la tua lingua:\n\n" +
-        "1 🇬🇧 Inglese\n" +
-        "2 🇮🇹 Italiano\n" +
-        "3 🇫🇷 Francese\n" +
-        "4 🇩🇪 Tedesco",
+        "1️⃣ Inglese 🇬🇧\n" +
+        "2️⃣ Italiano 🇮🇹\n" +
+        "3️⃣ Francese 🇫🇷\n" +
+        "4️⃣ Tedesco 🇩🇪",
       delayAfter: 1500,
     },
     {
@@ -387,12 +416,12 @@ text:
       sender: "system",
       text:
         "Come possiamo aiutarti oggi?\n\n" +
-        "1 🍝 Ristoranti e Prenotazioni\n" +
-        "2 🎟 Eventi e Attività\n" +
-        "3 ✈️ Transfer Aeroportuali\n" +
-        "4 👨‍👩‍👧 Attività per Bambini\n" +
-        "5 🏖 Beach Club\n" +
-        "6 🧭 Escursioni",
+        "1️⃣ Ristoranti 🍝\n" +
+        "2️⃣ Eventi e Attività 🎟\n" +
+        "3️⃣ Transfer Aeroportuali ✈️\n" +
+        "4️⃣ Attività per Bambini 👨‍👩‍👧\n" +
+        "5️⃣ Beach Club 🏖\n" +
+        "6️⃣ Escursioni 🧭",
       delayAfter: 1500,
     },
     {
@@ -408,8 +437,8 @@ text:
       text:
         "✈️ Transfer Aeroportuali\n\n" +
         "Come vuoi condividere il punto di partenza?\n\n" +
-        "1 📍 Invia posizione live\n" +
-        "2 📝 Scrivi indirizzo di partenza",
+        "1️⃣ Invia posizione live 📍\n" +
+        "2️⃣ Scrivi indirizzo di partenza 📝",
       delayAfter: 1300,
     },
     {
@@ -436,9 +465,9 @@ text:
       sender: "system",
 text:
   "Dove devi andare?\n\n" +
-  "1 🚖 Cefalù → Aeroporto di Palermo\n" +
-  "2 🏙 Centro città\n" +
-  "3 👤 Prenota autista privato",
+  "1️⃣ Cefalù → Aeroporto di Palermo 🚖\n" +
+  "2️⃣ Centro città 🏙\n" +
+  "3️⃣ Prenota autista privato 👤",
       delayAfter: 1200,
     },
     {
@@ -879,7 +908,10 @@ useEffect(() => {
                 <div
                   style={{
                     height: 520,
-                    background: "#EDE5DD",
+                    backgroundColor: "#EDE5DD",
+                    backgroundImage: CHAT_WALLPAPER_URL,
+                    backgroundSize: "200px 200px",
+                    backgroundRepeat: "repeat",
                   }}
                 >
                   <div
