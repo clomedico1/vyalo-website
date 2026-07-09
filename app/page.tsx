@@ -44,7 +44,6 @@ const TAB_CONTENT: Record<
 > = {
   en: {
     about: {
-      eyebrow: "Your live local concierge",
       title:
         "Restaurants, activities, airport transfers, and reliable local help — all in one simple WhatsApp-based concierge experience.",
       body:
@@ -1138,7 +1137,7 @@ const tabs: { key: TabKey; label: string }[] = [
 
 <div
   key={activeTab}
-  className="-mt-32 ml-24 max-w-[760px] animate-[vyaloTabFade_420ms_cubic-bezier(0.22,1,0.36,1)]"
+  className="-mt-[5.6rem] ml-24 max-w-[760px] animate-[vyaloTabFade_420ms_cubic-bezier(0.22,1,0.36,1)]"
 >
   {activeContent.eyebrow && (
   <p className="mb-4 text-[20px] italic font-bold text-[#111111]">
