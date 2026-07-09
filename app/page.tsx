@@ -1075,7 +1075,9 @@ const tabs: { key: TabKey; label: string }[] = [
       }
     `}</style>      <div className="mx-auto max-w-[1600px] px-8 pt-10 lg:px-12 xl:px-14">
         <div className="grid min-h-screen grid-cols-1 gap-10 xl:grid-cols-[minmax(0,1fr)_420px] xl:items-start xl:gap-10">          <section className="pt-1 xl:pt-2">            <div className="max-w-[860px]">
-            <div className="relative z-20 mb-8 flex flex-nowrap gap-3">                  {tabs.map((tab) => {
+            <div className="relative z-20 mb-8 flex flex-nowrap items-center gap-3">
+              <div className="flex flex-nowrap gap-1 rounded-full bg-gradient-to-b from-[#f1efe9] to-[#e5e3dc] p-1.5 shadow-[inset_0_2px_5px_rgba(0,0,0,0.07),inset_0_-1px_0_rgba(255,255,255,0.5)] ring-1 ring-black/[0.05]">
+                {tabs.map((tab) => {
                   const isActive = activeTab === tab.key;
 
                   return (
@@ -1083,17 +1085,26 @@ const tabs: { key: TabKey; label: string }[] = [
                       key={tab.key}
                       type="button"
                       onMouseEnter={() => setActiveTab(tab.key)}
-                      onClick={() => setActiveTab(tab.key)}                      className={[
-  "rounded-full px-8 py-3.5 text-[15px] font-semibold transition-all duration-200 sm:text-[16px]",
-  isActive
-    ? "bg-white text-[#111111] shadow-[0_14px_30px_rgba(0,0,0,0.09)] ring-1 ring-black/5"
-    : "bg-[#ecebe7] text-[#5f6876] hover:bg-[#e3e2de] hover:text-[#111111]",
-].join(" ")}                    >
+                      onClick={() => setActiveTab(tab.key)}
+                      className={[
+                        "relative inline-flex shrink-0 items-center whitespace-nowrap rounded-full px-6 py-3 text-[14px] tracking-[-0.01em] transition-all duration-300 ease-out sm:px-7 sm:py-3.5 sm:text-[15px]",
+                        isActive
+                          ? "scale-[1.05] bg-white font-extrabold text-[#0b3d24] shadow-[0_8px_18px_rgba(0,0,0,0.08)] ring-2 ring-[#34A853]/50"
+                          : "font-semibold text-[#5f6876] ring-1 ring-black/[0.06] hover:-translate-y-[2px] hover:bg-white hover:text-[#111111] hover:shadow-[0_12px_26px_rgba(0,0,0,0.10)] hover:ring-black/[0.1]",
+                      ].join(" ")}
+                    >
+                      <span
+                        className={[
+                          "mr-1.5 inline-block h-1.5 w-1.5 shrink-0 rounded-full transition-colors duration-300",
+                          isActive ? "bg-[#34A853]" : "bg-transparent",
+                        ].join(" ")}
+                      />
                       {tab.label}
                     </button>
                   );
                 })}
-              <div className="ml-3 flex items-center gap-2 text-[14px] font-semibold text-[#5f6876]">
+              </div>
+              <div className="ml-1 flex items-center gap-2 text-[14px] font-semibold text-[#5f6876]">
   <button
     type="button"
     onClick={() => setLanguage("en")}
