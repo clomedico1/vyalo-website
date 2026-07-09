@@ -1132,7 +1132,7 @@ const tabs: { key: TabKey; label: string }[] = [
     ? "Meet Vyalo — your live local concierge."
     : "Scopri Vyalo — il tuo concierge locale."
 }
-    className="block h-auto w-full max-w-[620px]"
+    className="block h-auto w-full max-w-[496px]"
   />
 </div>  </div>
 
