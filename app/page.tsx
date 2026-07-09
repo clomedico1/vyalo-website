@@ -1137,7 +1137,7 @@ const tabs: { key: TabKey; label: string }[] = [
 
 <div
   key={activeTab}
-  className="-mt-[5.6rem] ml-24 max-w-[760px] animate-[vyaloTabFade_420ms_cubic-bezier(0.22,1,0.36,1)]"
+  className="-mt-[1.25rem] ml-24 max-w-[760px] animate-[vyaloTabFade_420ms_cubic-bezier(0.22,1,0.36,1)]"
 >
   {activeContent.eyebrow && (
   <p className="mb-4 text-[20px] italic font-bold text-[#111111]">
