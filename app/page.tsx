@@ -45,33 +45,33 @@ const TAB_CONTENT: Record<
   en: {
     about: {
       title:
-        "Restaurants, activities, airport transfers, and reliable local help — all in one simple WhatsApp-based concierge experience.",
+        "Cefalù, made simple — because the hard work has already been done.",
       body:
-        "Vyalo removes the confusion, delay, and guesswork from being in an unfamiliar destination. Guests can quickly discover trusted places, coordinate local services, and get help when plans do not go smoothly.",
+        "Restaurants, experiences, transfers, and reliable local help — all through one familiar WhatsApp conversation. Behind that simplicity is real local knowledge, trusted relationships, and careful judgment, helping you make better decisions without spending your trip searching, comparing, and second-guessing.",
     },
     benefits: {
       eyebrow: "Why Vyalo",
-      title: "A better guest experience, without the usual local friction.",
+      title: "You don't need more options. You need confidence in the right one.",
       body:
-        "Vyalo helps guests access reliable local recommendations, practical coordination, and real support through a familiar WhatsApp experience — reducing uncertainty and making every stay feel smoother.",
+        "Travel information is everywhere. What is harder to find is someone willing to filter it, validate it, and stand behind the recommendation. Vyalo turns local knowledge into trusted decisions, so you can spend less time wondering and more time enjoying where you are.",
     },
     hosts: {
       eyebrow: "For hosts",
-      title: "Give guests better support without taking on more messaging yourself.",
+      title: "Let your hospitality reach further, without taking on more yourself.",
       body:
-        "Vyalo helps reduce repetitive guest requests, improve responsiveness, and create a more polished stay experience — all while allowing hosts to keep their own preferred providers where they choose.",
+        "Vyalo becomes a trusted extension of the experience you already provide. Guests receive faster guidance, reliable local support, and access to the businesses you trust, while you protect your time, preserve your relationships, and offer a more complete stay without coordinating every request yourself.",
     },
     partners: {
       eyebrow: "For partners",
-      title: "Join a trusted local network designed around quality and reliability.",
+      title: "Trusted local businesses deserve more than visibility. They deserve confidence.",
       body:
-        "Vyalo connects guests with carefully selected local businesses and service providers, helping quality partners stand out through better visibility, smoother coordination, and stronger guest trust.",
+        "Vyalo is not an open directory and recommendation is never simply bought. We work with carefully selected local businesses that hold higher standards of reliability, quality, and guest experience—helping the right providers earn stronger trust, smoother coordination, and meaningful demand.",
     },
     contact: {
       eyebrow: "Get in touch",
-      title: "Interested in bringing Vyalo to your property or destination?",
+      title: "Help shape a more trusted way to experience Cefalù.",
       body:
-        "Whether you are a host, local business, or potential partner, we would love to hear from you.",
+        "Whether you are a host, local business, or destination partner, Vyalo offers a way to create smoother stays, stronger local connections, and more confident visitors. Together, we can make trusted local support feel like a natural part of the destination itself.",
     },
   },
   it: {
