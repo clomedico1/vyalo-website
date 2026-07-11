@@ -1140,10 +1140,11 @@ const tabs: { key: TabKey; label: string }[] = [
   className="-mt-[1.25rem] ml-24 max-w-[760px] animate-[vyaloTabFade_420ms_cubic-bezier(0.22,1,0.36,1)]"
 >
   {activeContent.eyebrow && (
-  <p className="mb-4 text-[20px] italic font-bold text-[#111111]">
+  <p className="mb-4 -translate-y-[50px] text-[20px] italic font-bold text-[#111111]">
     {activeContent.eyebrow}
   </p>
 )}
+  <div className="-mt-[50px]">
   <p className="max-w-[760px] text-[clamp(2.2rem,3vw,3.4rem)] font-medium leading-[1.08] tracking-[-0.035em] text-[#667085]">
     {activeContent.title}
   </p>
@@ -1151,7 +1152,8 @@ const tabs: { key: TabKey; label: string }[] = [
   <p className="mt-8 max-w-[700px] text-[19px] leading-[1.8] tracking-[-0.01em] text-[#697586]">
     {activeContent.body}
   </p>
-<div className="mt-6 flex items-center gap-8 text-[15px] font-medium text-[#4b5563]">  
+  </div>
+<div className="mt-[74px] flex items-center gap-8 text-[15px] font-medium text-[#4b5563]">
 <div className="-mt-2 flex items-center gap-10 text-[#4b5563]">
   <div className="flex items-center gap-3">
     <span className="flex h-10 w-10 items-center justify-center rounded-full bg-[#edf7f0] text-[18px] text-[#34A853] shadow-[0_1px_2px_rgba(0,0,0,0.04)]">
