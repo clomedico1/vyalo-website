@@ -29,6 +29,8 @@ const CHAT_WALLPAPER_URL = `url("data:image/svg+xml,${encodeURIComponent(
   CHAT_WALLPAPER_SVG
 )}")`;
 
+const SUPPORT_EMAIL = "hello@vyalo.it";
+
 type Language = "en" | "it";
 type TabKey = "about" | "benefits" | "hosts" | "partners" | "contact";
 const TAB_CONTENT: Record<
@@ -118,6 +120,7 @@ const UI_COPY = {
       contact: "Contact",
     },
     cta: "Try Vyalo on WhatsApp",
+    emailCta: "Email us",
     phoneTitle: "Vyalo Concierge",
     phoneStatus: "Typically replies instantly",
     phoneInput: "Message",
@@ -129,6 +132,10 @@ const UI_COPY = {
       supportLine1: "Real Local Concierge",
       supportLine2: "Support",
     },
+    footer: {
+      tagline: "Your local concierge in Cefalù, Sicily.",
+      rights: "All rights reserved.",
+    },
   },
   it: {
     tabs: {
@@ -139,6 +146,7 @@ const UI_COPY = {
       contact: "Contatti",
     },
     cta: "Prova Vyalo su WhatsApp",
+    emailCta: "Scrivici",
     phoneTitle: "Concierge Vyalo",
     phoneStatus: "Di solito risponde subito",
     phoneInput: "Messaggio",
@@ -149,6 +157,10 @@ const UI_COPY = {
       secureLine2: "WhatsApp",
       supportLine1: "Assistenza Concierge",
       supportLine2: "Reale",
+    },
+    footer: {
+      tagline: "Il tuo concierge locale a Cefalù, Sicilia.",
+      rights: "Tutti i diritti riservati.",
     },
   },
 } as const;
@@ -1152,6 +1164,19 @@ const tabs: { key: TabKey; label: string }[] = [
   <p className="mt-8 max-w-[700px] text-[19px] leading-[1.8] tracking-[-0.01em] text-[#697586]">
     {activeContent.body}
   </p>
+
+  {activeTab === "contact" && (
+    <a
+      href={`mailto:${SUPPORT_EMAIL}`}
+      aria-label={`${UI_COPY[language].emailCta}: ${SUPPORT_EMAIL}`}
+      className="mt-8 inline-flex items-center gap-3 rounded-full border border-[#34A853]/30 bg-white px-6 py-3 text-[15px] font-semibold text-[#0b3d24] shadow-[0_1px_2px_rgba(0,0,0,0.04)] transition-all duration-300 ease-out hover:-translate-y-[2px] hover:shadow-[0_10px_22px_rgba(0,0,0,0.08)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#34A853]"
+    >
+      <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#edf7f0] text-[15px] text-[#34A853]">
+        ✉
+      </span>
+      {SUPPORT_EMAIL}
+    </a>
+  )}
   </div>
 <div className="mt-[74px] flex items-center gap-8 text-[15px] font-medium text-[#4b5563]">
 <div className="-mt-2 flex items-center gap-10 text-[#4b5563]">
@@ -1202,6 +1227,21 @@ const tabs: { key: TabKey; label: string }[] = [
             <ChatSimulation language={language} />
           </aside>
         </div>
+
+        <footer className="mt-16 flex flex-col items-center gap-3 border-t border-[#e5e3dc] py-8 text-center text-[13px] text-[#5f6876] sm:flex-row sm:items-center sm:justify-between sm:text-left">
+          <p>
+            {UI_COPY[language].footer.tagline}
+            <br className="sm:hidden" />
+            <span className="hidden sm:inline"> </span>
+            &copy; {new Date().getFullYear()} Vyalo. {UI_COPY[language].footer.rights}
+          </p>
+          <a
+            href={`mailto:${SUPPORT_EMAIL}`}
+            className="font-semibold text-[#0b3d24] underline decoration-[#34A853]/40 underline-offset-4 transition-colors hover:text-[#34A853] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#34A853]"
+          >
+            {SUPPORT_EMAIL}
+          </a>
+        </footer>
       </div>
     </main>
   );
