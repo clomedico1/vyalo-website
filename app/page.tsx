@@ -1,5 +1,6 @@
 "use client";
 import { useEffect, useMemo, useRef, useState } from "react";
+import Link from "next/link";
 
 // Chat wallpaper: faint everyday-Vyalo line icons (food, beach, transfer,
 // map pin, chat/help, local discovery) on the existing WhatsApp beige.
@@ -121,6 +122,7 @@ const UI_COPY = {
     },
     cta: "Try Vyalo on WhatsApp",
     emailCta: "Email us",
+    hostCta: "Become a Verified Vyalo Host",
     phoneTitle: "Vyalo Concierge",
     phoneStatus: "Typically replies instantly",
     phoneInput: "Message",
@@ -147,6 +149,7 @@ const UI_COPY = {
     },
     cta: "Prova Vyalo su WhatsApp",
     emailCta: "Scrivici",
+    hostCta: "Candidati per diventare un Host Verificato Vyalo",
     phoneTitle: "Concierge Vyalo",
     phoneStatus: "Di solito risponde subito",
     phoneInput: "Messaggio",
@@ -1177,6 +1180,18 @@ const tabs: { key: TabKey; label: string }[] = [
       {SUPPORT_EMAIL}
     </a>
   )}
+
+  {activeTab === "hosts" && (
+    <Link
+      href="/host"
+      className="mt-8 inline-flex items-center gap-3 rounded-full border border-[#34A853]/30 bg-white px-6 py-3 text-[15px] font-semibold text-[#0b3d24] shadow-[0_1px_2px_rgba(0,0,0,0.04)] transition-all duration-300 ease-out hover:-translate-y-[2px] hover:shadow-[0_10px_22px_rgba(0,0,0,0.08)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#34A853]"
+    >
+      <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#edf7f0] text-[15px] text-[#34A853]">
+        →
+      </span>
+      {UI_COPY[language].hostCta}
+    </Link>
+  )}
   </div>
 <div className="mt-[74px] flex items-center gap-8 text-[15px] font-medium text-[#4b5563]">
 <div className="-mt-2 flex items-center gap-10 text-[#4b5563]">
@@ -1235,12 +1250,20 @@ const tabs: { key: TabKey; label: string }[] = [
             <span className="hidden sm:inline"> </span>
             &copy; {new Date().getFullYear()} Vyalo. {UI_COPY[language].footer.rights}
           </p>
-          <a
-            href={`mailto:${SUPPORT_EMAIL}`}
-            className="font-semibold text-[#0b3d24] underline decoration-[#34A853]/40 underline-offset-4 transition-colors hover:text-[#34A853] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#34A853]"
-          >
-            {SUPPORT_EMAIL}
-          </a>
+          <div className="flex items-center gap-4">
+            <Link
+              href="/host"
+              className="text-[#5f6876] transition-colors hover:text-[#111111]"
+            >
+              {UI_COPY[language].hostCta}
+            </Link>
+            <a
+              href={`mailto:${SUPPORT_EMAIL}`}
+              className="font-semibold text-[#0b3d24] underline decoration-[#34A853]/40 underline-offset-4 transition-colors hover:text-[#34A853] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#34A853]"
+            >
+              {SUPPORT_EMAIL}
+            </a>
+          </div>
         </footer>
       </div>
     </main>
