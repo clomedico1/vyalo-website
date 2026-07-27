@@ -2,58 +2,81 @@
 
 import { useEffect, useRef, useState, type FormEvent } from "react";
 import { apiUrl } from "../../lib/api";
-import { HOST_COPY, PROPERTY_TYPE_OPTIONS } from "./copy";
+import { HOST_COPY, PROPERTY_TYPE_OPTIONS, SMARTFILL_EXAMPLE_WEEK } from "./copy";
 import {
   EMPTY_FORM_STATE,
   type HostApplicationApiResponse,
   type HostApplicationFormState,
   type HostApplicationPayload,
   type PropertyType,
+  type SmartFillDetails,
 } from "./types";
 import {
   hasErrors,
   validateStep1,
   validateStep2,
   validateStep3,
-  validateStep4,
   type FieldErrors,
 } from "./validation";
 
 const TOTAL_STEPS = HOST_COPY.steps.length;
 
-const STEP_VALIDATORS = [validateStep1, validateStep2, validateStep3, validateStep4];
+const STEP_VALIDATORS = [validateStep1, validateStep2, validateStep3];
 
 // Maps a validation error key to the id of the element that should receive
-// focus when that error is the first one on the step. "propertyTypes" has
-// no single input — it focuses the (programmatically-focusable) group
-// container instead.
+// focus when that error is the first one on the step.
 const FIELD_FOCUS_TARGET: Record<string, string> = {
   contactName: "contactName",
   email: "email",
   phone: "phone",
-  propertyTypes: "propertyTypesGroup",
+  propertyName: "propertyName",
+  propertyType: "propertyTypeGroup",
   otherPropertyType: "otherPropertyType",
+  propertyAddress: "propertyAddress",
   propertyCount: "propertyCount",
   consentToContact: "consentToContact",
   privacyAcknowledged: "privacyAcknowledged",
 };
 
+function buildSmartFillDetails(state: HostApplicationFormState): SmartFillDetails | undefined {
+  if (!state.smartFillEnabled) return undefined;
+  const sf = state.smartFill;
+
+  const toNumber = (value: string) => (value.trim() ? Number(value) : undefined);
+
+  return {
+    description: sf.description.trim() || undefined,
+    photosLink: sf.photosLink.trim() || undefined,
+    bedrooms: toNumber(sf.bedrooms),
+    bathrooms: toNumber(sf.bathrooms),
+    beds: toNumber(sf.beds),
+    maxGuests: toNumber(sf.maxGuests),
+    wifi: sf.wifi || undefined,
+    parking: sf.parking || undefined,
+    pool: sf.pool || undefined,
+    kitchen: sf.kitchen || undefined,
+    airConditioning: sf.airConditioning || undefined,
+    outdoorArea: sf.outdoorArea || undefined,
+    houseRules: sf.houseRules.trim() || undefined,
+    checkIn: sf.checkIn.trim() || undefined,
+    checkOut: sf.checkOut.trim() || undefined,
+  };
+}
+
 function buildPayload(state: HostApplicationFormState): HostApplicationPayload {
   return {
     contactName: state.contactName.trim(),
-    hostCompanyName: state.hostCompanyName.trim() || undefined,
     email: state.email.trim(),
     phone: state.phone.trim(),
+    hostCompanyName: state.propertyName.trim() || undefined,
+    propertyAddress: state.propertyAddress.trim() || undefined,
+    propertyTypes: state.propertyType ? [state.propertyType] : [],
+    otherPropertyType:
+      state.propertyType === "other" ? state.otherPropertyType.trim() : undefined,
+    propertyCount: state.structureMode === "multiple" ? Number(state.propertyCount) : 1,
     preferredLanguage: "it",
-    propertyTypes: state.propertyTypes,
-    otherPropertyType: state.propertyTypes.includes("other")
-      ? state.otherPropertyType.trim()
-      : undefined,
-    propertyCount: state.propertyCount.trim() ? Number(state.propertyCount) : undefined,
-    currentGuestSupportModel: state.currentGuestSupportModel.trim() || undefined,
-    interestedInGuestSupport: state.interestedInGuestSupport,
-    interestedInQrPlaques: state.interestedInQrPlaques,
-    interestedInSmartFill: state.interestedInSmartFill,
+    interestedInSmartFill: state.smartFillEnabled,
+    smartFillDetails: buildSmartFillDetails(state),
     consentToContact: state.consentToContact,
     privacyAcknowledged: state.privacyAcknowledged,
     website: state.website,
@@ -100,6 +123,37 @@ function FieldError({ id, message }: { id: string; message?: string }) {
   );
 }
 
+function SmartFillExampleCard() {
+  return (
+    <div className="rounded-2xl border border-[#e5e3dc] bg-[#f6f6f3] p-5">
+      <p className="mb-3 text-[13px] font-semibold text-[#5f6876]">
+        {HOST_COPY.step3.smartFill.exampleCaption}
+      </p>
+      <div className="grid grid-cols-3 gap-2 sm:grid-cols-6">
+        {SMARTFILL_EXAMPLE_WEEK.map((d) => (
+          <div
+            key={d.day}
+            className={[
+              "rounded-lg px-1 py-3 text-center text-[12px] font-semibold",
+              d.status === "empty"
+                ? "bg-[#edf7f0] text-[#0b3d24] ring-2 ring-[#34A853]/50"
+                : "bg-white text-[#5f6876] ring-1 ring-black/[0.06]",
+            ].join(" ")}
+          >
+            <div>{d.day}</div>
+            <div className="mt-1 text-[10px] font-normal">
+              {d.status === "empty" ? "Libero" : "Prenotato"}
+            </div>
+          </div>
+        ))}
+      </div>
+      <p className="mt-4 text-[13px] leading-[1.6] text-[#5f6876]">
+        {HOST_COPY.step3.smartFill.exampleResult}
+      </p>
+    </div>
+  );
+}
+
 const inputClass =
   "w-full rounded-xl border border-[#e5e3dc] bg-white px-4 py-3 text-[15px] text-[#111111] outline-none transition-colors focus:border-[#34A853] focus:ring-2 focus:ring-[#34A853]/20";
 const labelClass = "mb-1.5 block text-[14px] font-semibold text-[#111111]";
@@ -108,6 +162,14 @@ const focusRingClass =
 const checkboxCardClass =
   "flex cursor-pointer items-start gap-3 rounded-xl border border-[#e5e3dc] bg-white px-4 py-3.5 text-[14px] text-[#111111] transition-colors hover:border-[#34A853]/40";
 const checkboxInputClass = `mt-0.5 h-4 w-4 shrink-0 accent-[#34A853] ${focusRingClass}`;
+const radioCardClass = (isSelected: boolean) =>
+  [
+    "rounded-xl border px-4 py-3 text-left text-[14px] font-medium transition-all duration-200",
+    focusRingClass,
+    isSelected
+      ? "border-[#34A853] bg-[#edf7f0] text-[#0b3d24]"
+      : "border-[#e5e3dc] bg-white text-[#5f6876] hover:border-[#34A853]/40",
+  ].join(" ");
 
 export default function HostApplicationForm() {
   const [currentStep, setCurrentStep] = useState(0);
@@ -120,10 +182,6 @@ export default function HostApplicationForm() {
   const successHeadingRef = useRef<HTMLHeadingElement>(null);
   const isFirstRender = useRef(true);
 
-  // Move focus to the new step's heading whenever the step changes, so
-  // keyboard and screen-reader users land on the new content instead of a
-  // now-relocated button. Skipped on first mount so initial page load
-  // doesn't unexpectedly steal focus from the browser chrome.
   useEffect(() => {
     if (isFirstRender.current) {
       isFirstRender.current = false;
@@ -145,15 +203,11 @@ export default function HostApplicationForm() {
     setFormState((prev) => ({ ...prev, [key]: value }));
   }
 
-  function togglePropertyType(value: PropertyType) {
-    setFormState((prev) => {
-      const isSelected = prev.propertyTypes.includes(value);
-      if (isSelected) {
-        return { ...prev, propertyTypes: prev.propertyTypes.filter((v) => v !== value) };
-      }
-      if (prev.propertyTypes.length >= 3) return prev;
-      return { ...prev, propertyTypes: [...prev.propertyTypes, value] };
-    });
+  function updateSmartFill<K extends keyof HostApplicationFormState["smartFill"]>(
+    key: K,
+    value: HostApplicationFormState["smartFill"][K]
+  ) {
+    setFormState((prev) => ({ ...prev, smartFill: { ...prev.smartFill, [key]: value } }));
   }
 
   function goNext() {
@@ -175,7 +229,7 @@ export default function HostApplicationForm() {
   async function handleSubmit() {
     if (isSubmittingRef.current) return;
 
-    const stepErrors = validateStep4(formState);
+    const stepErrors = validateStep3(formState);
     setErrors(stepErrors);
     if (hasErrors(stepErrors)) {
       focusFirstError(stepErrors);
@@ -193,9 +247,7 @@ export default function HostApplicationForm() {
       });
 
       if (!response.ok) {
-        // Developer-facing diagnostic only — never shown to the applicant,
-        // never includes the request body or any secret.
-        console.error("Host application submission failed with status", response.status);
+        console.error("Host onboarding submission failed with status", response.status);
         setStatus("error");
         isSubmittingRef.current = false;
         return;
@@ -205,10 +257,7 @@ export default function HostApplicationForm() {
       setApplicationId(data.applicationId ?? null);
       setStatus("success");
     } catch (err) {
-      // Covers network failures and a missing NEXT_PUBLIC_API_BASE_URL
-      // (apiUrl() throws in that case). The applicant only ever sees the
-      // generic Italian failure copy below — no env var name, no stack.
-      console.error("Host application submission error:", err);
+      console.error("Host onboarding submission error:", err);
       setStatus("error");
       isSubmittingRef.current = false;
     }
@@ -340,32 +389,10 @@ export default function HostApplicationForm() {
               <FieldError id="phone-error" message={errors.phone} />
             </div>
 
-            <div>
-              <label htmlFor="hostCompanyName" className={labelClass}>
-                {HOST_COPY.step1.hostCompanyName.label}
-              </label>
-              <input
-                id="hostCompanyName"
-                type="text"
-                maxLength={200}
-                className={`${inputClass} ${focusRingClass}`}
-                placeholder={HOST_COPY.step1.hostCompanyName.placeholder}
-                value={formState.hostCompanyName}
-                onChange={(e) => update("hostCompanyName", e.target.value)}
-              />
-            </div>
-
-            {/* Honeypot — visually hidden and out of tab order. A real
-                applicant never sees or interacts with this field. */}
+            {/* Honeypot — visually hidden and out of tab order. */}
             <div
               aria-hidden="true"
-              style={{
-                position: "absolute",
-                left: "-9999px",
-                width: 1,
-                height: 1,
-                overflow: "hidden",
-              }}
+              style={{ position: "absolute", left: "-9999px", width: 1, height: 1, overflow: "hidden" }}
             >
               <label htmlFor="website">Website</label>
               <input
@@ -392,43 +419,55 @@ export default function HostApplicationForm() {
             {HOST_COPY.step2.title}
           </h2>
           <p className="mt-1.5 text-[14px] text-[#5f6876]">{HOST_COPY.step2.intro}</p>
-          <p className="mt-1 text-[13px] text-[#5f6876]">{HOST_COPY.step2.destinationNote}</p>
 
           <div className="mt-6 space-y-5">
+            <div>
+              <label htmlFor="propertyName" className={labelClass}>
+                {HOST_COPY.step2.propertyName.label}
+              </label>
+              <input
+                id="propertyName"
+                type="text"
+                maxLength={200}
+                className={`${inputClass} ${focusRingClass}`}
+                placeholder={HOST_COPY.step2.propertyName.placeholder}
+                value={formState.propertyName}
+                onChange={(e) => update("propertyName", e.target.value)}
+                aria-invalid={errors.propertyName ? "true" : undefined}
+                aria-describedby={errors.propertyName ? "propertyName-error" : undefined}
+              />
+              <FieldError id="propertyName-error" message={errors.propertyName} />
+            </div>
+
             <fieldset
-              id="propertyTypesGroup"
+              id="propertyTypeGroup"
               tabIndex={-1}
               className="m-0 border-0 p-0 outline-none"
-              aria-describedby={errors.propertyTypes ? "propertyTypes-error" : undefined}
+              aria-describedby={errors.propertyType ? "propertyType-error" : undefined}
             >
-              <legend className={labelClass}>{HOST_COPY.step2.propertyTypes.legend}</legend>
-              <p className="mb-3 text-[13px] text-[#5f6876]">{HOST_COPY.step2.propertyTypes.helper}</p>
+              <legend className={labelClass}>{HOST_COPY.step2.propertyType.legend}</legend>
               <div className="grid grid-cols-2 gap-2.5 sm:grid-cols-3">
                 {PROPERTY_TYPE_OPTIONS.map((option) => {
-                  const isSelected = formState.propertyTypes.includes(option.value);
+                  const isSelected = formState.propertyType === option.value;
                   return (
-                    <button
-                      key={option.value}
-                      type="button"
-                      onClick={() => togglePropertyType(option.value)}
-                      aria-pressed={isSelected}
-                      className={[
-                        "rounded-xl border px-4 py-3 text-left text-[14px] font-medium transition-all duration-200",
-                        focusRingClass,
-                        isSelected
-                          ? "border-[#34A853] bg-[#edf7f0] text-[#0b3d24]"
-                          : "border-[#e5e3dc] bg-white text-[#5f6876] hover:border-[#34A853]/40",
-                      ].join(" ")}
-                    >
+                    <label key={option.value} className={radioCardClass(isSelected)}>
+                      <input
+                        type="radio"
+                        name="propertyType"
+                        value={option.value}
+                        checked={isSelected}
+                        onChange={() => update("propertyType", option.value as PropertyType)}
+                        className="sr-only"
+                      />
                       {option.label}
-                    </button>
+                    </label>
                   );
                 })}
               </div>
-              <FieldError id="propertyTypes-error" message={errors.propertyTypes} />
+              <FieldError id="propertyType-error" message={errors.propertyType} />
             </fieldset>
 
-            {formState.propertyTypes.includes("other") && (
+            {formState.propertyType === "other" && (
               <div>
                 <label htmlFor="otherPropertyType" className={labelClass}>
                   {HOST_COPY.step2.otherPropertyType.label}
@@ -449,23 +488,70 @@ export default function HostApplicationForm() {
             )}
 
             <div>
-              <label htmlFor="propertyCount" className={labelClass}>
-                {HOST_COPY.step2.propertyCount.label}
+              <label htmlFor="propertyAddress" className={labelClass}>
+                {HOST_COPY.step2.propertyAddress.label}
               </label>
               <input
-                id="propertyCount"
-                type="number"
-                min={1}
-                max={500}
+                id="propertyAddress"
+                type="text"
+                maxLength={300}
                 className={`${inputClass} ${focusRingClass}`}
-                placeholder={HOST_COPY.step2.propertyCount.placeholder}
-                value={formState.propertyCount}
-                onChange={(e) => update("propertyCount", e.target.value)}
-                aria-invalid={errors.propertyCount ? "true" : undefined}
-                aria-describedby={errors.propertyCount ? "propertyCount-error" : undefined}
+                placeholder={HOST_COPY.step2.propertyAddress.placeholder}
+                value={formState.propertyAddress}
+                onChange={(e) => update("propertyAddress", e.target.value)}
+                aria-invalid={errors.propertyAddress ? "true" : undefined}
+                aria-describedby={errors.propertyAddress ? "propertyAddress-error" : undefined}
               />
-              <FieldError id="propertyCount-error" message={errors.propertyCount} />
+              <FieldError id="propertyAddress-error" message={errors.propertyAddress} />
             </div>
+
+            <fieldset className="m-0 border-0 p-0">
+              <legend className={labelClass}>{HOST_COPY.step2.structure.legend}</legend>
+              <div className="grid grid-cols-2 gap-2.5">
+                <label className={radioCardClass(formState.structureMode === "single")}>
+                  <input
+                    type="radio"
+                    name="structureMode"
+                    className="sr-only"
+                    checked={formState.structureMode === "single"}
+                    onChange={() => update("structureMode", "single")}
+                  />
+                  {HOST_COPY.step2.structure.single}
+                </label>
+                <label className={radioCardClass(formState.structureMode === "multiple")}>
+                  <input
+                    type="radio"
+                    name="structureMode"
+                    className="sr-only"
+                    checked={formState.structureMode === "multiple"}
+                    onChange={() => update("structureMode", "multiple")}
+                  />
+                  {HOST_COPY.step2.structure.multiple}
+                </label>
+              </div>
+
+              {formState.structureMode === "multiple" && (
+                <div className="mt-4">
+                  <label htmlFor="propertyCount" className={labelClass}>
+                    {HOST_COPY.step2.structure.countLabel}
+                  </label>
+                  <input
+                    id="propertyCount"
+                    type="number"
+                    min={2}
+                    max={500}
+                    className={`${inputClass} ${focusRingClass}`}
+                    placeholder={HOST_COPY.step2.structure.countPlaceholder}
+                    value={formState.propertyCount}
+                    onChange={(e) => update("propertyCount", e.target.value)}
+                    aria-invalid={errors.propertyCount ? "true" : undefined}
+                    aria-describedby={errors.propertyCount ? "propertyCount-error" : undefined}
+                  />
+                  <FieldError id="propertyCount-error" message={errors.propertyCount} />
+                  <p className="mt-1.5 text-[13px] text-[#5f6876]">{HOST_COPY.step2.structure.helper}</p>
+                </div>
+              )}
+            </fieldset>
           </div>
         </div>
       )}
@@ -482,61 +568,173 @@ export default function HostApplicationForm() {
           </h2>
           <p className="mt-1.5 text-[14px] text-[#5f6876]">{HOST_COPY.step3.intro}</p>
 
-          <div className="mt-6 space-y-5">
-            <div>
-              <label htmlFor="currentGuestSupportModel" className={labelClass}>
-                {HOST_COPY.step3.currentGuestSupportModel.label}
-              </label>
-              <textarea
-                id="currentGuestSupportModel"
-                rows={3}
-                maxLength={500}
-                className={`${inputClass} ${focusRingClass}`}
-                placeholder={HOST_COPY.step3.currentGuestSupportModel.placeholder}
-                value={formState.currentGuestSupportModel}
-                onChange={(e) => update("currentGuestSupportModel", e.target.value)}
-              />
+          <div className="mt-6 rounded-2xl border border-[#e5e3dc] p-5">
+            <p className="text-[12px] font-semibold uppercase tracking-wide text-[#34A853]">
+              {HOST_COPY.step3.smartFill.eyebrow}
+            </p>
+            <h3 className="mt-1 text-[18px] font-semibold text-[#111111]">
+              {HOST_COPY.step3.smartFill.title}
+            </h3>
+            <p className="mt-2 text-[14px] leading-[1.7] text-[#5f6876]">
+              {HOST_COPY.step3.smartFill.body}
+            </p>
+
+            <div className="mt-4">
+              <SmartFillExampleCard />
             </div>
 
-            <fieldset className="m-0 space-y-3 border-0 p-0">
-              <legend className={labelClass}>{HOST_COPY.step3.interestsLegend}</legend>
-              {(
-                [
-                  ["interestedInGuestSupport", HOST_COPY.step3.interestedInGuestSupport],
-                  ["interestedInQrPlaques", HOST_COPY.step3.interestedInQrPlaques],
-                  ["interestedInSmartFill", HOST_COPY.step3.interestedInSmartFill],
-                ] as const
-              ).map(([key, label]) => (
-                <label key={key} htmlFor={key} className={checkboxCardClass}>
-                  <input
-                    id={key}
-                    type="checkbox"
-                    className={checkboxInputClass}
-                    checked={formState[key]}
-                    onChange={(e) => update(key, e.target.checked)}
-                  />
-                  <span>{label}</span>
-                </label>
-              ))}
-            </fieldset>
-          </div>
-        </div>
-      )}
+            <label
+              htmlFor="smartFillEnabled"
+              className={`${checkboxCardClass} mt-5 border-[#34A853]/30`}
+            >
+              <input
+                id="smartFillEnabled"
+                type="checkbox"
+                className={checkboxInputClass}
+                checked={formState.smartFillEnabled}
+                onChange={(e) => update("smartFillEnabled", e.target.checked)}
+              />
+              <span className="font-semibold">{HOST_COPY.step3.smartFill.enableLabel}</span>
+            </label>
 
-      {currentStep === 3 && (
-        <div role="group" aria-labelledby="step-heading">
-          <h2
-            id="step-heading"
-            ref={stepHeadingRef}
-            tabIndex={-1}
-            className="text-[20px] font-semibold text-[#111111] outline-none"
-          >
-            {HOST_COPY.step4.title}
-          </h2>
-          <p className="mt-1.5 text-[14px] text-[#5f6876]">{HOST_COPY.step4.intro}</p>
+            {formState.smartFillEnabled && (
+              <div className="mt-6 space-y-5 border-t border-[#e5e3dc] pt-6">
+                <p className="text-[13px] text-[#5f6876]">{HOST_COPY.step3.smartFill.expansionIntro}</p>
+
+                <div>
+                  <label htmlFor="sf-description" className={labelClass}>
+                    {HOST_COPY.step3.fields.description.label}
+                  </label>
+                  <textarea
+                    id="sf-description"
+                    rows={3}
+                    maxLength={2000}
+                    className={`${inputClass} ${focusRingClass}`}
+                    placeholder={HOST_COPY.step3.fields.description.placeholder}
+                    value={formState.smartFill.description}
+                    onChange={(e) => updateSmartFill("description", e.target.value)}
+                  />
+                </div>
+
+                <div>
+                  <label htmlFor="sf-photosLink" className={labelClass}>
+                    {HOST_COPY.step3.fields.photosLink.label}
+                  </label>
+                  <input
+                    id="sf-photosLink"
+                    type="text"
+                    maxLength={500}
+                    className={`${inputClass} ${focusRingClass}`}
+                    placeholder={HOST_COPY.step3.fields.photosLink.placeholder}
+                    value={formState.smartFill.photosLink}
+                    onChange={(e) => updateSmartFill("photosLink", e.target.value)}
+                  />
+                </div>
+
+                <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">
+                  {(
+                    [
+                      ["bedrooms", HOST_COPY.step3.fields.bedrooms],
+                      ["bathrooms", HOST_COPY.step3.fields.bathrooms],
+                      ["beds", HOST_COPY.step3.fields.beds],
+                      ["maxGuests", HOST_COPY.step3.fields.maxGuests],
+                    ] as const
+                  ).map(([key, field]) => (
+                    <div key={key}>
+                      <label htmlFor={`sf-${key}`} className={labelClass}>
+                        {field.label}
+                      </label>
+                      <input
+                        id={`sf-${key}`}
+                        type="number"
+                        min={0}
+                        max={100}
+                        className={`${inputClass} ${focusRingClass}`}
+                        placeholder={field.placeholder}
+                        value={formState.smartFill[key]}
+                        onChange={(e) => updateSmartFill(key, e.target.value)}
+                      />
+                    </div>
+                  ))}
+                </div>
+
+                <fieldset className="m-0 border-0 p-0">
+                  <legend className={labelClass}>{HOST_COPY.step3.fields.amenitiesLegend}</legend>
+                  <div className="grid grid-cols-2 gap-2.5 sm:grid-cols-3">
+                    {(
+                      [
+                        ["wifi", HOST_COPY.step3.fields.wifi],
+                        ["parking", HOST_COPY.step3.fields.parking],
+                        ["pool", HOST_COPY.step3.fields.pool],
+                        ["kitchen", HOST_COPY.step3.fields.kitchen],
+                        ["airConditioning", HOST_COPY.step3.fields.airConditioning],
+                        ["outdoorArea", HOST_COPY.step3.fields.outdoorArea],
+                      ] as const
+                    ).map(([key, label]) => (
+                      <label key={key} className={checkboxCardClass}>
+                        <input
+                          type="checkbox"
+                          className={checkboxInputClass}
+                          checked={formState.smartFill[key]}
+                          onChange={(e) => updateSmartFill(key, e.target.checked)}
+                        />
+                        <span>{label}</span>
+                      </label>
+                    ))}
+                  </div>
+                </fieldset>
+
+                <div>
+                  <label htmlFor="sf-houseRules" className={labelClass}>
+                    {HOST_COPY.step3.fields.houseRules.label}
+                  </label>
+                  <textarea
+                    id="sf-houseRules"
+                    rows={2}
+                    maxLength={1000}
+                    className={`${inputClass} ${focusRingClass}`}
+                    placeholder={HOST_COPY.step3.fields.houseRules.placeholder}
+                    value={formState.smartFill.houseRules}
+                    onChange={(e) => updateSmartFill("houseRules", e.target.value)}
+                  />
+                </div>
+
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <label htmlFor="sf-checkIn" className={labelClass}>
+                      {HOST_COPY.step3.fields.checkIn.label}
+                    </label>
+                    <input
+                      id="sf-checkIn"
+                      type="text"
+                      maxLength={20}
+                      className={`${inputClass} ${focusRingClass}`}
+                      placeholder={HOST_COPY.step3.fields.checkIn.placeholder}
+                      value={formState.smartFill.checkIn}
+                      onChange={(e) => updateSmartFill("checkIn", e.target.value)}
+                    />
+                  </div>
+                  <div>
+                    <label htmlFor="sf-checkOut" className={labelClass}>
+                      {HOST_COPY.step3.fields.checkOut.label}
+                    </label>
+                    <input
+                      id="sf-checkOut"
+                      type="text"
+                      maxLength={20}
+                      className={`${inputClass} ${focusRingClass}`}
+                      placeholder={HOST_COPY.step3.fields.checkOut.placeholder}
+                      value={formState.smartFill.checkOut}
+                      onChange={(e) => updateSmartFill("checkOut", e.target.value)}
+                    />
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
 
           <fieldset className="m-0 mt-6 space-y-3 border-0 p-0">
-            <legend className="sr-only">{HOST_COPY.step4.consentLegend}</legend>
+            <legend className="sr-only">{HOST_COPY.step3.consentLegend}</legend>
 
             <label htmlFor="consentToContact" className={checkboxCardClass}>
               <input
@@ -548,7 +746,7 @@ export default function HostApplicationForm() {
                 aria-invalid={errors.consentToContact ? "true" : undefined}
                 aria-describedby={errors.consentToContact ? "consentToContact-error" : undefined}
               />
-              <span>{HOST_COPY.step4.consentToContact}</span>
+              <span>{HOST_COPY.step3.consentToContact}</span>
             </label>
             <FieldError id="consentToContact-error" message={errors.consentToContact} />
 
@@ -562,14 +760,12 @@ export default function HostApplicationForm() {
                 aria-invalid={errors.privacyAcknowledged ? "true" : undefined}
                 aria-describedby={errors.privacyAcknowledged ? "privacyAcknowledged-error" : undefined}
               />
-              <span>{HOST_COPY.step4.privacyAcknowledged}</span>
+              <span>{HOST_COPY.step3.privacyAcknowledged}</span>
             </label>
             <FieldError id="privacyAcknowledged-error" message={errors.privacyAcknowledged} />
           </fieldset>
 
-          <p className="pt-4 text-[13px] leading-[1.6] text-[#5f6876]">
-            {HOST_COPY.step4.reviewNote}
-          </p>
+          <p className="pt-4 text-[13px] leading-[1.6] text-[#5f6876]">{HOST_COPY.step3.reviewNote}</p>
         </div>
       )}
 

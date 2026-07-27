@@ -1,51 +1,105 @@
 // Mirrors the fields accepted by POST /api/host-applications on the backend
 // (src/hostApplications/validate.js ALLOWED_FIELDS). Deliberately does not
 // include `destination` — the backend defaults an omitted destination to
-// the single supported pilot destination (Cefalù), so the frontend never
-// needs to send or expose it. `privacyPolicyVersion` is likewise omitted so
-// the backend's own current version is always the one recorded.
+// the single supported pilot destination (Cefalù). `privacyPolicyVersion`
+// is likewise omitted so the backend's own current version always wins.
 export const PROPERTY_TYPE_VALUES = [
-  "apartment",
-  "villa",
   "b&b",
-  "boutique_hotel",
-  "room",
+  "casa_vacanze",
+  "villa",
+  "hotel",
+  "apartment",
   "other",
 ] as const;
 
 export type PropertyType = (typeof PROPERTY_TYPE_VALUES)[number];
 
+export type StructureMode = "single" | "multiple";
+
+export interface SmartFillDetails {
+  description?: string;
+  photosLink?: string;
+  bedrooms?: number;
+  bathrooms?: number;
+  beds?: number;
+  maxGuests?: number;
+  wifi?: boolean;
+  parking?: boolean;
+  pool?: boolean;
+  kitchen?: boolean;
+  airConditioning?: boolean;
+  outdoorArea?: boolean;
+  houseRules?: string;
+  checkIn?: string;
+  checkOut?: string;
+}
+
 export interface HostApplicationPayload {
   contactName: string;
-  hostCompanyName?: string;
   email: string;
   phone: string;
-  preferredLanguage: "it";
-  propertyTypes: PropertyType[];
+  hostCompanyName?: string; // Property name
+  propertyAddress?: string;
+  propertyTypes: PropertyType[]; // single-element array — backend expects an array
   otherPropertyType?: string;
   propertyCount?: number;
-  currentGuestSupportModel?: string;
-  interestedInGuestSupport: boolean;
-  interestedInQrPlaques: boolean;
-  interestedInSmartFill: boolean;
+  preferredLanguage: "it";
+  interestedInSmartFill: boolean; // "Enable SmartFill" — reuses the existing field
+  smartFillDetails?: SmartFillDetails;
   consentToContact: boolean;
   privacyAcknowledged: boolean;
   // Honeypot — must stay empty. A real applicant never sees or fills this.
   website: string;
 }
 
+export interface SmartFillDetailsFormState {
+  description: string;
+  photosLink: string;
+  bedrooms: string;
+  bathrooms: string;
+  beds: string;
+  maxGuests: string;
+  wifi: boolean;
+  parking: boolean;
+  pool: boolean;
+  kitchen: boolean;
+  airConditioning: boolean;
+  outdoorArea: boolean;
+  houseRules: string;
+  checkIn: string;
+  checkOut: string;
+}
+
+export const EMPTY_SMARTFILL_DETAILS: SmartFillDetailsFormState = {
+  description: "",
+  photosLink: "",
+  bedrooms: "",
+  bathrooms: "",
+  beds: "",
+  maxGuests: "",
+  wifi: false,
+  parking: false,
+  pool: false,
+  kitchen: false,
+  airConditioning: false,
+  outdoorArea: false,
+  houseRules: "",
+  checkIn: "",
+  checkOut: "",
+};
+
 export interface HostApplicationFormState {
   contactName: string;
-  hostCompanyName: string;
   email: string;
   phone: string;
-  propertyTypes: PropertyType[];
+  propertyName: string;
+  propertyType: PropertyType | null;
   otherPropertyType: string;
+  propertyAddress: string;
+  structureMode: StructureMode;
   propertyCount: string;
-  currentGuestSupportModel: string;
-  interestedInGuestSupport: boolean;
-  interestedInQrPlaques: boolean;
-  interestedInSmartFill: boolean;
+  smartFillEnabled: boolean;
+  smartFill: SmartFillDetailsFormState;
   consentToContact: boolean;
   privacyAcknowledged: boolean;
   website: string;
@@ -53,16 +107,16 @@ export interface HostApplicationFormState {
 
 export const EMPTY_FORM_STATE: HostApplicationFormState = {
   contactName: "",
-  hostCompanyName: "",
   email: "",
   phone: "",
-  propertyTypes: [],
+  propertyName: "",
+  propertyType: null,
   otherPropertyType: "",
+  propertyAddress: "",
+  structureMode: "single",
   propertyCount: "",
-  currentGuestSupportModel: "",
-  interestedInGuestSupport: false,
-  interestedInQrPlaques: false,
-  interestedInSmartFill: false,
+  smartFillEnabled: false,
+  smartFill: EMPTY_SMARTFILL_DETAILS,
   consentToContact: false,
   privacyAcknowledged: false,
   website: "",

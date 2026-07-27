@@ -1,8 +1,8 @@
 import { HOST_COPY } from "./copy";
 import type { HostApplicationFormState } from "./types";
 
-// Mirrors the shape of backend validation (src/hostApplications/validate.js)
-// for user experience only — the backend remains the source of truth and
+// Mirrors backend validation (src/hostApplications/validate.js) for user
+// experience only — the backend remains the source of truth and
 // re-validates everything independently.
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -11,7 +11,7 @@ function isValidPhone(value: string): boolean {
   return digitsOnly.length >= 7 && digitsOnly.length <= 15;
 }
 
-export type FieldErrors = Partial<Record<keyof HostApplicationFormState, string>>;
+export type FieldErrors = Partial<Record<string, string>>;
 
 export function validateStep1(state: HostApplicationFormState): FieldErrors {
   const errors: FieldErrors = {};
@@ -30,29 +30,26 @@ export function validateStep2(state: HostApplicationFormState): FieldErrors {
   const errors: FieldErrors = {};
   const v = HOST_COPY.validation;
 
-  if (state.propertyTypes.length === 0) errors.propertyTypes = v.propertyTypesRequired;
-  else if (state.propertyTypes.length > 3) errors.propertyTypes = v.propertyTypesMax;
-
-  if (state.propertyTypes.includes("other") && !state.otherPropertyType.trim()) {
+  if (!state.propertyName.trim()) errors.propertyName = v.required;
+  if (!state.propertyType) errors.propertyType = v.propertyTypeRequired;
+  if (state.propertyType === "other" && !state.otherPropertyType.trim()) {
     errors.otherPropertyType = v.otherPropertyTypeRequired;
   }
+  if (!state.propertyAddress.trim()) errors.propertyAddress = v.required;
 
-  if (state.propertyCount.trim()) {
+  if (state.structureMode === "multiple") {
     const parsed = Number(state.propertyCount);
-    if (!Number.isInteger(parsed) || parsed < 1 || parsed > 500) {
-      errors.propertyCount = v.propertyCountRange;
+    if (!state.propertyCount.trim()) {
+      errors.propertyCount = v.structureCountRequired;
+    } else if (!Number.isInteger(parsed) || parsed < 2 || parsed > 500) {
+      errors.propertyCount = v.structureCountRange;
     }
   }
 
   return errors;
 }
 
-export function validateStep3(_state: HostApplicationFormState): FieldErrors {
-  // Every field on this step is optional — nothing to enforce.
-  return {};
-}
-
-export function validateStep4(state: HostApplicationFormState): FieldErrors {
+export function validateStep3(state: HostApplicationFormState): FieldErrors {
   const errors: FieldErrors = {};
   const v = HOST_COPY.validation;
 
